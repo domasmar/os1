@@ -3,3 +3,8 @@
 /.settings
 /.bin
 /.ndproject
+
+.classpath
+.project
+build.xml
+manifest.mf
