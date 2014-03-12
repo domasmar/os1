@@ -4,7 +4,5 @@
 /.bin
 /.nbproject
 
-.classpath
-.project
 build.xml
 manifest.mf
