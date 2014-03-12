@@ -26,13 +26,13 @@ public class CommandInterpreter {
 	private byte opc;
 	private byte adrJ;
 	private byte adrO;
-	private byte register; // 0 = AX, 1 = BX
+	private byte register; // 0 - No register, 1 = AX, 2 = BX
 
 	public CommandInterpreter(String command) throws Exception {
 		this.commandInput = command.trim();
 		recognizeCommand();
 		if (this.command == null) {
-			throw new Exception("Komanda neaptaþinta. Duota komanda: "
+			throw new Exception("Komanda neaptaï¿½inta. Duota komanda: "
 					+ this.commandInput);
 		}
 	}
@@ -106,7 +106,7 @@ public class CommandInterpreter {
 			} catch (Exception e) {
 				return;
 			}
-			if (opc.equalsIgnoreCase("LOA")) {
+			if (opc.equalsIgnoreCase("loa")) {
 				if (second.equalsIgnoreCase("ax")) {
 					if (loadRemainderIfValid(first)) {
 						this.setOpc(CommandInterpreter.LOA_AX);
@@ -124,7 +124,7 @@ public class CommandInterpreter {
 				}
 			}
 
-			if (opc.equalsIgnoreCase("STO")) {
+			if (opc.equalsIgnoreCase("sto")) {
 				if (first.equalsIgnoreCase("ax")) {
 					if (loadRemainderIfValid(second)) {
 						this.setOpc(CommandInterpreter.STO_AX);
@@ -244,7 +244,7 @@ public class CommandInterpreter {
 	}
 
 	public String toString() {
-		String s = "Ávesta komanda: " + this.commandInput + "\n";
+		String s = "ï¿½vesta komanda: " + this.commandInput + "\n";
 		s += "Komanda: " + this.command + "\n";
 		String opc = Integer.toBinaryString(this.opc);
 		if (opc.length() > 8) {
