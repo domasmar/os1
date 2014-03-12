@@ -4,7 +4,7 @@ public class Main {
 
 	public static void main(String args[]) {
 		
-		try {
+		try { 
 			CommandInterpreter ci = new CommandInterpreter("POP 11");
 			System.out.println(ci);
 		} catch (Exception e) {

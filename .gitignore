@@ -6,3 +6,9 @@
 
 build.xml
 manifest.mf
+/build/
+nbproject/project.xml
+nbproject/project.properties
+nbproject/private/private.properties
+nbproject/genfiles.properties
+nbproject/build-impl.xml
