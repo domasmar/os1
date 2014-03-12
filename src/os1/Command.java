@@ -2,8 +2,10 @@ package os1;
 
 public enum Command {
 	
-	LOA, // memory -> register
-	STO, // register -> memory
+	LOA_AX,// memory -> register
+	LOA_BX,
+	STO_AX, // register -> memory
+	STO_BX,
 	PUSH, 
 	POP,
 	ADD, // 2 virðutiniø elementø suma -> AX
@@ -13,7 +15,8 @@ public enum Command {
 	JB, // jump if below
 	JE, // jump if equal
 	JNE, // jump if not equa
-	OUTR, // prints register value
+	OUTR_AX, // prints register value
+	OUTR_BX,
 	OUTM, // prints memory value 
 	// FORM
 	STOP,
