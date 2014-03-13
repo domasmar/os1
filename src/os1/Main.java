@@ -11,9 +11,7 @@ public class Main {
 
 	public static void main(String args[]) {
 		try { 
-			Interpreter ci = new Interpreter();
-                        ci.interpret("MOV ax, 80");
-			System.out.println(ci);
+			Interpreter ci = new Interpreter();//vietoj parametrų paduot string arba int masyvą(source kodas arba baitkodas)
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

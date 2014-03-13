@@ -24,12 +24,28 @@ public class Interpreter {
     private static final byte STOP = (byte) 0b0000_0000;
 
     private String commandStringInput;
-    private int commandIntInput;
     private Command command;
+    private CmdWithVar[] cmdWithVar = new CmdWithVar[256];
     private byte opc;
     private byte adrJ;
     private byte adrO;
     private byte register; // 0 - No register, 1 = AX, 2 = BX
+
+    public CmdWithVar Interpreter(String[] commandsArray) {
+        //paduodamas programos source kodas kaip string masyvas. Nuskaito, atpažįsta ir grąžina arba null(jei klaidos) arba 
+        // CmdWithVar tipo: komanda ir kintamasis šalia(jei toks yra)
+        return null;
+    }
+
+    public CmdWithVar Interpreter(int[] commandsArray) {
+        for (int i = 0; i <= commandsArray.length; i++) {
+            recognizeIntCommand(commandsArray, cmdWithVar[i], i);
+        
+            
+        }
+
+        return null;
+    }
 
     public void interpret(String command) throws Exception {
 
@@ -39,16 +55,6 @@ public class Interpreter {
             throw new Exception("Komanda neatpažinta. Duota komanda: "
                     + this.commandStringInput);
 
-        }
-    }
-
-    public void interpret(int command) throws Exception {
-
-        this.commandIntInput = command;
-        recognizeIntCommand();
-        if (this.command == null) {
-            throw new Exception("Komanda neatpažinta. Duota komanda: "
-                    + this.commandIntInput);
         }
     }
 
@@ -69,15 +75,90 @@ public class Interpreter {
         }
     }
 
-    private void recognizeIntCommand() {
-        String bits = intToBits(commandIntInput);
+    private CmdWithVar recognizeIntCommand(int[] commandsArray, CmdWithVar cmdWithVar, int i) {
+        
+        String bits = intToBits(commandsArray[i]);
         String cmdBits = bits.substring(0, 8);
         int cmdInt = Integer.parseInt(cmdBits, 2);
         
-         
+        if (cmdInt == ADD) {
+            cmdWithVar.command = Command.ADD;   
+        }
         
+        if (cmdInt == SUB) {
+            cmdWithVar.command = Command.SUB;
+        }
         
+        if (cmdInt == CMP) {
+            cmdWithVar.command = Command.CMP;
+        }
+        
+        if (cmdInt == STOP){
+            cmdWithVar.command = Command.STOP;
+        }
+// vieno baito komandos baigėsi.
+        if (cmdInt == MOV_AX) {
+            cmdWithVar.command = Command.MOV_AX;
+        }
+        
+        if (cmdInt == MOV_BX) {
+            cmdWithVar.command = Command.MOV_BX;
+        }
+        
+        if (cmdInt == LOA_AX) {
+            cmdWithVar.command = Command.LOA_AX;
+        }
+        
+        if (cmdInt == LOA_BX) {
+            cmdWithVar.command = Command.LOA_BX;
+        }
+        
+        if (cmdInt == STO_AX) {
+            cmdWithVar.command = Command.STO_AX;
+        }
+        
+        if (cmdInt == STO_BX) {
+            cmdWithVar.command = Command.STO_BX;
+        }
 
+        if (cmdInt == PUSH) {
+            cmdWithVar.command = Command.PUSH;
+        }
+        
+        if (cmdInt == POP) {
+            cmdWithVar.command = Command.POP;
+        }
+        
+        
+        if (cmdInt == JA) {
+            cmdWithVar.command = Command.JA;
+        }
+        
+        if (cmdInt == JB) {
+            cmdWithVar.command = Command.JB;
+        }
+        
+        if (cmdInt == JE) {
+            cmdWithVar.command = Command.JE;
+        }
+        
+        if (cmdInt == JNE) {
+            cmdWithVar.command = Command.JNE;
+        }
+        
+        if (cmdInt == OUTR_AX){
+            cmdWithVar.command = Command.OUTR_AX;
+        }
+        
+        if (cmdInt == OUTR_BX){
+            cmdWithVar.command = Command.OUTR_BX;
+        }
+        
+        if (cmdInt == OUTM){
+            cmdWithVar.command = Command.OUTM;
+        }
+        
+        return null;
     }
 
     private void recognizeStringCommand() {
@@ -278,7 +359,7 @@ public class Interpreter {
 
     private String intToBits(int a) {
         String bits = Integer.toBinaryString(a);
-        
+
         int length = bits.length();
         int diffLength = 32 - length;
         for (int i = 0; i < diffLength; i++) {
