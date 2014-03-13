@@ -1,7 +1,9 @@
 package os1;
 
 public class CommandInterpreter {
-
+    
+        private static final byte MOV_AX = (byte) 0b1101_0000;
+        private static final byte MOV_BX = (byte) 0b1100_0000;
 	private static final byte LOA_AX = (byte) 0b1000_0000;
 	private static final byte LOA_BX = (byte) 0b1001_0000;
 	private static final byte STO_AX = (byte) 0b1000_0001;
@@ -32,7 +34,7 @@ public class CommandInterpreter {
 		this.commandInput = command.trim();
 		recognizeCommand();
 		if (this.command == null) {
-			throw new Exception("Komanda neapta�inta. Duota komanda: "
+			throw new Exception("Komanda neatpažinta. Duota komanda: "
 					+ this.commandInput);
 		}
 	}
@@ -119,6 +121,25 @@ public class CommandInterpreter {
 					if (loadRemainderIfValid(first)) {
 						this.setOpc(CommandInterpreter.LOA_BX);
 						this.command = Command.LOA_BX;
+						this.register = 2;
+					}
+				}
+			}
+                        
+                        if (opc.equalsIgnoreCase("mov")) {
+				if (first.equalsIgnoreCase("ax")) {
+					if (loadRemainderIfValid(second)) {
+                                                System.out.println("opa");
+						this.setOpc(CommandInterpreter.MOV_AX);
+						this.command = Command.MOV_AX;
+						this.register = 1;
+					}
+				}
+
+				if (first.equalsIgnoreCase("bx")) {
+					if (loadRemainderIfValid(second)) {
+						this.setOpc(CommandInterpreter.MOV_BX);
+						this.command = Command.MOV_BX;
 						this.register = 2;
 					}
 				}
@@ -244,7 +265,7 @@ public class CommandInterpreter {
 	}
 
 	public String toString() {
-		String s = "�vesta komanda: " + this.commandInput + "\n";
+		String s = "Įvesta komanda: " + this.commandInput + "\n";
 		s += "Komanda: " + this.command + "\n";
 		String opc = Integer.toBinaryString(this.opc);
 		if (opc.length() > 8) {

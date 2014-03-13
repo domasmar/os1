@@ -1,25 +1,43 @@
 package os1.Memory;
 
+import os1.CPU.CPU;
+
 public class RMMemory {
 
-	private static final int VIRTUAL_MASCHINE_BLOCKS_COUNT = 16;
-	
 	private final Memory memory;
 	
-	public RMMemory() {
+	private CPU cpu;
+	
+	public RMMemory(CPU cpu) {
+		this.cpu = cpu;
 		this.memory = new Memory(4096, 16);
 	}
-	
-	public int loadToMemory() {
-		return 0;
-	}
-	
+
 	public int getFromMemory(int index) {
 		return memory.getValueByIndex(index);
 	}
-	
-	public VMMemory getVMMemory() {
-		return new VMMemory(this.memory, RMMemory.VIRTUAL_MASCHINE_BLOCKS_COUNT);
+
+	public VMMemory createVMMemory(int blocks) {
+		int ptr = 0;
+		try {
+			ptr = this.memory.getAndFillFreePage(blocks);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		cpu.setPTR(ptr);
+		return new VMMemory(this, cpu);
 	}
 	
+	public int getValue(int adress) {
+		return memory.getValue(adress);
+	}
+	
+	public void setValue(int adress, int value) {
+		memory.setValue(adress, value);
+	}
+	
+	public Memory getMemory() {
+		return memory;
+	}
+
 }
