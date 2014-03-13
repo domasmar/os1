@@ -7,6 +7,10 @@ package os1.Registers;
 public class TimerRegister {
 
     private int value;
+    
+    public TimerRegister(){
+        this.value = 0;
+    }
 
     public TimerRegister(int value) {
         this.value = value;
@@ -20,7 +24,7 @@ public class TimerRegister {
         this.value = value;
     }
 
-    public void decTimer() {
+    public void decTimer() { // kreiptis, kai reikia sumažinti timerio registrą
         this.value--;
     }
 }
