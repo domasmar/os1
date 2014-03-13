@@ -38,12 +38,31 @@ public class CPU {
 		this.SI = new InterruptRegister();
 		this.IOI = new InterruptRegister();
 		this.TI = new InterruptRegister();
+		
+		this.CHST[0] = new LogicalRegister();
+		this.CHST[1] = new LogicalRegister();
+		this.CHST[2] = new LogicalRegister();
+		
 	}
 	
 	@Override
 	public String toString() {
 		String info = 
-				"";
+				"AX = " + getAX() + "\n"
+			  + "BX = " + getBX() + "\n"
+			  + "PTR = " + getPTR() + "\n"
+			  + "IP = " + getIP() + "\n"
+			  + "SP = " + getSP() + "\n"
+			  + "TIMER = " + getTIMER() + "\n"
+			  + "C = " + getC() + "\n"
+			  + "CHST[0] = " + getCHST((byte) 0) + "\n"
+			  + "CHST[1] = " + getCHST((byte) 1) + "\n"
+			  + "CHST[2] = " + getCHST((byte) 2) + "\n"
+			  + "MODE = " + getMODE() + "\n"
+			  + "PI = " + getPI() + "\n"
+			  + "SI = " + getSI() + "\n"
+			  + "IOI = " + getIOI() + "\n"
+			  + "TI = " + getTI() + "\n";
 		return info;
 	}
 	
@@ -94,8 +113,12 @@ public class CPU {
 	
 // GETTER AND SETTER OF TIMER REGISTER
 	
-	public TimerRegister getTIMER() {
-		return this.TIMER;
+	public int getTIMER() {
+		return this.TIMER.getTimer();
+	}
+	
+	public void setTIMER(int value) {
+		this.TIMER.setTimer(value);
 	}
 	
 // GETTER AND SETTER OF LOGICAL 2 BYTES REGISTERS
