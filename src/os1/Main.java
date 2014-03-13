@@ -1,5 +1,7 @@
 package os1;
 
+import os1.Interpreter.CommandInterpreter;
+
 public class Main {
 
 	public static void main(String args[]) {
