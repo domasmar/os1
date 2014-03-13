@@ -71,6 +71,11 @@ public class Interpreter {
 
     private void recognizeIntCommand() {
         String bits = intToBits(commandIntInput);
+        String cmdBits = bits.substring(0, 8);
+        int cmdInt = Integer.parseInt(cmdBits, 2);
+        
+         
+        
         
 
     }
@@ -273,6 +278,7 @@ public class Interpreter {
 
     private String intToBits(int a) {
         String bits = Integer.toBinaryString(a);
+        
         int length = bits.length();
         int diffLength = 32 - length;
         for (int i = 0; i < diffLength; i++) {
