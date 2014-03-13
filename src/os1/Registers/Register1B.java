@@ -4,9 +4,9 @@ package os1.Registers;
  *
  * @author Arturas
  */
-public class InterruptRegister1B {
+public class Register1B {
 
-    byte value;
+    private byte value;
 
     public byte getValue() {
         return value;

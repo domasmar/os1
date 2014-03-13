@@ -6,7 +6,7 @@ package os1.Registers;
  */
 public class Register2B {
 
-    short value;
+    private short value;
 
     public short getValue() {
         return value;

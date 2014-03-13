@@ -6,7 +6,7 @@ package os1.Registers;
  */
 public class Register4B {
 
-    int value;
+    private int value;
 
     public int getValue() {
         return value;
