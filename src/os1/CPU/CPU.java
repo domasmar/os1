@@ -3,22 +3,22 @@ import os1.Registers.*;
 
 public class CPU {
 	
-	Register4B AX;
-	Register4B BX;
-	Register4B PTR;
+	private Register4B AX;
+	private Register4B BX;
+	private Register4B PTR;
 	
-	Register2B IP;
-	Register2B SP;
-	TimerRegister TIMER;
+	private Register2B IP;
+	private Register2B SP;
+	private TimerRegister TIMER;
 	
-	Register1B C;
-	Register1B[] CHST;
-	Register1B MODE;
+	private LogicalRegister C;
+	private LogicalRegister[] CHST;
+	private LogicalRegister MODE;
 	
-	InterruptRegister PI;
-	InterruptRegister SI;
-	InterruptRegister IOI;
-	InterruptRegister TI;
+	private InterruptRegister PI;
+	private InterruptRegister SI;
+	private InterruptRegister IOI;
+	private InterruptRegister TI;
 	
 	public CPU() {
 		this.AX = new Register4B();
@@ -34,10 +34,10 @@ public class CPU {
 		this.CHST = new LogicalRegister[3];
 		this.MODE = new LogicalRegister();
 		
-		this.PI = InterruptRegister(0);
-		this.SI = InterruptRegister(0);
-		this.IOI = InterruptRegister(0);
-		this.TI = InterruptRegister(0);
+		this.PI = new InterruptRegister();
+		this.SI = new InterruptRegister();
+		this.IOI = new InterruptRegister();
+		this.TI = new InterruptRegister();
 	}
 	
 	@Override
@@ -96,6 +96,66 @@ public class CPU {
 	
 	public TimerRegister getTIMER() {
 		return this.TIMER;
+	}
+	
+// GETTER AND SETTER OF LOGICAL 2 BYTES REGISTERS
+	
+	public boolean getC() {
+		return this.C.getValue();
+	}
+	
+	public void setC(byte value) {
+		this.C.setValue(value);
+	}
+	
+	public boolean getCHST(byte index) {
+		return this.CHST[index].getValue();
+	}
+	
+	public void setCHST(byte index, byte value) {
+		this.CHST[index].setValue(value);
+	}
+	
+	public boolean getMODE() {
+		return this.MODE.getValue();
+	}
+	
+	public void setMODE(byte value) {
+		this.MODE.setValue(value);
+	}
+	
+// GETTER AND SETTER OF INTERRUPTS
+	
+	public byte getPI() {
+		return this.PI.getValue();
+	}
+	
+	public void setPI(byte value) {
+		this.PI.setValue(value);
+	}
+	
+	public byte getSI() {
+		return this.SI.getValue();
+	}
+	
+	public void setSI(byte value) {
+		this.SI.setValue(value);
+	}
+	
+	public byte getIOI() {
+		return this.IOI.getValue();
+	}
+	
+	public void setIOI(byte value) {
+		this.IOI.setValue(value);
+	}
+	
+	public byte getTI() {
+		return this.TI.getValue();
+	}
+	
+	public void setTI(byte value) {
+		this.TI.setValue(value);
 	}
 	
 }
