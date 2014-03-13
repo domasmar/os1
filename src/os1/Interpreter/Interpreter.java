@@ -39,11 +39,11 @@ public class Interpreter {
 
     public CmdWithVar Interpreter(int[] commandsArray) {
         for (int i = 0; i <= commandsArray.length; i++) {
-            recognizeIntCommand(commandsArray, cmdWithVar[i], i);
-        
-            
+            cmdWithVar[i] = recognizeIntCommand(commandsArray, cmdWithVar[i], i);
+            if ((cmdWithVar[i].command == Command.MOV_AX) || (cmdWithVar[i].command == Command.MOV_BX)) {
+                i++;
+            }
         }
-
         return null;
     }
 
@@ -76,88 +76,123 @@ public class Interpreter {
     }
 
     private CmdWithVar recognizeIntCommand(int[] commandsArray, CmdWithVar cmdWithVar, int i) {
-        
         String bits = intToBits(commandsArray[i]);
         String cmdBits = bits.substring(0, 8);
+        String valueBits = bits.substring(8, 16);
         int cmdInt = Integer.parseInt(cmdBits, 2);
-        
+        int valueInt = Integer.parseInt(valueBits, 2);
+
         if (cmdInt == ADD) {
-            cmdWithVar.command = Command.ADD;   
+            cmdWithVar.command = Command.ADD;
+            return cmdWithVar;
         }
-        
+
         if (cmdInt == SUB) {
             cmdWithVar.command = Command.SUB;
+            return cmdWithVar;
         }
-        
+
         if (cmdInt == CMP) {
             cmdWithVar.command = Command.CMP;
+            return cmdWithVar;
         }
-        
-        if (cmdInt == STOP){
+
+        if (cmdInt == STOP) {
             cmdWithVar.command = Command.STOP;
+            return cmdWithVar;
         }
 // vieno baito komandos baigėsi.
+//Jei MOV žiūrėti į kitą masyvo elementą ir iš ten paimti 
         if (cmdInt == MOV_AX) {
             cmdWithVar.command = Command.MOV_AX;
+            cmdWithVar.variable = commandsArray[i + 1];
+            return cmdWithVar;
         }
-        
+
         if (cmdInt == MOV_BX) {
             cmdWithVar.command = Command.MOV_BX;
+            cmdWithVar.variable = commandsArray[i + 1];
+            return cmdWithVar;
         }
-        
+//        
         if (cmdInt == LOA_AX) {
             cmdWithVar.command = Command.LOA_AX;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
+
         if (cmdInt == LOA_BX) {
             cmdWithVar.command = Command.LOA_BX;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
+
         if (cmdInt == STO_AX) {
             cmdWithVar.command = Command.STO_AX;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
+
         if (cmdInt == STO_BX) {
             cmdWithVar.command = Command.STO_BX;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
 
         if (cmdInt == PUSH) {
             cmdWithVar.command = Command.PUSH;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
+
         if (cmdInt == POP) {
             cmdWithVar.command = Command.POP;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
-        
+
         if (cmdInt == JA) {
             cmdWithVar.command = Command.JA;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
+
         if (cmdInt == JB) {
             cmdWithVar.command = Command.JB;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
+
         if (cmdInt == JE) {
             cmdWithVar.command = Command.JE;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
+
         if (cmdInt == JNE) {
             cmdWithVar.command = Command.JNE;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
-        if (cmdInt == OUTR_AX){
+
+        if (cmdInt == OUTR_AX) {
             cmdWithVar.command = Command.OUTR_AX;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
-        if (cmdInt == OUTR_BX){
+
+        if (cmdInt == OUTR_BX) {
             cmdWithVar.command = Command.OUTR_BX;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
-        if (cmdInt == OUTM){
+
+        if (cmdInt == OUTM) {
             cmdWithVar.command = Command.OUTM;
+            cmdWithVar.variable = valueInt;
+            return cmdWithVar;
         }
-        
+
         return null;
     }
 
