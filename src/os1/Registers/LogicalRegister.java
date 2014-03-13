@@ -6,7 +6,11 @@ package os1.Registers;
  */
 public class LogicalRegister extends Register1B {
 
-    LogicalRegister(byte value) {
+     public LogicalRegister(){
+        this.value = 0;
+    }
+    
+    public LogicalRegister(byte value) {
         this.value = value;
     }
 

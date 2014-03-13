@@ -6,4 +6,8 @@ package os1.Registers;
  */
 public class TimerRegister {
 
+    int value;
+
+    public TimerRegister(int value) {
+    }
 }

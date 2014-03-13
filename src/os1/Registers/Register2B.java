@@ -7,6 +7,10 @@ package os1.Registers;
 public class Register2B {
 
     private short value;
+    
+    public Register2B(){
+        this.value = 0;
+    }
 
     public Register2B(short value) {
         this.value = value;
