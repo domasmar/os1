@@ -4,7 +4,6 @@ import java.util.Random;
 
 import os1.CPU.CPU;
 import os1.Interpreter.Interpreter;
-import os1.Interpreter.Interpreter;
 import os1.Memory.RMMemory;
 import os1.Memory.VMMemory;
 
@@ -12,7 +11,8 @@ public class Main {
 
 	public static void main(String args[]) {
 		try { 
-			Interpreter ci = new Interpreter("mov bx, 80");
+			Interpreter ci = new Interpreter();
+                        ci.interpret("MOV ax, 80");
 			System.out.println(ci);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
