@@ -5,8 +5,8 @@ package os1.Registers;
  * @author Arturas
  */
 public class InterruptRegister extends Register1B {
-    
-    public InterruptRegister(){
+
+    public InterruptRegister() {
         this.value = 0;
     }
 
