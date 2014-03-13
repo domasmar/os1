@@ -23,32 +23,35 @@ public class Interpreter {
     // FORK. Not implemented
     private static final byte STOP = (byte) 0b0000_0000;
 
-    private String commandInput;
+    private String commandStringInput;
+    private int commandIntInput;
     private Command command;
     private byte opc;
     private byte adrJ;
     private byte adrO;
     private byte register; // 0 - No register, 1 = AX, 2 = BX
 
-    public Interpreter(String command) throws Exception {
-        this.commandInput = command.trim();
+    public void interpret(String command) throws Exception {
+
+        this.commandStringInput = command.trim();
         recognizeStringCommand();
         if (this.command == null) {
             throw new Exception("Komanda neatpažinta. Duota komanda: "
-                    + this.commandInput);
+                    + this.commandStringInput);
+
         }
     }
 
-    public void interpret(String command) throws Exception {
-        
-        
-    }
-    
     public void interpret(int command) throws Exception {
-    
-    
+
+        this.commandIntInput = command;
+        recognizeIntCommand();
+        if (this.command == null) {
+            throw new Exception("Komanda neatpažinta. Duota komanda: "
+                    + this.commandIntInput);
+        }
     }
-    
+
     private class ValidResults {
 
         byte adrJ;
@@ -66,44 +69,48 @@ public class Interpreter {
         }
     }
 
+    private void recognizeIntCommand() {
+
+    }
+
     private void recognizeStringCommand() {
 
         // Vieno baito komandos
-        if (commandInput.equalsIgnoreCase("add")) {
+        if (commandStringInput.equalsIgnoreCase("add")) {
             this.setOpc(Interpreter.ADD);
             this.command = Command.ADD;
         }
 
-        if (commandInput.equalsIgnoreCase("sub")) {
+        if (commandStringInput.equalsIgnoreCase("sub")) {
             this.setOpc(Interpreter.SUB);
             this.command = Command.SUB;
         }
 
-        if (commandInput.equalsIgnoreCase("cmp")) {
+        if (commandStringInput.equalsIgnoreCase("cmp")) {
             this.setOpc(Interpreter.CMP);
             this.command = Command.CMP;
         }
 
-        if (commandInput.equalsIgnoreCase("stop")) {
+        if (commandStringInput.equalsIgnoreCase("stop")) {
             this.setOpc(Interpreter.STOP);
             this.command = Command.STOP;
         }
 
-        String opc = commandInput;
+        String opc = commandStringInput;
         String remainder = "";
 
-        for (int i = 0; i < commandInput.length(); i++) {
-            if (commandInput.charAt(i) == ' ') {
-                opc = commandInput.substring(0, i).trim();
-                if (opc.length() != commandInput.length()) {
-                    remainder = commandInput
-                            .substring(i, commandInput.length()).trim();
+        for (int i = 0; i < commandStringInput.length(); i++) {
+            if (commandStringInput.charAt(i) == ' ') {
+                opc = commandStringInput.substring(0, i).trim();
+                if (opc.length() != commandStringInput.length()) {
+                    remainder = commandStringInput
+                            .substring(i, commandStringInput.length()).trim();
                 }
                 break;
             }
         }
 
-		// Visos be parametru komandos patikrintos
+        // Visos be parametru komandos patikrintos
         // jeigu nera parametru,
         // reiskias kitos komandos netiks
         if (remainder.equals("")) {
@@ -276,7 +283,7 @@ public class Interpreter {
     }
 
     public String toString() {
-        String s = "Įvesta komanda: " + this.commandInput + "\n";
+        String s = "Įvesta komanda: " + this.commandStringInput + "\n";
         s += "Komanda: " + this.command + "\n";
         String opc = Integer.toBinaryString(this.opc);
         if (opc.length() > 8) {
