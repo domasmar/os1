@@ -1,4 +1,4 @@
-package os1;
+package os1.Interpreter;
 
 public class CommandInterpreter {
     
