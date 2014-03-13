@@ -14,4 +14,11 @@ public class InterruptRegister extends Register1B {
         this.value = value;
     }
 
+    public void timerElapsed(TimerRegister timReg) {
+        if (timReg.value == 0) {
+            this.value = 1;
+        } else {
+            this.value = 0;
+        }
+    }
 }
