@@ -6,7 +6,11 @@ package os1.Registers;
  */
 public class Register4B {
 
-    int value;
+    private int value;
+
+    public Register4B(int value) {
+        this.value = value;
+    }
 
     public int getValue() {
         return value;

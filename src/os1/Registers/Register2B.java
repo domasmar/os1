@@ -6,12 +6,16 @@ package os1.Registers;
  */
 public class Register2B {
 
-    short value;
+    private short value;
+
+    public Register2B(short value) {
+        this.value = value;
+    }
 
     public short getValue() {
         return value;
     }
-    
+
     public void setValue(short value) {
         this.value = value;
     }
