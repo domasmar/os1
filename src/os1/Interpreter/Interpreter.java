@@ -70,6 +70,8 @@ public class Interpreter {
     }
 
     private void recognizeIntCommand() {
+        String bits = intToBits(commandIntInput);
+        
 
     }
 
@@ -267,6 +269,16 @@ public class Interpreter {
 
     private byte charToHex(char a) {
         return (byte) Character.digit(a, 16);
+    }
+
+    private String intToBits(int a) {
+        String bits = Integer.toBinaryString(a);
+        int length = bits.length();
+        int diffLength = 32 - length;
+        for (int i = 0; i < diffLength; i++) {
+            bits = "0" + bits;
+        }
+        return bits;
     }
 
     private ValidResults isValidHex(String remainder) {
