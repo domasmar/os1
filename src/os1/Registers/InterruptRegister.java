@@ -4,7 +4,9 @@ package os1.Registers;
  *
  * @author Arturas
  */
-public class InterruptRegister extends Register1B {
+public class InterruptRegister {
+
+    private byte value;
 
     public InterruptRegister() {
         this.value = 0;
@@ -12,6 +14,14 @@ public class InterruptRegister extends Register1B {
 
     public InterruptRegister(byte value) {
         this.value = value;
+    }
+
+    public void setValue(byte value) {
+        this.value = value;
+    }
+
+    public byte getValue() {
+        return this.value;
     }
 
     public void timerElapsed(TimerRegister timReg) {

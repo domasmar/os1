@@ -4,7 +4,9 @@ package os1.Registers;
  *
  * @author Arturas
  */
-public class LogicalRegister extends Register1B {
+public class LogicalRegister {
+    
+    private byte value;
 
     public LogicalRegister() {
         this.value = 0;
