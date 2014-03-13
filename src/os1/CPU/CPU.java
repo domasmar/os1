@@ -28,7 +28,7 @@ public class CPU {
 		this.IP = new Register2B();
 		this.SP = new Register2B();
 		
-		this.TIMER = new TimerRegister();
+		this.TIMER = new TimerRegister(30);
 		
 		this.C = new LogicalRegister();
 		this.CHST = new LogicalRegister[3];
