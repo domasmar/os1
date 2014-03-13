@@ -5,9 +5,9 @@ import os1.CPU.CPU;
 public class RMMemory {
 
 	private final Memory memory;
-	
+
 	private CPU cpu;
-	
+
 	public RMMemory(CPU cpu) {
 		this.cpu = cpu;
 		this.memory = new Memory(4096, 16);
@@ -27,15 +27,15 @@ public class RMMemory {
 		cpu.setPTR(ptr);
 		return new VMMemory(this, cpu);
 	}
-	
+
 	public int getValue(int adress) {
 		return memory.getValue(adress);
 	}
-	
+
 	public void setValue(int adress, int value) {
 		memory.setValue(adress, value);
 	}
-	
+
 	public Memory getMemory() {
 		return memory;
 	}

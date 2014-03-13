@@ -51,7 +51,7 @@ public class Memory {
 			int blockNumber = this.blockSize * i;
 			if (isPageBlockFree(blockNumber)) {
 				this.fillFreePage(blockNumber, blocks);
-				return blocks * 16 * 16 + blockNumber;
+				return blocks * 15 * 16 + blockNumber;
 			}
 		}
 		throw new Exception("Atmintyje nebëra vietos sukurti VM!");
@@ -98,14 +98,14 @@ public class Memory {
 	public void setBlockSize(int blockSize) {
 		this.blockSize = blockSize;
 	}
-	
+
 	public String toString() {
 		String a = "";
 		a += "Memory size: " + memorySize + "\n";
 		a += "Block size: " + blockSize + "\n";
 		for (int i = 0; i < allMemory.length; i++) {
-			a += i + " : " + Integer.toHexString(allMemory[i]) + "\n";	
-		}		
+			a += i + " : " + allMemory[i] + "\n";
+		}
 		return a;
 	}
 
