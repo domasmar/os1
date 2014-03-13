@@ -25,7 +25,7 @@ public class InterruptRegister {
     }
 
     public void timerElapsed(TimerRegister timReg) {
-        if (timReg.value == 0) {
+        if (timReg.getTimer() == 0) {
             this.value = 1;
         } else {
             this.value = 0;
