@@ -46,8 +46,11 @@ public class Interpreter {
             if ((cmdWithVar[i].command == Command.MOV_AX) || (cmdWithVar[i].command == Command.MOV_BX)) {
                 i++;
             }
+            if (cmdWithVar[i].command == Command.STOP) {
+                return cmdWithVar;
+            }
         }
-        return cmdWithVar;
+        return null;
     }
 
     public void interpret(String command) throws Exception {
