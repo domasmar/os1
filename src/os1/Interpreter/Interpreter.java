@@ -39,8 +39,8 @@ public class Interpreter {
 
     public CmdWithVar[] Interpreter(int[] commandsArray) {
         for (int i = 0; i <= commandsArray.length; i++) {
-            cmdWithVar[i] = recognizeIntCommand(commandsArray, cmdWithVar[i], i);
-            if (cmdWithVar[i] == null) {
+            recognizeIntCommand(commandsArray, i);
+            if (cmdWithVar[i].command == null) {
                 return null;
             }
             if ((cmdWithVar[i].command == Command.MOV_AX) || (cmdWithVar[i].command == Command.MOV_BX)) {
@@ -81,7 +81,7 @@ public class Interpreter {
         }
     }
 
-    private CmdWithVar recognizeIntCommand(int[] commandsArray, CmdWithVar cmdWithVar, int i) {
+    private void recognizeIntCommand(int[] commandsArray, int i) {
         String bits = intToBits(commandsArray[i]);
         String cmdBits = bits.substring(0, 8);
         String valueBits = bits.substring(8, 16);
@@ -89,116 +89,116 @@ public class Interpreter {
         int valueInt = Integer.parseInt(valueBits, 2);
 
         if (cmdInt == ADD) {
-            cmdWithVar.command = Command.ADD;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.ADD;
+            return;
         }
 
         if (cmdInt == SUB) {
-            cmdWithVar.command = Command.SUB;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.SUB;
+            return;
         }
 
         if (cmdInt == CMP) {
-            cmdWithVar.command = Command.CMP;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.CMP;
+            return;
         }
 
         if (cmdInt == STOP) {
-            cmdWithVar.command = Command.STOP;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.STOP;
+            return;
         }
 // vieno baito komandos baigėsi.
 //Jei MOV žiūrėti į kitą masyvo elementą ir iš ten paimti reikalingą žodį(4B)
         if (cmdInt == MOV_AX) {
-            cmdWithVar.command = Command.MOV_AX;
-            cmdWithVar.variable = commandsArray[i + 1];
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.MOV_AX;
+            cmdWithVar[i].variable = commandsArray[i + 1];
+            return;
         }
 
         if (cmdInt == MOV_BX) {
-            cmdWithVar.command = Command.MOV_BX;
-            cmdWithVar.variable = commandsArray[i + 1];
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.MOV_BX;
+            cmdWithVar[i].variable = commandsArray[i + 1];
+            return;
         }
 //        
         if (cmdInt == LOA_AX) {
-            cmdWithVar.command = Command.LOA_AX;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.LOA_AX;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == LOA_BX) {
-            cmdWithVar.command = Command.LOA_BX;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.LOA_BX;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == STO_AX) {
-            cmdWithVar.command = Command.STO_AX;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.STO_AX;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == STO_BX) {
-            cmdWithVar.command = Command.STO_BX;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.STO_BX;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == PUSH) {
-            cmdWithVar.command = Command.PUSH;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.PUSH;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == POP) {
-            cmdWithVar.command = Command.POP;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.POP;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == JA) {
-            cmdWithVar.command = Command.JA;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.JA;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == JB) {
-            cmdWithVar.command = Command.JB;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.JB;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == JE) {
-            cmdWithVar.command = Command.JE;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.JE;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == JNE) {
-            cmdWithVar.command = Command.JNE;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.JNE;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == OUTR_AX) {
-            cmdWithVar.command = Command.OUTR_AX;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.OUTR_AX;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == OUTR_BX) {
-            cmdWithVar.command = Command.OUTR_BX;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
+            cmdWithVar[i].command = Command.OUTR_BX;
+            cmdWithVar[i].variable = valueInt;
+            return;
         }
 
         if (cmdInt == OUTM) {
-            cmdWithVar.command = Command.OUTM;
-            cmdWithVar.variable = valueInt;
-            return cmdWithVar;
-        }
-        return null;
+            cmdWithVar[i].command = Command.OUTM;
+            cmdWithVar[i].variable = valueInt;
+            return;
+        }     
+        cmdWithVar[i].command = null;      
     }
 
     private void recognizeStringCommand() {
