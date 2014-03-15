@@ -1,81 +1,153 @@
 package os1;
 
+import os1.Interpreter.*;
+
 /**
  *
  * @author Arturas
  */
 public class CommandExecution {
 
-    CommandExecution() {
-        
-    }
-    
-    public void execute(){
-    
-    }
-
-    public void cmdMov() {
+    CommandExecution(/*paduoti VM atmintį, procesorių ir padaryti juos šitos klasės globaliais kintamaisiais*/) {
 
     }
 
-    public void cmdLoa() {
+    public void execute(CmdWithVar[] cmdWithVar) {
+        for (int i = 0; i < cmdWithVar.length; i++) {
+            if (cmdWithVar[i].command == Command.MOV_AX) {
+                cmdMovAx();
+            }
+            if (cmdWithVar[i].command == Command.MOV_BX) {
+                cmdMovBx();
+            }
+            if (cmdWithVar[i].command == Command.LOA_AX) {
+                cmdLoaAx();
+            }
+            if (cmdWithVar[i].command == Command.LOA_BX) {
+                cmdLoaBx();
+            }
+            if (cmdWithVar[i].command == Command.OUTR_AX) {
+                cmdOutrAx();
+            }
+            if (cmdWithVar[i].command == Command.OUTR_BX) {
+                cmdOutrBx();
+            }
+            if (cmdWithVar[i].command == Command.JA) {
+                cmdJa();
+            }
+            if (cmdWithVar[i].command == Command.JB) {
+                cmdJb();
+            }
+            if (cmdWithVar[i].command == Command.JE) {
+                cmdJe();
+            }
+            if (cmdWithVar[i].command == Command.JNE) {
+                cmdJne();
+            }
+            if (cmdWithVar[i].command == Command.ADD) {
+                cmdAdd();
+            }
+            if (cmdWithVar[i].command == Command.CMP) {
+                cmdCmp();
+            }
+            if (cmdWithVar[i].command == Command.OUTM) {
+                cmdOutM();
+            }
+            if (cmdWithVar[i].command == Command.POP) {
+                cmdPop();
+            }
+            if (cmdWithVar[i].command == Command.PUSH) {
+                cmdPush();
+            }
+            if (cmdWithVar[i].command == Command.STO_AX) {
+                cmdStoAx();
+            }
+            if (cmdWithVar[i].command == Command.STO_BX) {
+                cmdStoBx();
+            }
+            if (cmdWithVar[i].command == Command.SUB) {
+                cmdSub();
+            }
+            if (cmdWithVar[i].command == Command.STOP) {
+                cmdStop();
+                i = cmdWithVar.length;
+            }
+        }
+    }
+
+    private void cmdMovAx() {
 
     }
 
-    public void cmdSto() {
+    private void cmdMovBx() {
 
     }
 
-    public void cmdPush() {
+    private void cmdLoaAx() {
 
     }
 
-    public void cmdPop() {
+    private void cmdLoaBx() {
 
     }
 
-    public void cmdAdd() {
+    private void cmdStoAx() {
 
     }
 
-    public void cmdSub() {
+    private void cmdStoBx() {
 
     }
 
-    public void cmdCmp() {
+    private void cmdPush() {
 
     }
 
-    public void cmdJa() {
+    private void cmdPop() {
 
     }
 
-    public void cmdJb() {
+    private void cmdAdd() {
 
     }
 
-    public void cmdJe() {
+    private void cmdSub() {
 
     }
 
-    public void cmdJne() {
+    private void cmdCmp() {
 
     }
 
-    public void cmdOutrAx() {
+    private void cmdJa() {
 
     }
 
-    public void cmdOutrxBx() {
+    private void cmdJb() {
 
     }
 
-    public void cmdOutM() {
+    private void cmdJe() {
 
     }
-    
-    public void cmdStop() {
-        
+
+    private void cmdJne() {
+
     }
 
+    private void cmdOutrAx() {
+
+    }
+
+    private void cmdOutrBx() {
+
+    }
+
+    private void cmdOutM() {
+
+    }
+
+    private void cmdStop() {
+
+    }
 }
