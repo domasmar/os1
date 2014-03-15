@@ -2,8 +2,8 @@ package os1.Interpreter;
 
 public class Interpreter {
 
-    private static final byte MOV_AX = (byte) 0b1101_0000;
-    private static final byte MOV_BX = (byte) 0b1100_0000;
+    private static final byte MOV_AX = (byte) 0b1100_0000;
+    private static final byte MOV_BX = (byte) 0b1101_0000;
     private static final byte LOA_AX = (byte) 0b1000_0000;
     private static final byte LOA_BX = (byte) 0b1001_0000;
     private static final byte STO_AX = (byte) 0b1000_0001;
