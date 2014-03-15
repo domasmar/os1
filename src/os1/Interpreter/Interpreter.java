@@ -33,18 +33,21 @@ public class Interpreter {
 
     public CmdWithVar Interpreter(String[] commandsArray) {
         //paduodamas programos source kodas kaip string masyvas. Nuskaito, atpažįsta ir grąžina arba null(jei klaidos) arba 
-        // CmdWithVar tipo: komanda ir kintamasis šalia(jei toks yra)
+        // CmdWithVar tipo masyvą: komanda ir kintamasis šalia(jei toks yra)
         return null;
     }
 
-    public CmdWithVar Interpreter(int[] commandsArray) {
+    public CmdWithVar[] Interpreter(int[] commandsArray) {
         for (int i = 0; i <= commandsArray.length; i++) {
             cmdWithVar[i] = recognizeIntCommand(commandsArray, cmdWithVar[i], i);
+            if (cmdWithVar[i] == null) {
+                return null;
+            }
             if ((cmdWithVar[i].command == Command.MOV_AX) || (cmdWithVar[i].command == Command.MOV_BX)) {
                 i++;
             }
         }
-        return null;
+        return cmdWithVar;
     }
 
     public void interpret(String command) throws Exception {
@@ -102,7 +105,7 @@ public class Interpreter {
             return cmdWithVar;
         }
 // vieno baito komandos baigėsi.
-//Jei MOV žiūrėti į kitą masyvo elementą ir iš ten paimti 
+//Jei MOV žiūrėti į kitą masyvo elementą ir iš ten paimti reikalingą žodį(4B)
         if (cmdInt == MOV_AX) {
             cmdWithVar.command = Command.MOV_AX;
             cmdWithVar.variable = commandsArray[i + 1];
@@ -192,7 +195,6 @@ public class Interpreter {
             cmdWithVar.variable = valueInt;
             return cmdWithVar;
         }
-
         return null;
     }
 
