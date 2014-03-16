@@ -76,7 +76,8 @@ public class CPU {
 			  + "PI = " + getPI() + "\n"
 			  + "SI = " + getSI() + "\n"
 			  + "IOI = " + getIOI() + "\n"
-			  + "TI = " + getTI() + "\n";
+			  + "TI = " + getTI() + "\n"
+			  + "SO = " + getSO();
 		return info;
 	}
 	
@@ -216,6 +217,14 @@ public class CPU {
 	
 	public void setTI(byte value) {
 		this.TI.setValue(value);
+	}
+	
+	public byte getSO() {
+		return this.SO.getValue();
+	}
+	
+	public void setSO(byte value) {
+		this.SO.setValue(value);
 	}
 	
 }
