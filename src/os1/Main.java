@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import os1.CPU.CPU;
-import os1.Interpreter.Interpreter;
+import os1.Interpreter.*;
 import os1.Memory.RMMemory;
 import os1.Memory.VMMemory;
 
@@ -35,7 +35,8 @@ public class Main {
 		
 		String[] commands = {new String("ADD"),
 				new String ("POP 12"),
-				new String ("MOV ax, 4343"),
+                                new String ("POP 12"),
+				new String ("MOV ax, FFF0"),
 				new String ("MOV ax, 1234"),
 				new String ("MOV ax, 1234"),
 				new String ("STO ax, 12")
@@ -47,10 +48,17 @@ public class Main {
 			for (int i = 0; i < 10; i++) {
 				System.out.println(Integer.toBinaryString(c[i]));
 			}
+                        
+                        Interpreter inter2 = new Interpreter();
+                        CmdWithVar[] komandos;
+                        komandos = inter2.interpret(c);
+                        for (int i = 0; i < 20; i++) {
+				System.out.print(komandos[i].command + " ");
+                                System.out.println(komandos[i].variable);
+			}
+                        
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-
+		}       
 	}
-
 }
