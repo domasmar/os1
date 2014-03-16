@@ -33,6 +33,8 @@ public class Main {
 
 //		System.out.println(rmMem.getMemory());
 		
+		System.out.println(0b1000_0010);
+		
 		String[] commands = {new String("ADD"),
 				new String ("POP 12"),
 				new String ("MOV ax, 4343"),
