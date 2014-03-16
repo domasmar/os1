@@ -24,6 +24,7 @@ public class CPU {
 	private InterruptRegister SI;
 	private InterruptRegister IOI;
 	private InterruptRegister TI;
+	private InterruptRegister SO;
 	
 	public CPU() {
 		this.AX = new Register4B();
@@ -32,6 +33,10 @@ public class CPU {
 		
 		this.IP = new Register2B();
 		this.SP = new Register2B();
+		
+		this.DS = new Register2B();
+		this.CS = new Register2B();
+		this.SS = new Register2B();
 		
 		this.TIMER = new TimerRegister(30);
 		
@@ -43,6 +48,7 @@ public class CPU {
 		this.SI = new InterruptRegister();
 		this.IOI = new InterruptRegister();
 		this.TI = new InterruptRegister();
+		this.SO = new InterruptRegister();
 		
 		this.CHST[0] = new LogicalRegister();
 		this.CHST[1] = new LogicalRegister();
