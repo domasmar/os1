@@ -21,7 +21,7 @@ public class Interpreter {
     private static final byte OUTR_BX = (byte) 0b1111_0000;
     private static final byte OUTM = (byte) 0b1000_0111;
     // FORK. Not implemented
-    private static final byte STOP = (byte) 0b0000_0000;
+    private static final byte STOP = (byte) 0b0000_0001;
 
     private String commandStringInput;
     private Command command;
@@ -31,23 +31,24 @@ public class Interpreter {
     private byte adrO;
     private byte register; // 0 - No register, 1 = AX, 2 = BX
 
-    public CmdWithVar Interpreter(String[] commandsArray) {
+    public CmdWithVar interpret(String[] commandsArray) {
         //paduodamas programos source kodas kaip string masyvas. Nuskaito, atpažįsta ir grąžina arba null(jei klaidos) arba 
         // CmdWithVar tipo masyvą: komanda ir kintamasis šalia(jei toks yra)
         return null;
     }
 
-    public CmdWithVar[] Interpreter(int[] commandsArray) {
+    public CmdWithVar[] interpret(int[] commandsArray) throws Exception {
         for (int i = 0; i <= commandsArray.length; i++) {
             recognizeIntCommand(commandsArray, i);
+            if (commandsArray[i] == 0) {
+                return cmdWithVar;
+            }
             if (cmdWithVar[i].command == null) {
-                return null;
+                throw new Exception("Komanda neatpažinta. Duota komanda: "
+                        + Integer.toBinaryString(commandsArray[i]));
             }
             if ((cmdWithVar[i].command == Command.MOV_AX) || (cmdWithVar[i].command == Command.MOV_BX)) {
                 i++;
-            }
-            if (cmdWithVar[i].command == Command.STOP) {
-                return cmdWithVar;
             }
         }
         return null;
@@ -197,8 +198,8 @@ public class Interpreter {
             cmdWithVar[i].command = Command.OUTM;
             cmdWithVar[i].variable = valueInt;
             return;
-        }     
-        cmdWithVar[i].command = null;      
+        }
+        cmdWithVar[i].command = null;
     }
 
     private void recognizeStringCommand() {
