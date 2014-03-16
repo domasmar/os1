@@ -23,18 +23,14 @@ public class Interpreter {
 	private static final byte OUTR_BX = (byte) 0b1111_0000;
 	private static final byte OUTM = (byte) 0b1000_0111;
 	private static final byte STOP = (byte) 0b0000_0001;
+	
+	public static final int MAX_CS_SIZE = 256;
 
-	//private String commandStringInput;
-	//private Command command;
-	private CmdWithVar[] cmdWithVar = new CmdWithVar[256];
-	private ArrayList<CmdWithVar> commandList = new ArrayList<CmdWithVar>();
-
-	// private byte opc;
-	// private byte adrJ;
-	// private byte adrO;
-	// private byte register; // 0 - No register, 1 = AX, 2 = BX
-
-	public ArrayList<CmdWithVar> interpret(String[] commandsArray) throws Exception {
+	private CmdWithVar[] cmdWithVar = new CmdWithVar[MAX_CS_SIZE];
+	
+	public int[] interpret(String[] commandsArray) throws Exception {
+		int commandNr = 0;
+		int commandsIntArray[] = new int[MAX_CS_SIZE];
 		for (int i = 0; i < commandsArray.length; i++) {
 			if (commandsArray[i].trim().equals("")) {
 				continue;
@@ -44,11 +40,42 @@ public class Interpreter {
 					throw new Exception("Komanda neatpažinta. Komanda: "
 							+ commandsArray[i] + ". Eilute: " + i);
 				} else {
-					commandList.add(cmd);
+					cmdWithVar[commandNr] = cmd;
+					
+					String first = this.fixBinaryNumber(cmd.commandOpc, 8);
+					
+					if ((cmd.command.equals(Command.MOV_AX))
+							|| (cmd.command.equals(Command.MOV_BX))) {
+						String second = this.fixBinaryNumber(cmd.variable, 16);
+						commandsIntArray[commandNr] = Integer
+								.parseInt(first, 2);
+						commandsIntArray[commandNr + 1] = Integer.parseInt(
+								second, 2);
+						commandNr++;
+					} else {
+						String second = this.fixBinaryNumber(cmd.variable, 8);
+						commandsIntArray[commandNr] = Integer.parseInt(first
+								+ second, 2);
+					}
+					commandNr++;
 				}
 			}
 		}
-		return commandList;
+		return commandsIntArray;
+	}
+	
+	private String fixBinaryNumber(int bin, int maxLength) {
+		String stringBin = Integer.toBinaryString(bin);		
+		if (stringBin.length() > maxLength) {
+			stringBin = stringBin.substring(stringBin.length() - maxLength,
+					stringBin.length());
+		}		
+		if (stringBin.length() < maxLength) {
+			for (int i = stringBin.length(); i < maxLength ; i++){
+				stringBin = "0" + stringBin;
+			}
+		}		
+		return stringBin;
 	}
 
 	public CmdWithVar[] interpret(int[] commandsArray) throws Exception {
@@ -219,7 +246,7 @@ public class Interpreter {
 	private CmdWithVar recognizeStringCommand(String strCommand, int row) {
 		CmdWithVar cmd = new CmdWithVar();
 		cmd.row = row;
-		
+
 		// Vieno baito komandos
 		if (strCommand.equalsIgnoreCase("add")) {
 			cmd.commandOpc = Interpreter.ADD;
@@ -411,7 +438,8 @@ public class Interpreter {
 		return null;
 	}
 
-	private boolean loadRemainderIfValid(String remainder, CmdWithVar cmd, int length) {
+	private boolean loadRemainderIfValid(String remainder, CmdWithVar cmd,
+			int length) {
 		ValidResults vr = this.isValidHex(remainder, length);
 		if (vr.valid) {
 			cmd.variable = vr.value;

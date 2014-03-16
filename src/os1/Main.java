@@ -33,9 +33,9 @@ public class Main {
 
 //		System.out.println(rmMem.getMemory());
 		
-		String[] commands = {new String("POP 12"),
-				new String ("MOV ax, 12"),
-				new String ("MOV ax, FFFF"),
+		String[] commands = {new String("ADD"),
+				new String ("POP 12"),
+				new String ("MOV ax, 4343"),
 				new String ("MOV ax, 1234"),
 				new String ("MOV ax, 1234"),
 				new String ("STO ax, 12")
@@ -43,10 +43,9 @@ public class Main {
 		
 		try {
 			Interpreter inter = new Interpreter();
-			ArrayList a = inter.interpret(commands);
-			for (int i = 0; i < a.size(); i++) {
-				System.out.print(a.get(i));
-				System.out.println();
+			int[] c = inter.interpret(commands);
+			for (int i = 0; i < 10; i++) {
+				System.out.println(Integer.toBinaryString(c[i]));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
