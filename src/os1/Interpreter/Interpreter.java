@@ -46,11 +46,11 @@ public class Interpreter {
 					
 					if ((cmd.command.equals(Command.MOV_AX))
 							|| (cmd.command.equals(Command.MOV_BX))) {
-						String second = this.fixBinaryNumber(cmd.variable, 16);
+						String second = this.fixBinaryNumber(cmd.variable, 32);
 						commandsIntArray[commandNr] = Integer
 								.parseInt(first, 2);
 						commandsIntArray[commandNr + 1] = Integer.parseInt(
-								second, 2);
+								addMinus(second, 32), 2);
 						commandNr++;
 					} else {
 						String second = this.fixBinaryNumber(cmd.variable, 8);
@@ -62,6 +62,15 @@ public class Interpreter {
 			}
 		}
 		return commandsIntArray;
+	}
+	
+
+	private String addMinus(String bin, int length) {
+		if ((bin.length() == length) && (bin.startsWith("1"))) {
+			bin = Integer.toBinaryString((Integer.parseInt(bin.replaceFirst("1", "0"), 2) ^ 0xFFFFFFFF) + 1);
+			bin = bin.replaceFirst("1", "-");
+		}		
+		return bin;
 	}
 	
 	private String fixBinaryNumber(int bin, int maxLength) {
@@ -84,7 +93,6 @@ public class Interpreter {
                 }
                 int j = 0;
 		for (int i = 0; i < commandsArray.length; i++, j++) {
-                        System.out.println(i + " " + j);
 			recognizeIntCommand(commandsArray, i, j);
 			if (commandsArray[i] == 0) {
 				return cmdWithVar;
@@ -312,7 +320,7 @@ public class Interpreter {
 
 			if (opc.equalsIgnoreCase("mov")) {
 				if (first.equalsIgnoreCase("ax")) {
-					if (loadRemainderIfValid(second, cmd, 4)) {
+					if (loadRemainderIfValid(second, cmd, 16)) {
 						cmd.commandOpc = Interpreter.MOV_AX;
 						cmd.command = Command.MOV_AX;
 						return cmd;
@@ -320,7 +328,7 @@ public class Interpreter {
 				}
 
 				if (first.equalsIgnoreCase("bx")) {
-					if (loadRemainderIfValid(second, cmd, 4)) {
+					if (loadRemainderIfValid(second, cmd, 16)) {
 						cmd.commandOpc = Interpreter.MOV_BX;
 						cmd.command = Command.MOV_BX;
 						return cmd;
@@ -461,6 +469,7 @@ public class Interpreter {
 		}
 		return new ValidResults();
 	}
+	
 
 	public String toString() {
 		// String s = "Ä®vesta komanda: " + this.commandStringInput + "\n";
