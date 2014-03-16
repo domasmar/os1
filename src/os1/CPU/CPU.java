@@ -9,6 +9,11 @@ public class CPU {
 	
 	private Register2B IP;
 	private Register2B SP;
+	
+	private Register2B DS;
+	private Register2B CS;
+	private Register2B SS;
+	
 	private TimerRegister TIMER;
 	
 	private LogicalRegister C;
@@ -53,6 +58,9 @@ public class CPU {
 			  + "PTR = " + getPTR() + "\n"
 			  + "IP = " + getIP() + "\n"
 			  + "SP = " + getSP() + "\n"
+			  + "DS = " + getDS() + "\n"
+			  + "CS = " + getCS() + "\n"
+			  + "SS = " + getSS() + "\n"
 			  + "TIMER = " + getTIMER() + "\n"
 			  + "C = " + getC() + "\n"
 			  + "CHST[0] = " + getCHST((byte) 0) + "\n"
@@ -92,7 +100,6 @@ public class CPU {
 		this.PTR.setValue(value);
 	}
 	
-	
 // GETTERS AND SETTERS OF 2 BYTE REGISTERS
 	
 	public short getIP() {
@@ -109,6 +116,30 @@ public class CPU {
 	
 	public void setSP(short value) {
 		this.SP.setValue(value);
+	}
+	
+	public short getDS() {
+		return this.DS.getValue();
+	}
+	
+	public void setDS(short value) {
+		this.DS.setValue(value);
+	}
+	
+	public short getCS() {
+		return this.CS.getValue();
+	}
+	
+	public void setCS(short value) {
+		this.CS.setValue(value);
+	}
+	
+	public short getSS() {
+		return this.SS.getValue();
+	}
+	
+	public void setSS(short value) {
+		this.SS.setValue(value);
 	}
 	
 // GETTER AND SETTER OF TIMER REGISTER
