@@ -1,5 +1,6 @@
 package os1;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import os1.CPU.CPU;
@@ -10,27 +11,46 @@ import os1.Memory.VMMemory;
 public class Main {
 
 	public static void main(String args[]) {
-		try { 
-			Interpreter ci = new Interpreter();//vietoj parametrų paduot string arba int masyvą(source kodas arba baitkodas)
+//		try { 
+//			Interpreter ci = new Interpreter();//vietoj parametrų paduot string arba int masyvą(source kodas arba baitkodas)
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//			e.printStackTrace();
+//		}
+//                
+//		CPU cpu = new CPU();
+//		RMMemory rmMem = new RMMemory(cpu);
+//		VMMemory vmMem = rmMem.createVMMemory(16);
+
+//		for (int i = 0; i < 258; i++) {
+//			Random random = new Random();
+//			int value = random.nextInt(102424424);
+//			vmMem.setValue(i, value);
+//			if (vmMem.getValue(i) != value) {
+//				System.out.println("kazkas blogai");
+//			}
+//		}
+
+//		System.out.println(rmMem.getMemory());
+		
+		String[] commands = {new String("POP 12"),
+				new String ("MOV ax, 12"),
+				new String ("MOV ax, FFFF"),
+				new String ("MOV ax, 1234"),
+				new String ("MOV ax, 1234"),
+				new String ("STO ax, 12")
+				};
+		
+		try {
+			Interpreter inter = new Interpreter();
+			ArrayList a = inter.interpret(commands);
+			for (int i = 0; i < a.size(); i++) {
+				System.out.print(a.get(i));
+				System.out.println();
+			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
-                
-		CPU cpu = new CPU();
-		RMMemory rmMem = new RMMemory(cpu);
-		VMMemory vmMem = rmMem.createVMMemory(16);
-
-		for (int i = 0; i < 258; i++) {
-			Random random = new Random();
-			int value = random.nextInt(102424424);
-			vmMem.setValue(i, value);
-			if (vmMem.getValue(i) != value) {
-				System.out.println("kazkas blogai");
-			}
-		}
-
-		System.out.println(rmMem.getMemory());
 
 	}
 
