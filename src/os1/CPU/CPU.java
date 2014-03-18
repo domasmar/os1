@@ -16,7 +16,8 @@ public class CPU {
 	
 	private TimerRegister TIMER;
 	
-	private LogicalRegister C;
+	private StatusRegister C;
+        
 	private LogicalRegister[] CHST;
 	private LogicalRegister MODE;
 	
@@ -40,7 +41,7 @@ public class CPU {
 		
 		this.TIMER = new TimerRegister(30);
 		
-		this.C = new LogicalRegister();
+		this.C = new StatusRegister();
 		this.CHST = new LogicalRegister[3];
 		this.MODE = new LogicalRegister();
 		
@@ -173,7 +174,7 @@ public class CPU {
 		return this.CHST[index].getValue();
 	}
 	
-	public void setCHST(byte index, byte value) {
+	public void setCHST(byte index, boolean value) {
 		this.CHST[index].setValue(value);
 	}
 	
@@ -181,7 +182,7 @@ public class CPU {
 		return this.MODE.getValue();
 	}
 	
-	public void setMODE(byte value) {
+	public void setMODE(boolean value) {
 		this.MODE.setValue(value);
 	}
 	

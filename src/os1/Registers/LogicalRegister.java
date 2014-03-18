@@ -5,30 +5,22 @@ package os1.Registers;
  * @author Arturas
  */
 public class LogicalRegister {
-    
-    private byte value;
+
+    private boolean value;
 
     public LogicalRegister() {
-        this.value = 0;
+        this.value = false;
     }
 
-    public LogicalRegister(byte value) {
+    public LogicalRegister(boolean value) {
         this.value = value;
     }
 
     public boolean getValue() {
-        boolean logicalValue = false;
-
-        if (this.value > 0) {
-            logicalValue = true;
-        } else {
-            logicalValue = false;
-        }
-
-        return logicalValue;
+        return this.value;
     }
 
-    public void setValue(byte value) {
+    public void setValue(boolean value) {
         this.value = value;
     }
 

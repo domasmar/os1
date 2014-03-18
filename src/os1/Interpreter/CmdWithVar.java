@@ -5,7 +5,7 @@ package os1.Interpreter;
  * @author Arturas
  */
 public class CmdWithVar {
-	public byte commandOpc;
+    public byte commandOpc;
     public int variable;
     public Command command;
     public int row;
