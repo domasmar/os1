@@ -161,7 +161,7 @@ public class CPU {
 	
 // GETTER AND SETTER OF LOGICAL 2 BYTES REGISTERS
 	
-	public boolean getC() {
+	public byte getC() {
 		return this.C.getValue();
 	}
 	
