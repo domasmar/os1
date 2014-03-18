@@ -46,14 +46,6 @@ public class Main {
 				System.out.println(Integer.toBinaryString(c[i]));
 			}
 
-			Interpreter inter2 = new Interpreter();
-			CmdWithVar[] komandos;
-			komandos = inter2.interpret(c);
-			for (int i = 0; i < 10; i++) {
-				System.out.print(komandos[i].command + " ");
-				System.out.println(komandos[i].variable);
-			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

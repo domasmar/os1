@@ -87,23 +87,6 @@ public class Interpreter {
 		return stringBin;
 	}
 
-	public CmdWithVar[] interpret(int[] commandsArray) throws Exception {
-                for (int j = 0; j < MAX_CS_SIZE; j++){
-                    cmdWithVar[j] = new CmdWithVar();
-                }
-                int j = 0;
-		for (int i = 0; i < commandsArray.length; i++, j++) {
-			recognizeIntCommand(commandsArray, i, j);
-			if (commandsArray[i] == 0) {
-				return cmdWithVar;
-			}
-			if ((cmdWithVar[j].command == Command.MOV_AX)
-					|| (cmdWithVar[j].command == Command.MOV_BX)) {
-				i++;
-			}
-		}
-		return null;
-	}
 
 	private class ValidResults {
 
@@ -120,126 +103,6 @@ public class Interpreter {
 		}
 	}
 
-	private void recognizeIntCommand(int[] commandsArray, int i, int j) {
-		String bits = intToBits(commandsArray[i]);
-		String cmdBits = bits.substring(0, 8);   
-		String valueBits = bits.substring(8, 16);
-                int cmdInt = (byte) Integer.parseInt(cmdBits, 2);
-		int valueInt = Integer.parseInt(valueBits, 2);
-                
-		if (cmdInt == ADD) {
-			cmdWithVar[j].command = Command.ADD;
-			return;
-		}
-
-		if (cmdInt == SUB) {
-			cmdWithVar[j].command = Command.SUB;
-			return;
-		}
-
-		if (cmdInt == CMP) {
-			cmdWithVar[j].command = Command.CMP;
-			return;
-		}
-
-		if (cmdInt == STOP) {
-			cmdWithVar[j].command = Command.STOP;
-			return;
-		}
-		// vieno baito komandos baigÄ—si.
-		// Jei MOV Å¾iÅ«rÄ—ti ÄÆ kitÄ… masyvo elementÄ… ir iÅ� ten paimti
-		// reikalingÄ… Å¾odÄÆ(4B)
-		if (cmdInt == MOV_AX) {
-			cmdWithVar[j].command = Command.MOV_AX;
-			cmdWithVar[j].variable = commandsArray[i + 1];
-			return;
-		}
-
-		if (cmdInt == MOV_BX) {
-			cmdWithVar[j].command = Command.MOV_BX;
-			cmdWithVar[j].variable = commandsArray[i + 1];
-			return;
-		}
-		
-		if (cmdInt == LOA_AX) {
-			cmdWithVar[j].command = Command.LOA_AX;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == LOA_BX) {
-			cmdWithVar[j].command = Command.LOA_BX;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == STO_AX) {
-			cmdWithVar[j].command = Command.STO_AX;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == STO_BX) {
-			cmdWithVar[j].command = Command.STO_BX;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == PUSH) {
-			cmdWithVar[j].command = Command.PUSH;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == POP) {
-			cmdWithVar[j].command = Command.POP;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == JA) {
-			cmdWithVar[j].command = Command.JA;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == JB) {
-			cmdWithVar[j].command = Command.JB;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == JE) {
-			cmdWithVar[j].command = Command.JE;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == JNE) {
-			cmdWithVar[j].command = Command.JNE;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == OUTR_AX) {
-			cmdWithVar[j].command = Command.OUTR_AX;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == OUTR_BX) {
-			cmdWithVar[j].command = Command.OUTR_BX;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-
-		if (cmdInt == OUTM) {
-			cmdWithVar[j].command = Command.OUTM;
-			cmdWithVar[j].variable = valueInt;
-			return;
-		}
-		cmdWithVar[j].command = null;
-	}
 
 	private CmdWithVar recognizeStringCommand(String strCommand, int row) {
 		CmdWithVar cmd = new CmdWithVar();
@@ -446,17 +309,7 @@ public class Interpreter {
 			return false;
 		}
 	}
-
-	private String intToBits(int a) {
-		String bits = Integer.toBinaryString(a);
-
-		int length = bits.length();
-		int diffLength = 32 - length;
-		for (int i = 0; i < diffLength; i++) {
-			bits = bits + "0";
-		}
-		return bits;
-	}
+        
 
 	private ValidResults isValidHex(String remainder, int length) {
 		if (remainder.length() <= length) {
