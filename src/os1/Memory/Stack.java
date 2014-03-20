@@ -16,7 +16,7 @@ public class Stack {
         this.memory = memory;
     }
     
-    public void Push(int value) throws Exception {
+    public void push(int value) throws Exception {
         if (cpu.getSS() + cpu.getSP() <= cpu.getCS()) {
             cpu.setSTI((byte) 1);
             throw new Exception("Stack is full!");
@@ -25,7 +25,7 @@ public class Stack {
         cpu.setSP((short) (cpu.getSP() + 1));
     }
     
-    public int Pop(int addrDS) throws Exception {
+    public int pop(int addrDS) throws Exception {
         if (cpu.getSP() <= 0) {
             cpu.setSTI((byte) 1);
             throw new Exception("Stack is empty!");

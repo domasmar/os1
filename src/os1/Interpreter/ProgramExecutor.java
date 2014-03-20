@@ -190,13 +190,13 @@ public class ProgramExecutor {
     }
 
     private void cmdPush(int variable) throws Exception {
-        stack.Push(variable);
+        stack.push(variable);
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
     }
 
     private void cmdPop(int variable) throws Exception {
-        stack.Pop(variable);
+        stack.pop(variable);
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
     }
