@@ -1,5 +1,6 @@
 package os1.Interpreter;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import os1.CPU.CPU;
@@ -15,11 +16,13 @@ public class ProgramExecutor {
     private CPU cpu;
     private VMMemory memory;
     private Stack stack;
+    public boolean debug;
 
-    public ProgramExecutor(CPU cpu, VMMemory virtualMemory, Stack stack) {
+    public ProgramExecutor(CPU cpu, VMMemory virtualMemory, Stack stack, boolean debug) {
         this.cpu = cpu;
         this.memory = virtualMemory;
         this.stack = stack;
+        this.debug = debug;
         execute();
     }
 
@@ -28,6 +31,9 @@ public class ProgramExecutor {
         while (proceed) {
             try {
                 proceed = recognizeCommand();
+                if (debug) {
+                    waitForInput();
+                }
             } catch (Exception ex) {
                 Logger.getLogger(ProgramExecutor.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -215,7 +221,7 @@ public class ProgramExecutor {
         if ((variable >= 255) || (variable < cpu.getCS())) {
             throw new Exception("Jump is out of bounds!");
         }
-        
+
         if (cpu.getC() == 2) {
             cpu.setIP((short) variable);
         }
@@ -225,7 +231,7 @@ public class ProgramExecutor {
         if ((variable >= 255) || (variable < cpu.getCS())) {
             throw new Exception("Jump is out of bounds!");
         }
-        
+
         if (cpu.getC() == 0) {
             cpu.setIP((short) variable);
         }
@@ -235,7 +241,7 @@ public class ProgramExecutor {
         if ((variable >= 255) || (variable < cpu.getCS())) {
             throw new Exception("Jump is out of bounds!");
         }
-        
+
         if (cpu.getC() == 1 || cpu.getC() == 2) {
             cpu.setIP((short) variable);
         }
@@ -305,5 +311,9 @@ public class ProgramExecutor {
             bits = bits + "0";
         }
         return bits;
+    }
+
+    private void waitForInput() throws IOException {
+        System.in.read();
     }
 }
