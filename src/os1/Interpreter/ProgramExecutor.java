@@ -25,18 +25,13 @@ public class ProgramExecutor {
         this.debug = debug;
     }
 
-    public void execute() {
-        boolean proceed = true;
-        while (proceed) {
-            try {
-                proceed = recognizeCommand();
-                if (debug) {
-                    waitForInput();
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(ProgramExecutor.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    public boolean executeNext() {
+        try {
+            return recognizeCommand();
+        } catch (Exception ex) {
+            Logger.getLogger(ProgramExecutor.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
     private boolean recognizeCommand() throws Exception {
@@ -310,9 +305,5 @@ public class ProgramExecutor {
             bits = bits + "0";
         }
         return bits;
-    }
-
-    private void waitForInput() throws IOException {
-        System.in.read();
     }
 }
