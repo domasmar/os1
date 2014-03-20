@@ -144,40 +144,46 @@ public class ProgramExecutor {
 //******************************************************************************
     private void cmdMovAx(int variable) throws Exception {
         cpu.setAX(variable);
-        
+
         short nextCmdAddr = (short) (cpu.getIP() + 2);
         cpu.setIP(nextCmdAddr);
     }
 
     private void cmdMovBx(int variable) throws Exception {
         cpu.setBX(variable);
-        
+
         short nextCmdAddr = (short) (cpu.getIP() + 2);
         cpu.setIP(nextCmdAddr);
     }
 
     private void cmdLoaAx(int variable) throws Exception {
         cpu.setAX(memory.getValue(variable));
-        
+
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
     }
 
     private void cmdLoaBx(int variable) throws Exception {
         cpu.setBX(memory.getValue(variable));
-        
+
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
     }
 
     private void cmdStoAx(int variable) throws Exception {
+        if (variable >= cpu.getSS()) {
+            throw new Exception("Adress is out of bounds of DS");
+        }
         memory.setValue(variable, cpu.getAX());
-        
+
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
     }
 
     private void cmdStoBx(int variable) throws Exception {
+        if (variable >= cpu.getSS()) {
+            throw new Exception("Adress is out of bounds of DS");
+        }
         memory.setValue(variable, cpu.getBX());
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
@@ -196,24 +202,40 @@ public class ProgramExecutor {
     }
 
     private void cmdJa(int variable) throws Exception {
+        if ((variable >= 255) || (variable < cpu.getCS())) {
+            throw new Exception("Jump is out of bounds!");
+        }
+
         if (cpu.getC() == 1) {
             cpu.setIP((short) variable);
         }
     }
 
     private void cmdJb(int variable) throws Exception {
+        if ((variable >= 255) || (variable < cpu.getCS())) {
+            throw new Exception("Jump is out of bounds!");
+        }
+        
         if (cpu.getC() == 2) {
             cpu.setIP((short) variable);
         }
     }
 
     private void cmdJe(int variable) throws Exception {
+        if ((variable >= 255) || (variable < cpu.getCS())) {
+            throw new Exception("Jump is out of bounds!");
+        }
+        
         if (cpu.getC() == 0) {
             cpu.setIP((short) variable);
         }
     }
 
     private void cmdJne(int variable) throws Exception {
+        if ((variable >= 255) || (variable < cpu.getCS())) {
+            throw new Exception("Jump is out of bounds!");
+        }
+        
         if (cpu.getC() == 1 || cpu.getC() == 2) {
             cpu.setIP((short) variable);
         }
@@ -236,7 +258,7 @@ public class ProgramExecutor {
         int secondEl = memory.getValue(cpu.getSS() + cpu.getSP() - 1);
         int sum = firstEl + secondEl;
         memory.setValue(cpu.getSS() + cpu.getSP(), sum);
-        
+
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
     }
@@ -246,7 +268,7 @@ public class ProgramExecutor {
         int secondEl = memory.getValue(cpu.getSS() + cpu.getSP() - 1);
         int diff = firstEl - secondEl;
         memory.setValue(cpu.getSS() + cpu.getSP(), diff);
-        
+
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
     }

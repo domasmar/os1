@@ -25,7 +25,7 @@ public class CPU {
 	private InterruptRegister SI;
 	private InterruptRegister IOI;
 	private InterruptRegister TI;
-	private InterruptRegister SO;
+	private InterruptRegister STI;
 	
 	public CPU() {
 		this.AX = new Register4B();
@@ -49,7 +49,7 @@ public class CPU {
 		this.SI = new InterruptRegister();
 		this.IOI = new InterruptRegister();
 		this.TI = new InterruptRegister();
-		this.SO = new InterruptRegister();
+		this.STI = new InterruptRegister();
 		
 		this.CHST[0] = new LogicalRegister();
 		this.CHST[1] = new LogicalRegister();
@@ -78,7 +78,7 @@ public class CPU {
 			  + "SI = " + getSI() + "\n"
 			  + "IOI = " + getIOI() + "\n"
 			  + "TI = " + getTI() + "\n"
-			  + "SO = " + getSO();
+			  + "SO = " + getSTI();
 		return info;
 	}
 	
@@ -220,12 +220,12 @@ public class CPU {
 		this.TI.setValue(value);
 	}
 	
-	public byte getSO() {
-		return this.SO.getValue();
+	public byte getSTI() {
+		return this.STI.getValue();
 	}
 	
-	public void setSO(byte value) {
-		this.SO.setValue(value);
+	public void setSTI(byte value) {
+		this.STI.setValue(value);
 	}
 	
 }
