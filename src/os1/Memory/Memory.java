@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Memory {
 
-	public static int DEFAULT_MEMORY_SIZE = 4096;
+	public static int DEFAULT_MEMORY_SIZE = 1024;
 	public static int DEFAULT_BLOCK_SIZE = 16;
 	public static int PAGES_COUNT = 16;
 

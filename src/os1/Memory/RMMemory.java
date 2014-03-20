@@ -10,7 +10,7 @@ public class RMMemory {
 
 	public RMMemory(CPU cpu) {
 		this.cpu = cpu;
-		this.memory = new Memory(4096, 16);
+		this.memory = new Memory(1024, 16);
 	}
 
 	public int getFromMemory(int index) {
