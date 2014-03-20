@@ -137,7 +137,7 @@ public class CommandsConverter {
 	private void replaceVarNameWithAddress() {
 		for (int i = 0; i <= this.commands.length - 1; i++) {
 			for (int j = 0; j <= this.variables.size() - 1; j++) {
-				if (this.commands[i].contains(this.variables.get(j).getName())) {
+				if (this.commands[i].matches(".*\\b(" + this.variables.get(j).getName() + ")\\b.*")) {
 					this.commands[i] = this.commands[i].replace(this.variables.get(j).getName(), Integer.toString(j));
 				}
 			}
@@ -159,7 +159,6 @@ public class CommandsConverter {
 	private void removeEmptyLines() {
 		ArrayList<String> commandsList = new ArrayList<String>(Arrays.asList(this.commands));
 		commandsList.removeAll(Collections.singleton(""));
-		System.out.println(commandsList);
 		this.commands = commandsList.toArray(new String[commandsList.size()]);		
 	}
 

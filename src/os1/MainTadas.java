@@ -14,16 +14,16 @@ public class MainTadas {
 		VMMemory vmm = rmm.createVMMemory(16);
 		
 		String sourceCode =
-				"var1 DEF FF\n"
-			  + "var2 DEF EE\n"
-			  + "var3 DEF F0\n"
-			  + "var4 DEF AA\n"
+				"as DEF FF\n"
+			  + "labas DEF EE\n"
+			  + "petras DEF F0\n"
+			  + "astra DEF AA\n"
 			  + "\n"
 			  + "\n"
 			  + "MOV ax, FFFF\n"
 			  + "sudetis\n"
-			  + "STO ax, var1\n"
-			  + "MOV bx, var2\n"
+			  + "STO ax, as\n"
+			  + "MOV bx, EEEE\n"
 			  + "PUSH AX\n"
 			  + "PUSH BX\n"
 			  + "ADD\n"
@@ -31,8 +31,8 @@ public class MainTadas {
 			  + "\n"
 			  + "\n"
 			  + "atimtis\n"
-			  + "STO ax, var3\n"
-			  + "STO bx, var4\n"
+			  + "STO ax, petras\n"
+			  + "STO bx, astra\n"
 			  + "SUB\n"
 			  + "JUMP atimtis";
 		
@@ -41,7 +41,7 @@ public class MainTadas {
 		/* Visas programos pirminis kodas */
 		System.out.println("PIRMINIS KODAS:");
 		for(int i = 0; i <= cc.getSourceCode().length - 1; i++) {
-			System.out.println(i + ". " + cc.getSourceCode()[i]);
+			System.out.println(cc.getSourceCode()[i]);
 		}
 		
 		System.out.println();
@@ -49,7 +49,7 @@ public class MainTadas {
 		/* Visos programos pirminio kodo komandos */
 		System.out.println("KOMANDOS:");
 		for(int i = 0; i <= cc.getCommands().length - 1; i++) {
-			System.out.println(i + ". " + cc.getCommands()[i]);
+			System.out.println(cc.getCommands()[i]);
 		}
 		
 		System.out.println();
