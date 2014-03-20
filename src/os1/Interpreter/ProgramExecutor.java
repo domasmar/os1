@@ -201,7 +201,7 @@ public class ProgramExecutor {
     }
 
     private void cmdPop(int variable) throws Exception {
-        stack.Pop();
+        stack.Pop(variable);
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
     }
