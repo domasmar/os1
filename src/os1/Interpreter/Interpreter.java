@@ -3,26 +3,6 @@ package os1.Interpreter;
 import java.util.ArrayList;
 
 public class Interpreter {
-
-	private static final byte MOV_AX = (byte) 0b1100_0000;
-	private static final byte MOV_BX = (byte) 0b1101_0000;
-	private static final byte LOA_AX = (byte) 0b1000_0000;
-	private static final byte LOA_BX = (byte) 0b1001_0000;
-	private static final byte STO_AX = (byte) 0b1000_0001;
-	private static final byte STO_BX = (byte) 0b1001_0001;
-	private static final byte PUSH = (byte) 0b1000_0010;
-	private static final byte POP = (byte) 0b1000_0011;
-	private static final byte ADD = (byte) 0b1000_0100;
-	private static final byte SUB = (byte) 0b1000_0101;
-	private static final byte CMP = (byte) 0b1000_0111;
-	private static final byte JA = (byte) 0b0100_0000;
-	private static final byte JB = (byte) 0b0100_0001;
-	private static final byte JE = (byte) 0b0100_0010;
-	private static final byte JNE = (byte) 0b0100_0011;
-	private static final byte OUTR_AX = (byte) 0b1110_0000;
-	private static final byte OUTR_BX = (byte) 0b1111_0000;
-	private static final byte OUTM = (byte) 0b1000_0111;
-	private static final byte STOP = (byte) 0b0000_0001;
 	
 	public static final int MAX_CS_SIZE = 256;
 
@@ -110,25 +90,25 @@ public class Interpreter {
 
 		// Vieno baito komandos
 		if (strCommand.equalsIgnoreCase("add")) {
-			cmd.commandOpc = Interpreter.ADD;
+			cmd.commandOpc = CommandBytecode.ADD;
 			cmd.command = Command.ADD;
 			return cmd;
 		}
 
 		if (strCommand.equalsIgnoreCase("sub")) {
-			cmd.commandOpc = Interpreter.SUB;
+			cmd.commandOpc = CommandBytecode.SUB;
 			cmd.command = Command.SUB;
 			return cmd;
 		}
 
 		if (strCommand.equalsIgnoreCase("cmp")) {
-			cmd.commandOpc = Interpreter.CMP;
+			cmd.commandOpc = CommandBytecode.CMP;
 			cmd.command = Command.CMP;
 			return cmd;
 		}
 
 		if (strCommand.equalsIgnoreCase("stop")) {
-			cmd.commandOpc = Interpreter.STOP;
+			cmd.commandOpc = CommandBytecode.STOP;
 			cmd.command = Command.STOP;
 			return cmd;
 		}
@@ -166,7 +146,7 @@ public class Interpreter {
 			if (opc.equalsIgnoreCase("loa")) {
 				if (second.equalsIgnoreCase("ax")) {
 					if (loadRemainderIfValid(first, cmd, 2)) {
-						cmd.commandOpc = Interpreter.LOA_AX;
+						cmd.commandOpc = CommandBytecode.LOA_AX;
 						cmd.command = Command.LOA_AX;
 						return cmd;
 					}
@@ -174,7 +154,7 @@ public class Interpreter {
 
 				if (second.equalsIgnoreCase("bx")) {
 					if (loadRemainderIfValid(first, cmd, 2)) {
-						cmd.commandOpc = Interpreter.LOA_BX;
+						cmd.commandOpc = CommandBytecode.LOA_BX;
 						cmd.command = Command.LOA_BX;
 						return cmd;
 					}
@@ -184,7 +164,7 @@ public class Interpreter {
 			if (opc.equalsIgnoreCase("mov")) {
 				if (first.equalsIgnoreCase("ax")) {
 					if (loadRemainderIfValid(second, cmd, 16)) {
-						cmd.commandOpc = Interpreter.MOV_AX;
+						cmd.commandOpc = CommandBytecode.MOV_AX;
 						cmd.command = Command.MOV_AX;
 						return cmd;
 					}
@@ -192,7 +172,7 @@ public class Interpreter {
 
 				if (first.equalsIgnoreCase("bx")) {
 					if (loadRemainderIfValid(second, cmd, 16)) {
-						cmd.commandOpc = Interpreter.MOV_BX;
+						cmd.commandOpc = CommandBytecode.MOV_BX;
 						cmd.command = Command.MOV_BX;
 						return cmd;
 					}
@@ -202,7 +182,7 @@ public class Interpreter {
 			if (opc.equalsIgnoreCase("sto")) {
 				if (first.equalsIgnoreCase("ax")) {
 					if (loadRemainderIfValid(second, cmd, 2)) {
-						cmd.commandOpc = Interpreter.STO_AX;
+						cmd.commandOpc = CommandBytecode.STO_AX;
 						cmd.command = Command.STO_AX;
 						return cmd;
 					}
@@ -210,7 +190,7 @@ public class Interpreter {
 
 				if (first.equalsIgnoreCase("bx")) {
 					if (loadRemainderIfValid(second, cmd, 2)) {
-						cmd.commandOpc = Interpreter.STO_BX;
+						cmd.commandOpc = CommandBytecode.STO_BX;
 						cmd.command = Command.STO_BX;
 						return cmd;
 					}
@@ -221,7 +201,7 @@ public class Interpreter {
 			// 1 parametro komandos
 			if (opc.equalsIgnoreCase("push")) {
 				if (loadRemainderIfValid(remainder, cmd, 2)) {
-					cmd.commandOpc = Interpreter.PUSH;
+					cmd.commandOpc = CommandBytecode.PUSH;
 					cmd.command = Command.PUSH;
 					return cmd;
 				}
@@ -229,7 +209,7 @@ public class Interpreter {
 
 			if (opc.equalsIgnoreCase("pop")) {
 				if (loadRemainderIfValid(remainder, cmd, 2)) {
-					cmd.commandOpc = Interpreter.POP;
+					cmd.commandOpc = CommandBytecode.POP;
 					cmd.command = Command.POP;
 					return cmd;
 				}
@@ -237,7 +217,7 @@ public class Interpreter {
 
 			if (opc.equalsIgnoreCase("ja")) {
 				if (loadRemainderIfValid(remainder, cmd, 2)) {
-					cmd.commandOpc = Interpreter.JA;
+					cmd.commandOpc = CommandBytecode.JA;
 					cmd.command = Command.JA;
 					return cmd;
 				}
@@ -245,7 +225,7 @@ public class Interpreter {
 
 			if (opc.equalsIgnoreCase("jb")) {
 				if (loadRemainderIfValid(remainder, cmd, 2)) {
-					cmd.commandOpc = Interpreter.JB;
+					cmd.commandOpc = CommandBytecode.JB;
 					cmd.command = Command.JB;
 					return cmd;
 				}
@@ -253,7 +233,7 @@ public class Interpreter {
 
 			if (opc.equalsIgnoreCase("je")) {
 				if (loadRemainderIfValid(remainder, cmd, 2)) {
-					cmd.commandOpc = Interpreter.JB;
+					cmd.commandOpc = CommandBytecode.JB;
 					cmd.command = Command.JB;
 					return cmd;
 				}
@@ -261,7 +241,7 @@ public class Interpreter {
 
 			if (opc.equalsIgnoreCase("je")) {
 				if (loadRemainderIfValid(remainder, cmd, 2)) {
-					cmd.commandOpc = Interpreter.JE;
+					cmd.commandOpc = CommandBytecode.JE;
 					cmd.command = Command.JE;
 					return cmd;
 				}
@@ -269,7 +249,7 @@ public class Interpreter {
 
 			if (opc.equalsIgnoreCase("jne")) {
 				if (loadRemainderIfValid(remainder, cmd, 2)) {
-					cmd.commandOpc = Interpreter.JNE;
+					cmd.commandOpc = CommandBytecode.JNE;
 					cmd.command = Command.JNE;
 					return cmd;
 				}
@@ -277,7 +257,7 @@ public class Interpreter {
 
 			if (opc.equalsIgnoreCase("outm")) {
 				if (loadRemainderIfValid(remainder, cmd, 2)) {
-					cmd.commandOpc = Interpreter.OUTM;
+					cmd.commandOpc = CommandBytecode.OUTM;
 					cmd.command = Command.OUTM;
 					return cmd;
 				}
@@ -285,12 +265,12 @@ public class Interpreter {
 
 			if (opc.equalsIgnoreCase("outr")) {
 				if (remainder.equalsIgnoreCase("ax")) {
-					cmd.commandOpc = Interpreter.OUTR_AX;
+					cmd.commandOpc = CommandBytecode.OUTR_AX;
 					cmd.command = Command.OUTR_AX;
 					return cmd;
 				}
 				if (remainder.equalsIgnoreCase("bx")) {
-					cmd.commandOpc = Interpreter.OUTR_BX;
+					cmd.commandOpc = CommandBytecode.OUTR_BX;
 					cmd.command = Command.OUTR_BX;
 					return cmd;
 				}

@@ -1,53 +1,68 @@
 package os1;
 
-import java.util.ArrayList;
-import java.util.Random;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 
 import os1.CPU.CPU;
+import os1.CommandsConverter.CommandsConverter;
 import os1.Interpreter.*;
 import os1.Memory.RMMemory;
+import os1.Memory.Stack;
 import os1.Memory.VMMemory;
 
 public class Main {
 
 	public static void main(String args[]) {
-		// try {
-		// Interpreter ci = new Interpreter();//vietoj parametrų paduot string
-		// arba int masyvą(source kodas arba baitkodas)
-		// } catch (Exception e) {
-		// System.out.println(e.getMessage());
-		// e.printStackTrace();
-		// }
-		//
-		// CPU cpu = new CPU();
-		// RMMemory rmMem = new RMMemory(cpu);
-		// VMMemory vmMem = rmMem.createVMMemory(16);
 
-		// for (int i = 0; i < 258; i++) {
-		// Random random = new Random();
-		// int value = random.nextInt(102424424);
-		// vmMem.setValue(i, value);
-		// if (vmMem.getValue(i) != value) {
-		// System.out.println("kazkas blogai");
-		// }
-		// }
-
-		// System.out.println(rmMem.getMemory());
-	
-		String[] commands = { new String("ADD"), new String("POP 12"),
-				new String("POP 12"), new String("MOV ax, FFF0"),
-				new String("MOV ax, -1231"), new String("MOV ax, 1234"),
-				new String("STO ax, 12") };
-
+		CPU cpu = new CPU();
+		RMMemory rmm = new RMMemory(cpu);
+		VMMemory vmm = rmm.createVMMemory(16);
+		Interpreter interpreter = new Interpreter();
+		Stack stack = new Stack(cpu, vmm);
+		BufferedReader file = null;
 		try {
-			Interpreter inter = new Interpreter();
-			int[] c = inter.interpret(commands);
-			for (int i = 0; i < 10; i++) {
-				System.out.println(Integer.toBinaryString(c[i]));
+			file = new BufferedReader(new FileReader("program.txt"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		String programCode = "";
+		String line;
+		try {
+			while ((line = file.readLine()) != null) {
+				programCode += line + '\n';
 			}
-
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		CommandsConverter cc = new CommandsConverter(programCode, cpu, vmm);
+		String[] sourceCode = cc.getCommands();
+		
+		
+		try {
+			int[] commandsByteCode = interpreter.interpret(sourceCode);
+			int blocksNeed = commandsByteCode.length / 16;
+			if (commandsByteCode.length % 16 > 0) {
+				blocksNeed++;
+			}
+			cpu.setCS((short) (16 - blocksNeed));
+			cpu.setIP((short)0);
+			for (int i = 0; i < commandsByteCode.length; i++) {
+				System.out.println(commandsByteCode[i]);
+				vmm.setValue(16 * cpu.getCS() + i, commandsByteCode[i]);
+			}			
+			cpu.setDS((short)0);
+			cpu.setSS((short) ((16 - cpu.getCS()) / 2));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		//System.out.println(rmm.getMemory());
+		ProgramExecutor pe = new ProgramExecutor(cpu, vmm, stack, true);
+		
 	}
 }
