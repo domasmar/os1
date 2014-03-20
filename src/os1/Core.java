@@ -2,6 +2,7 @@ package os1;
 
 import os1.CPU.CPU;
 import os1.CommandsConverter.CommandsConverter;
+import os1.GUI.MainGUI;
 import os1.GUI.RMMemoryGUI;
 import os1.GUI.VMMemoryGUI;
 import os1.Interpreter.Interpreter;
@@ -46,12 +47,21 @@ public class Core {
 	private void initGUI() {
 		VMMemoryGUI vmmGUI = new VMMemoryGUI(vmm);
 		RMMemoryGUI rmmGUI = new RMMemoryGUI(rmm);
+		MainGUI mainGUI = new MainGUI(this);
 	}
 	
 	public void startVM(boolean debug) {
 		initGUI();
 		
 	}
+	
+	public void executeNext() {
+		if (programExecutor.executeNext()) {
+			
+		} else {
+			System.out.println("The End");
+		}
+	}	
 	
 	private void allocateMemorySegments() {
 		int blocksNeed = commandsByteCode.length / 16;
@@ -63,5 +73,7 @@ public class Core {
 		cpu.setDS((short)0);
 		cpu.setSS((short) ((16 - cpu.getCS()) / 2));
 	}
+
+
 	
 }
