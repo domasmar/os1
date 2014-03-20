@@ -46,8 +46,8 @@ public class ProgramExecutor {
         String cmdBits = bits.substring(0, 8);
         String valueBits = bits.substring(8, 16);
         int cmdInt = (byte) Integer.parseInt(cmdBits, 2);
-        int valueInt = Integer.parseInt(valueBits, 2);
-
+        int valueInt = Integer.parseInt(valueBits, 2);      
+        
         if (cmdInt == CommandBytecode.ADD) {
             cmdAdd();
             return true;
