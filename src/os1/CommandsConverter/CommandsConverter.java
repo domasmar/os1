@@ -3,12 +3,8 @@ package os1.CommandsConverter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
 import os1.CPU.CPU;
-import os1.CommandsConverter.*;
-import os1.Memory.RMMemory;
 import os1.Memory.VMMemory;
 
 public class CommandsConverter {
@@ -161,7 +157,7 @@ public class CommandsConverter {
 	
 	/* Panaikina tuðèias eilutes ið komandø masyvo */
 	private void removeEmptyLines() {
-		ArrayList<String> commandsList = new ArrayList(Arrays.asList(this.commands));
+		ArrayList<String> commandsList = new ArrayList<String>(Arrays.asList(this.commands));
 		commandsList.removeAll(Collections.singleton(""));
 		System.out.println(commandsList);
 		this.commands = commandsList.toArray(new String[commandsList.size()]);		
