@@ -25,13 +25,15 @@ public class Stack {
         cpu.setSP((short) (cpu.getSP() + 1));
     }
     
-    public int Pop() throws Exception {
+    public int Pop(int addrDS) throws Exception {
         if (cpu.getSP() <= 0) {
             cpu.setSTI((byte) 1);
             throw new Exception("Stack is empty!");
         }
         int value = memory.getValue(cpu.getSS() + cpu.getSP());
-        cpu.setSP((short) (cpu.getSP() - 1));
+        cpu.setSP((short) (cpu.getSP() - 1));     
+        memory.setValue(addrDS, value);
+        
         return value;
     }
 }
