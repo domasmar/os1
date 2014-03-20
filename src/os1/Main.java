@@ -24,6 +24,7 @@ public class Main {
 		VMMemory vmm = rmm.createVMMemory(16);
 		Interpreter interpreter = new Interpreter();
 		Stack stack = new Stack(cpu, vmm);
+                ProgramExecutor pe = new ProgramExecutor(cpu, vmm, stack, true);
 		BufferedReader file = null;
 		try {
 			file = new BufferedReader(new FileReader("program.txt"));
@@ -61,8 +62,8 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//System.out.println(rmm.getMemory());
-		ProgramExecutor pe = new ProgramExecutor(cpu, vmm, stack, true);
+                pe.execute();
+                
 		
 	}
 }
