@@ -20,10 +20,10 @@ public class MainTadas {
 			  + "var4 DEF AA\n"
 			  + "\n"
 			  + "\n"
-			  + "sudetis\n"
 			  + "MOV ax, FFFF\n"
+			  + "sudetis\n"
 			  + "STO ax, var1\n"
-			  + "STO bx, var2\n"
+			  + "MOV bx, var2\n"
 			  + "PUSH AX\n"
 			  + "PUSH BX\n"
 			  + "ADD\n"
@@ -36,7 +36,7 @@ public class MainTadas {
 			  + "SUB\n"
 			  + "JUMP atimtis";
 		
-		CommandsConverter cc = new CommandsConverter(sourceCode);
+		CommandsConverter cc = new CommandsConverter(sourceCode, cpu, vmm);
 		
 		/* Visas programos pirminis kodas */
 		System.out.println("PIRMINIS KODAS:");
