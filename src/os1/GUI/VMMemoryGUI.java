@@ -7,7 +7,7 @@ public class VMMemoryGUI extends MemoryGUI {
 	private VMMemory vmm;
 	
 	public VMMemoryGUI(VMMemory vmm) {
-		super("VM Memory");
+		super("VM Memory", 400);
 		this.vmm = vmm;
 		super.initList();
 		super.setVisible();
@@ -20,6 +20,6 @@ public class VMMemoryGUI extends MemoryGUI {
 
 	@Override
 	protected int getSize() {
-		return 256;
+		return vmm.getSize();
 	}
 }

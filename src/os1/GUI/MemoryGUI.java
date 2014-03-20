@@ -23,12 +23,12 @@ public abstract class MemoryGUI implements ActionListener {
 	private JFrame memoryFrame;
 	
 	
-	public MemoryGUI(String name) {
+	public MemoryGUI(String name, int position) {
 	
 		memoryFrame = new JFrame(name);
 		memoryFrame.setSize(new Dimension(175,400));
 		memoryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+		memoryFrame.setLocation(position, 0);
 		JPanel listPanel = new JPanel();
 		listPanel.setPreferredSize(new Dimension(150, 320));
 		
