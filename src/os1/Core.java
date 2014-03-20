@@ -27,7 +27,7 @@ public class Core {
 		vmm = rmm.createVMMemory(16);
 		interpreter = new Interpreter();
 		stack = new Stack(cpu, vmm);
-		programExecutor = new ProgramExecutor(cpu, vmm, stack, false);
+		programExecutor = new ProgramExecutor(cpu, vmm, stack);
 		
 	}
 	

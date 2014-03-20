@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import os1.CPU.CPU;
+import static os1.Interpreter.Command.*;
 import os1.Memory.Stack;
 import os1.Memory.VMMemory;
 
@@ -16,13 +17,12 @@ public class ProgramExecutor {
     private CPU cpu;
     private VMMemory memory;
     private Stack stack;
-    public boolean debug;
+    public CmdWithVar lastCmd;
 
-    public ProgramExecutor(CPU cpu, VMMemory virtualMemory, Stack stack, boolean debug) {
+    public ProgramExecutor(CPU cpu, VMMemory virtualMemory, Stack stack) {
         this.cpu = cpu;
         this.memory = virtualMemory;
         this.stack = stack;
-        this.debug = debug;
     }
 
     public boolean executeNext() {
@@ -147,6 +147,8 @@ public class ProgramExecutor {
 
         short nextCmdAddr = (short) (cpu.getIP() + 2);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = MOV_AX;
+        lastCmd.variable = variable;
     }
 
     private void cmdMovBx(int variable) throws Exception {
@@ -154,6 +156,8 @@ public class ProgramExecutor {
 
         short nextCmdAddr = (short) (cpu.getIP() + 2);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = MOV_BX;
+        lastCmd.variable = variable;
     }
 
     private void cmdLoaAx(int variable) throws Exception {
@@ -161,6 +165,8 @@ public class ProgramExecutor {
 
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = LOA_AX;
+        lastCmd.variable = variable;
     }
 
     private void cmdLoaBx(int variable) throws Exception {
@@ -168,6 +174,8 @@ public class ProgramExecutor {
 
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = LOA_BX;
+        lastCmd.variable = variable;
     }
 
     private void cmdStoAx(int variable) throws Exception {
@@ -178,6 +186,8 @@ public class ProgramExecutor {
 
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = STO_AX;
+        lastCmd.variable = variable;
     }
 
     private void cmdStoBx(int variable) throws Exception {
@@ -187,18 +197,24 @@ public class ProgramExecutor {
         memory.setValue(variable, cpu.getBX());
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = STO_BX;
+        lastCmd.variable = variable;
     }
 
     private void cmdPush(int variable) throws Exception {
         stack.push(variable);
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = PUSH;
+        lastCmd.variable = variable;
     }
 
     private void cmdPop(int variable) throws Exception {
         stack.pop(variable);
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = POP;
+        lastCmd.variable = variable;
     }
 
     private void cmdJa(int variable) throws Exception {
@@ -209,6 +225,8 @@ public class ProgramExecutor {
         if (cpu.getC() == 1) {
             cpu.setIP((short) variable);
         }
+        lastCmd.command = JA;
+        lastCmd.variable = variable;
     }
 
     private void cmdJb(int variable) throws Exception {
@@ -219,6 +237,8 @@ public class ProgramExecutor {
         if (cpu.getC() == 2) {
             cpu.setIP((short) variable);
         }
+        lastCmd.command = JB;
+        lastCmd.variable = variable;
     }
 
     private void cmdJe(int variable) throws Exception {
@@ -229,6 +249,8 @@ public class ProgramExecutor {
         if (cpu.getC() == 0) {
             cpu.setIP((short) variable);
         }
+        lastCmd.command = JE;
+        lastCmd.variable = variable;
     }
 
     private void cmdJne(int variable) throws Exception {
@@ -239,6 +261,8 @@ public class ProgramExecutor {
         if (cpu.getC() == 1 || cpu.getC() == 2) {
             cpu.setIP((short) variable);
         }
+        lastCmd.command = JNE;
+        lastCmd.variable = variable;
     }
 
     private void cmdOutrAx(int variable) throws Exception {
@@ -261,6 +285,7 @@ public class ProgramExecutor {
 
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = ADD;
     }
 
     private void cmdSub() throws Exception {
@@ -271,6 +296,7 @@ public class ProgramExecutor {
 
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = SUB;
     }
 
     private void cmdCmp() throws Exception {
@@ -288,12 +314,14 @@ public class ProgramExecutor {
 
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = CMP;
     }
 
     private void cmdStop() throws Exception {
         //TO-DO
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
+        lastCmd.command = STOP;
     }
 
     private String intToBits(int a) {
