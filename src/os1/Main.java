@@ -16,18 +16,11 @@ import os1.Memory.Stack;
 import os1.Memory.VMMemory;
 
 public class Main {
-
-	public static void main(String args[]) {
-
-		CPU cpu = new CPU();
-		RMMemory rmm = new RMMemory(cpu);
-		VMMemory vmm = rmm.createVMMemory(16);
-		Interpreter interpreter = new Interpreter();
-		Stack stack = new Stack(cpu, vmm);
-                ProgramExecutor pe = new ProgramExecutor(cpu, vmm, stack, true);
+	
+	public String getProgram(String fileName) {
 		BufferedReader file = null;
 		try {
-			file = new BufferedReader(new FileReader("program.txt"));
+			file = new BufferedReader(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -37,32 +30,32 @@ public class Main {
 			while ((line = file.readLine()) != null) {
 				programCode += line + '\n';
 			}
+			file.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		CommandsConverter cc = new CommandsConverter(programCode, cpu, vmm);
-		String[] sourceCode = cc.getCommands();
+		return programCode;
+	}
+
+	public static void main(String args[]) {
 		
+		Main main = new Main();
+		
+		String programCode = main.getProgram("program.txt");
+		
+		Core core = new Core();
 		
 		try {
-			int[] commandsByteCode = interpreter.interpret(sourceCode);
-			int blocksNeed = commandsByteCode.length / 16;
-			if (commandsByteCode.length % 16 > 0) {
-				blocksNeed++;
-			}
-			cpu.setCS((short) (16 - blocksNeed));
-			cpu.setIP((short)0);
-			for (int i = 0; i < commandsByteCode.length; i++) {
-				System.out.println(commandsByteCode[i]);
-				vmm.setValue(16 * cpu.getCS() + i, commandsByteCode[i]);
-			}			
-			cpu.setDS((short)0);
-			cpu.setSS((short) ((16 - cpu.getCS()) / 2));
+			core.loadProgram(programCode);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-                pe.execute();
+		
+		core.startVM(false);
+		
+
+
                 
 		
 	}
