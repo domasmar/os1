@@ -3,7 +3,10 @@ package os1.CommandsConverter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import os1.CPU.CPU;
 import os1.CommandsConverter.*;
+import os1.Memory.RMMemory;
+import os1.Memory.VMMemory;
 
 public class CommandsConverter {
 	
@@ -34,7 +37,12 @@ public class CommandsConverter {
 	private String[] sourceCode;
 	private String[] commands;
 	
-	public CommandsConverter(String sourceCode) {
+	private CPU cpu;
+	private VMMemory vmm;
+	
+	public CommandsConverter(String sourceCode, CPU cpu, VMMemory vmm) {
+		this.cpu = cpu;
+		this.vmm = vmm;
 		saveSourceCode(sourceCode);
 		saveCommands();
 		saveVariables();
@@ -55,7 +63,7 @@ public class CommandsConverter {
 		return this.labels;
 	}
 	
-	/* Ið paduoto pirminio kodo teksto paðalina visas tuðèias eilutes ir tarpus bei á masyvà "sourceCode" áraðo kiekvienà pirminio kodo eilutæ */
+	/* Ið paduoto pirminio kodo teksto paðalina visas tuðèias eilutes ir tarpus bei á masyvà "sourceCode" áraðo pirminio kodo eilutæs. */
 	private void saveSourceCode(String sourceCode) {
 		String tidySourceCode = sourceCode.replaceAll("(?m)^[ \t]*\r?\n", "").trim();
 		this.sourceCode = tidySourceCode.split("\n");
@@ -65,20 +73,23 @@ public class CommandsConverter {
 		return this.commands;
 	}
 	
-	/* Á sàraðà iðsaugo tik tas pirminio kodo eilutes, kuriose yra komandos */
+	/* Á sàraðà iðsaugo tik tas pirminio kodo eilutes, kuriose yra komandos. Gràþina komandø masyvà. */
 	private void saveCommands() {
 		ArrayList<String> commands = new ArrayList<String>();
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
 			for (int j = 0; j < machineCommands.length - 1; j++) {
-				if (sourceCode[i].contains(machineCommands[j])) {
+				if (this.sourceCode[i].contains(machineCommands[j])) {
 					commands.add(this.sourceCode[i]);
+					if (this.sourceCode[i].contains("MOV")) {
+						commands.add("");
+					}
 				}
 			}
 		}
 		this.commands = commands.toArray(new String[commands.size()]);
 	}
 	
-	/* Á HashMap iðsaugomi kintamieji ir jø reikðmës (pvz.: this.data.get("var1") = FFFF) */
+	/* Á sàraðà iðsaugomi kintamieji ir jø reikðmës. */
 	private void saveVariables() {
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
 			if (this.sourceCode[i].contains("DEF")) {
@@ -87,9 +98,12 @@ public class CommandsConverter {
 				this.variables.add(variable);
 			}
 		}
+		for (int i = 0; i <= this.variables.size() - 1; i++) {
+			vmm.setValue(cpu.getDS() + i, this.variables.get(i).getValue());
+		}
 	}
 	
-	/* Á sàraðà sudedami visi JUMP, JA, JB, JE komandø rasti kintamieji */
+	/* Á sàraðà sudedami visi JUMP, JA, JB, JE komandø rasti kintamieji. */
 	private ArrayList<String> findJumpVariables() {
 		int j = 0;
 		ArrayList<String> variables = new ArrayList<String>();
@@ -104,6 +118,7 @@ public class CommandsConverter {
 		return variables;
 	}
 	
+	/* Á „Label“ tipo elementø sàraðà áraðom visi label'iai ir jø eilutës. */
 	private void saveLabels(ArrayList<String> labels) {
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
 			for (int j = 0; j <= labels.size() - 1; j++) {
@@ -119,6 +134,7 @@ public class CommandsConverter {
 		}
 	}
 	
+	/* Komanduose esanèius kintamuosius pakeièia adresais duomenø segmente. */
 	private void replaceVarNameWithAddress() {
 		for (int i = 0; i <= this.commands.length - 1; i++) {
 			for (int j = 0; j <= this.variables.size() - 1; j++) {
@@ -129,6 +145,7 @@ public class CommandsConverter {
 		}
 	}
 	
+	/* Komanduose esanèius label'ius pakeièia adresais kodo segmente. */
 	private void replaceLabelNameWithAddress() {
 		for (int i = 0; i <= this.commands.length - 1; i++) {
 			for (int j = 0; j <= this.labels.size() - 1; j++) {
