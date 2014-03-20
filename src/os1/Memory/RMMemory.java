@@ -7,9 +7,11 @@ public class RMMemory {
 	private final Memory memory;
 
 	private CPU cpu;
-
+	private int size;
+	
 	public RMMemory(CPU cpu) {
 		this.cpu = cpu;
+		this.setSize(1024);
 		this.memory = new Memory(1024, 16);
 	}
 
@@ -25,7 +27,7 @@ public class RMMemory {
 			e.printStackTrace();
 		}
 		cpu.setPTR(ptr);
-		return new VMMemory(this, cpu);
+		return new VMMemory(this, cpu, blocks * 16);
 	}
 
 	public int getValue(int adress) {
@@ -38,6 +40,14 @@ public class RMMemory {
 
 	public Memory getMemory() {
 		return memory;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 }

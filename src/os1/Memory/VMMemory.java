@@ -6,10 +6,12 @@ public class VMMemory {
 
 	private RMMemory memory;
 	private CPU cpu;
+	private int size;
 
-	public VMMemory(RMMemory memory, CPU cpu) {
+	public VMMemory(RMMemory memory, CPU cpu, int size) {
 		this.memory = memory;
 		this.cpu = cpu;
+		this.setSize(size);
 	}
 
 	public int getValue(int index) {
@@ -36,6 +38,14 @@ public class VMMemory {
 			cpu.setPI((byte) 1);
 			throw new RuntimeException("PI = 1");
 		}
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 }
