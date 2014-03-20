@@ -23,10 +23,9 @@ public class ProgramExecutor {
         this.memory = virtualMemory;
         this.stack = stack;
         this.debug = debug;
-        execute();
     }
 
-    private void execute() {
+    public void execute() {
         boolean proceed = true;
         while (proceed) {
             try {
