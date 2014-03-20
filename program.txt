@@ -1,0 +1,12 @@
+labas DEF 8910
+krabas DEF 1234
+as DEF 4567
+
+
+MOV ax, 1234
+STO ax, labas
+PUSH as
+PUSH krabas
+ADD
+POP labas
+STOP
