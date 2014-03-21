@@ -17,8 +17,10 @@ public class CPU {
 	private TimerRegister TIMER;
 	
 	private StatusRegister C;
-        
-	private LogicalRegister[] CHST;
+	
+	private LogicalRegister CHST0;
+	private LogicalRegister CHST1;
+	private LogicalRegister CHST2;
 	private LogicalRegister MODE;
 	
 	private InterruptRegister PI;
@@ -42,7 +44,10 @@ public class CPU {
 		this.TIMER = new TimerRegister(30);
 		
 		this.C = new StatusRegister();
-		this.CHST = new LogicalRegister[3];
+		
+		this.CHST0 = new LogicalRegister();
+		this.CHST1 = new LogicalRegister();
+		this.CHST2 = new LogicalRegister();
 		this.MODE = new LogicalRegister();
 		
 		this.PI = new InterruptRegister();
@@ -50,10 +55,6 @@ public class CPU {
 		this.IOI = new InterruptRegister();
 		this.TI = new InterruptRegister();
 		this.STI = new InterruptRegister();
-		
-		this.CHST[0] = new LogicalRegister();
-		this.CHST[1] = new LogicalRegister();
-		this.CHST[2] = new LogicalRegister();
 		
 	}
 	
@@ -70,9 +71,9 @@ public class CPU {
 			  + "SS = " + getSS() + "\n"
 			  + "TIMER = " + getTIMER() + "\n"
 			  + "C = " + getC() + "\n"
-			  + "CHST[0] = " + getCHST((byte) 0) + "\n"
-			  + "CHST[1] = " + getCHST((byte) 1) + "\n"
-			  + "CHST[2] = " + getCHST((byte) 2) + "\n"
+			  + "CHST[0] = " + getCHST0() + "\n"
+			  + "CHST[1] = " + getCHST1() + "\n"
+			  + "CHST[2] = " + getCHST2() + "\n"
 			  + "MODE = " + getMODE() + "\n"
 			  + "PI = " + getPI() + "\n"
 			  + "SI = " + getSI() + "\n"
@@ -170,12 +171,28 @@ public class CPU {
 		this.C.setValue(value);
 	}
 	
-	public boolean getCHST(byte index) {
-		return this.CHST[index].getValue();
+	public boolean getCHST0() {
+		return this.CHST0.getValue();
 	}
 	
-	public void setCHST(byte index, boolean value) {
-		this.CHST[index].setValue(value);
+	public boolean getCHST1() {
+		return this.CHST1.getValue();
+	}
+	
+	public boolean getCHST2() {
+		return this.CHST2.getValue();
+	}
+	
+	public void setCHST0(boolean value) {
+		this.CHST0.setValue(value);
+	}
+	
+	public void setCHST1(boolean value) {
+		this.CHST1.setValue(value);
+	}
+	
+	public void setCHST2(boolean value) {
+		this.CHST2.setValue(value);
 	}
 	
 	public boolean getMODE() {
