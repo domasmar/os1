@@ -73,6 +73,7 @@ public class CommandsConverter {
 		return this.commands;
 	}
 	
+	
 	/* Á sàraðà iðsaugo tik tas pirminio kodo eilutes, kuriose yra komandos. Gràþina komandø masyvà. */
 	private void saveCommands() {
 		ArrayList<String> commands = new ArrayList<String>();
