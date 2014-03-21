@@ -23,6 +23,7 @@ public class ProgramExecutor {
         this.cpu = cpu;
         this.memory = virtualMemory;
         this.stack = stack;
+        this.lastCmd = new CmdWithVar();
     }
 
     public boolean executeNext() {
@@ -334,4 +335,10 @@ public class ProgramExecutor {
         }
         return bits;
     }
+    
+    public String getLastCommand() {
+    	return this.lastCmd.command + " " + this.lastCmd.variable;
+    		    	
+    }
+    
 }
