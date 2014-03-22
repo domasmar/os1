@@ -22,7 +22,7 @@ public class Stack {
             throw new Exception("Stack is full!");
         }
         cpu.setSP((short) (cpu.getSP() + 1));
-        memory.setValue(cpu.getSS() + cpu.getSP(), value);
+        memory.setValue(cpu.getSS() + cpu.getSP(), memory.getValue(value));
     }
     
     public int pop(int addrDS) throws Exception {
