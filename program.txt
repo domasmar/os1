@@ -1,12 +1,8 @@
-labas DEF 8910
-krabas DEF 1234
-as DEF 4567
+vienas DEF 1
+nulis DEF 0
 
-
-MOV ax, 1234
-STO ax, labas
-PUSH as
-PUSH krabas
+PUSH nulis
+pradzia
+PUSH vienas
 ADD
-POP labas
-STOP
+JMP pradzia

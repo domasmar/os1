@@ -28,13 +28,13 @@ public class Core {
 	private CpuGUI cpuGUI;
 
 	public Core() {
+		VMLogger.init();
 		cpu = new CPU();
 		rmm = new RMMemory(cpu);
 		vmm = rmm.createVMMemory(16);
 		interpreter = new Interpreter();
 		stack = new Stack(cpu, vmm);
 		programExecutor = new ProgramExecutor(cpu, vmm, stack);
-
 	}
 
 	public void loadProgram(String program) throws Exception {

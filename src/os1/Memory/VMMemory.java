@@ -24,7 +24,6 @@ public class VMMemory {
 
 	public int getValue(int index) {
 		if (index / 16 <= cpu.getPTR() / (16 * 16)) {
-			//System.out.println("Virtualus: " + index + " Realus: " + getRealAddress(index));
 			return memory.getValue(getRealAddress(index));
 		} else {
 			cpu.setPI((byte) 1);

@@ -18,7 +18,7 @@ public class CommandsConverter {
 		"ADD",
 		"SUB",
 		"CMP",
-		"JUMP",
+		"JMP",
 		"JA",
 		"JB",
 		"JE",
@@ -108,7 +108,7 @@ public class CommandsConverter {
 	private ArrayList<String> findJumpVariables() {
 		ArrayList<String> variables = new ArrayList<String>();
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
-			if (this.sourceCode[i].contains("JUMP") ||
+			if (this.sourceCode[i].contains("JMP") ||
 					this.sourceCode[i].contains("JA") ||
 					this.sourceCode[i].contains("JB") ||
 					this.sourceCode[i].contains("JE")) {
