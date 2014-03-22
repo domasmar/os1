@@ -76,18 +76,28 @@ public class Core {
 	}
 
 	public void executeNext() {
-		if (programExecutor.executeNext()) {
-			this.updateGUI();
-			VMLogger.newMessage("Command executed: " + this.getLastCommand());
-		} else {
-			VMLogger.newMessage("The end");
+		try {
+			if (programExecutor.executeNext()) {
+				this.updateGUI();
+				VMLogger.newMessage("Command executed: " + this.getLastCommand());
+			} else {
+				VMLogger.newMessage("The end");	
+			}
+		} catch (Exception e) {
+			VMLogger.newErrorMessage("ERROR: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
 	public void executeAll() {
-		while (programExecutor.executeNext()) {
-			this.updateGUI();
-			VMLogger.newMessage("Command executed: " + this.getLastCommand());
+		try {
+			while (programExecutor.executeNext()) {
+				this.updateGUI();
+				VMLogger.newMessage("Command executed: " + this.getLastCommand());
+			}
+		} catch (Exception e) {
+			VMLogger.newErrorMessage("ERROR: " + e.getMessage());
+			e.printStackTrace();
 		}
 		VMLogger.newMessage("The end");
 	}
