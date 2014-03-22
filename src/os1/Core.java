@@ -109,7 +109,6 @@ public class Core {
 	private void allocateMemorySegments() {
 		int blocksNeed = interpreter.getProgramSize() / 16;
 		blocksNeed += interpreter.getProgramSize() % 16 > 0 ? 1 : 0;
-		System.out.println();
 		cpu.setCS((short) ((16 - blocksNeed) * 16));
 		cpu.setIP((short) 0);
 		cpu.setDS((short) 0);
