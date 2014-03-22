@@ -17,7 +17,7 @@ public class Stack {
     }
     
     public void push(int value) throws Exception {
-        if (cpu.getSS() + cpu.getSP() <= cpu.getCS()) {
+        if (cpu.getSS() + cpu.getSP() >= cpu.getCS()) {
             cpu.setSTI((byte) 1);
             throw new Exception("Stack is full!");
         }
