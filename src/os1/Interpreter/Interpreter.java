@@ -7,6 +7,8 @@ public class Interpreter {
 	public static final int MAX_CS_SIZE = 256;
 
 	private CmdWithVar[] cmdWithVar = new CmdWithVar[MAX_CS_SIZE];
+
+	private int programSize;
 	
 	public int[] interpret(String[] commandsArray) throws Exception {
 		int commandNr = 0;
@@ -41,6 +43,9 @@ public class Interpreter {
 				}
 			}
 		}
+		
+		this.setProgramSize(commandNr);
+		
 		return commandsIntArray;
 	}
 	
@@ -356,5 +361,15 @@ public class Interpreter {
 	// public void setAdrO(byte adrO) {
 	// this.adrO = adrO;
 	// }
+
+
+	public int getProgramSize() {
+		return programSize;
+	}
+
+
+	public void setProgramSize(int programSize) {
+		this.programSize = programSize;
+	}
 
 }
