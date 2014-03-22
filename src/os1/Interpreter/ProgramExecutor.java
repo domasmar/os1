@@ -3,7 +3,9 @@ package os1.Interpreter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import os1.CPU.CPU;
+import os1.GUI.VMLogger;
 import static os1.Interpreter.Command.*;
 import os1.Memory.Stack;
 import os1.Memory.VMMemory;
@@ -42,7 +44,7 @@ public class ProgramExecutor {
         String valueBits = bits.substring(8, 16);
         int cmdInt = (byte) Integer.parseInt(cmdBits, 2);
         int valueInt = Integer.parseInt(valueBits, 2);
-
+        
         if (cmdInt == CommandBytecode.ADD) {
             cmdAdd();
             return true;
@@ -342,6 +344,9 @@ public class ProgramExecutor {
 
     private String intToBits(int a) {
         String bits = Integer.toBinaryString(a);
+        if (bits.length() == 15) {
+        	bits = "0" + bits;
+        }
 
         int length = bits.length();
         int diffLength = 32 - length;
