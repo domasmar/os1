@@ -28,23 +28,15 @@ public class ProgramExecutor {
         this.lastCmd = new CmdWithVar();
     }
 
-    public boolean executeNext() throws Exception {
-        try {
-            return recognizeCommand();
-        } catch (Exception ex) {
-            Logger.getLogger(ProgramExecutor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    private boolean recognizeCommand() throws Exception {
+    private boolean executeNext() throws Exception {
         int word = memory.getValue(cpu.getCS() + cpu.getIP());
         String bits = intToBits(word);
         String cmdBits = bits.substring(0, 8);
         String valueBits = bits.substring(8, 16);
         int cmdInt = (byte) Integer.parseInt(cmdBits, 2);
         int valueInt = Integer.parseInt(valueBits, 2);
-        
+        System.out.println(cmdBits + " " + valueBits);
+
         if (cmdInt == CommandBytecode.ADD) {
             cmdAdd();
             return true;
@@ -226,7 +218,7 @@ public class ProgramExecutor {
     }
 
     private void cmdJa(int variable) throws Exception {
-        if ((variable >= 255) || (variable < cpu.getCS())) {
+        if (((cpu.getCS() + variable) >= 255) || (variable < 0)) {
             throw new Exception("Jump is out of bounds!");
         }
 
@@ -238,7 +230,7 @@ public class ProgramExecutor {
     }
 
     private void cmdJmp(int variable) throws Exception {
-        if ((variable >= 255) || (variable < cpu.getCS())) {
+        if (((cpu.getCS() + variable) >= 255) || (variable < 0)) {
             throw new Exception("Jump is out of bounds!");
         }
         cpu.setIP((short) variable);
@@ -248,7 +240,7 @@ public class ProgramExecutor {
     }
 
     private void cmdJb(int variable) throws Exception {
-        if ((variable >= 255) || (variable < cpu.getCS())) {
+        if (((cpu.getCS() + variable) >= 255) || (variable < 0)) {
             throw new Exception("Jump is out of bounds!");
         }
 
@@ -260,7 +252,7 @@ public class ProgramExecutor {
     }
 
     private void cmdJe(int variable) throws Exception {
-        if ((variable >= 255) || (variable < cpu.getCS())) {
+        if (((cpu.getCS() + variable) >= 255) || (variable < 0)) {
             throw new Exception("Jump is out of bounds!");
         }
 
@@ -272,7 +264,7 @@ public class ProgramExecutor {
     }
 
     private void cmdJne(int variable) throws Exception {
-        if ((variable >= 255) || (variable < cpu.getCS())) {
+        if (((cpu.getCS() + variable) >= 255) || (variable < 0)) {
             throw new Exception("Jump is out of bounds!");
         }
 
@@ -345,7 +337,7 @@ public class ProgramExecutor {
     private String intToBits(int a) {
         String bits = Integer.toBinaryString(a);
         if (bits.length() == 15) {
-        	bits = "0" + bits;
+            bits = "0" + bits;
         }
 
         int length = bits.length();
