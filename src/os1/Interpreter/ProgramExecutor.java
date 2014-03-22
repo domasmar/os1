@@ -28,7 +28,7 @@ public class ProgramExecutor {
         this.lastCmd = new CmdWithVar();
     }
 
-    private boolean executeNext() throws Exception {
+    public boolean executeNext() throws Exception {
         int word = memory.getValue(cpu.getCS() + cpu.getIP());
         String bits = intToBits(word);
         String cmdBits = bits.substring(0, 8);
