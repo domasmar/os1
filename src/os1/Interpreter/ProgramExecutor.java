@@ -26,7 +26,7 @@ public class ProgramExecutor {
         this.lastCmd = new CmdWithVar();
     }
 
-    public boolean executeNext() {
+    public boolean executeNext() throws Exception {
         try {
             return recognizeCommand();
         } catch (Exception ex) {
