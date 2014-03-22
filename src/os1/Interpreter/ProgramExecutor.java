@@ -42,7 +42,7 @@ public class ProgramExecutor {
         String valueBits = bits.substring(8, 16);
         int cmdInt = (byte) Integer.parseInt(cmdBits, 2);
         int valueInt = Integer.parseInt(valueBits, 2);
-        
+
         if (cmdInt == CommandBytecode.ADD) {
             cmdAdd();
             return true;
@@ -117,6 +117,11 @@ public class ProgramExecutor {
 
         if (cmdInt == CommandBytecode.JE) {
             cmdJe(valueInt);
+            return true;
+        }
+
+        if (cmdInt == CommandBytecode.JMP) {
+            cmdJmp(valueInt);
             return true;
         }
 
@@ -230,6 +235,16 @@ public class ProgramExecutor {
         lastCmd.variable = variable;
     }
 
+    private void cmdJmp(int variable) throws Exception {
+        if ((variable >= 255) || (variable < cpu.getCS())) {
+            throw new Exception("Jump is out of bounds!");
+        }
+        cpu.setIP((short) variable);
+
+        lastCmd.command = JMP;
+        lastCmd.variable = variable;
+    }
+
     private void cmdJb(int variable) throws Exception {
         if ((variable >= 255) || (variable < cpu.getCS())) {
             throw new Exception("Jump is out of bounds!");
@@ -335,10 +350,10 @@ public class ProgramExecutor {
         }
         return bits;
     }
-    
+
     public String getLastCommand() {
-    	return this.lastCmd.command + " " + this.lastCmd.variable;
-    		    	
+        return this.lastCmd.command + " " + this.lastCmd.variable;
+
     }
-    
+
 }

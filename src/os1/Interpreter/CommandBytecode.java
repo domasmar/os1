@@ -17,6 +17,7 @@ public class CommandBytecode {
     protected static final byte ADD = (byte) 0b1000_0100;
     protected static final byte SUB = (byte) 0b1000_0101;
     protected static final byte CMP = (byte) 0b1000_0111;
+    protected static final byte JMP = (byte) 0b0100_0100;
     protected static final byte JA = (byte) 0b0100_0000;
     protected static final byte JB = (byte) 0b0100_0001;
     protected static final byte JE = (byte) 0b0100_0010;

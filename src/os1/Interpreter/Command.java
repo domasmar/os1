@@ -13,6 +13,7 @@ public enum Command {
 	ADD, // 2 viršutinių elementų suma -> AX
 	SUB, // 2 viršutinių elementų skirtumas -> AX
 	CMP,
+        JMP,
 	JA, // jump if above
 	JB, // jump if below
 	JE, // jump if equal
