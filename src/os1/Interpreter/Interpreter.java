@@ -238,14 +238,6 @@ public class Interpreter {
 
 			if (opc.equalsIgnoreCase("je")) {
 				if (loadRemainderIfValid(remainder, cmd, 2)) {
-					cmd.commandOpc = CommandBytecode.JB;
-					cmd.command = Command.JB;
-					return cmd;
-				}
-			}
-
-			if (opc.equalsIgnoreCase("je")) {
-				if (loadRemainderIfValid(remainder, cmd, 2)) {
 					cmd.commandOpc = CommandBytecode.JE;
 					cmd.command = Command.JE;
 					return cmd;
@@ -260,6 +252,14 @@ public class Interpreter {
 				}
 			}
 
+			if (opc.equalsIgnoreCase("jmp")) {
+				if (loadRemainderIfValid(remainder, cmd, 2)) {
+					cmd.commandOpc = CommandBytecode.JMP;
+					cmd.command = Command.JMP;
+					return cmd;
+				}
+			}
+			
 			if (opc.equalsIgnoreCase("outm")) {
 				if (loadRemainderIfValid(remainder, cmd, 2)) {
 					cmd.commandOpc = CommandBytecode.OUTM;

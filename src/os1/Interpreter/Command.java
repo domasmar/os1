@@ -10,9 +10,10 @@ public enum Command {
 	STO_BX,
 	PUSH, 
 	POP,
-	ADD, // 2 viršutinių elementų suma -> AX
-	SUB, // 2 viršutinių elementų skirtumas -> AX
+	ADD, // 2 virÅ�utiniÅ³ elementÅ³ suma -> AX
+	SUB, // 2 virÅ�utiniÅ³ elementÅ³ skirtumas -> AX
 	CMP,
+	JMP,
 	JA, // jump if above
 	JB, // jump if below
 	JE, // jump if equal
