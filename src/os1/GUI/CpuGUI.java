@@ -2,6 +2,8 @@ package os1.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,11 +13,8 @@ import javax.swing.JTextField;
 
 import os1.CPU.CPU;
 
-public class CpuGUI {
-
-	private CPU cpu;
-	private JFrame frame;
-
+public class CpuGUI extends TableGUI {
+	
 	private CPUInformationInterface[] cpuInformation = new CPUInformationInterface[] { 
 			new CPUInformationInterface() {
 				public String getName() { return "AX"; }
@@ -114,31 +113,34 @@ public class CpuGUI {
 			}, 
 			
 	};
-
+	
+	private CPU cpu;
+	
 	public CpuGUI(CPU cpu) {
+		super("CPU", 130);
+		this.setColumnNames(new String[] {"Name", "Value"});
 		this.cpu = cpu;
-		frame = new JFrame("CPU registers");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setLayout(new GridLayout(5, 4));
-		initAndAddToForm();
-		frame.pack();
-		frame.setVisible(true);
+		super.initList();
 	}
 
-	private void initAndAddToForm() {
-		for (int i = 0; i < cpuInformation.length; i++) {
-			JPanel panel = new JPanel();
-			panel.setSize(200, 20);
-			
-			JLabel label = new JLabel(cpuInformation[i].getName());
-			label.setHorizontalAlignment(JLabel.LEFT);
-			panel.add(label);
-			
-			JTextField textField = new JTextField(cpuInformation[i].getValue() + "", 5);
-			panel.add(textField);
-			frame.add(panel);
-		}
-		frame.add(new JButton("Update"));
+	@Override
+	protected int getInfo(int index) {
+		return cpuInformation[index].getValue();
+	}
+
+	@Override
+	protected int getSize() {
+		return cpuInformation.length;
+	}
+
+	@Override
+	protected void setValue(int index, int value) {
+		cpuInformation[index].setValue(value);
+	}
+
+	@Override
+	protected String getName(int index) {
+		return cpuInformation[index].getName();
 	}
 
 }
