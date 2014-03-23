@@ -33,7 +33,6 @@ public class Stack {
         int value = memory.getValue(cpu.getSS() + cpu.getSP());
         cpu.setSP((short) (cpu.getSP() - 1));     
         memory.setValue(addrDS, value);
-        
         return value;
     }
 }
