@@ -18,6 +18,7 @@ import os1.Interpreter.ProgramExecutor;
 import os1.Memory.RMMemory;
 import os1.Memory.Stack;
 import os1.Memory.VMMemory;
+import os1.PeripheralDevices.OutputDevice;
 
 public class Core {
 
@@ -84,7 +85,8 @@ public class Core {
 	public void loadVM(String program) {
 		VMMemory vmm = rmm.createVMMemory(16);
 		Stack stack = new Stack(cpu, vmm);
-		ProgramExecutor programExecutor = new ProgramExecutor(cpu, vmm, stack);		
+                OutputDevice output = new OutputDevice();
+		ProgramExecutor programExecutor = new ProgramExecutor(cpu, vmm, stack, output);		
 		
 		vm = new VM(vmm, stack, programExecutor, this);
 		
@@ -103,7 +105,7 @@ public class Core {
 		} 
 		updateGUI();
 		mainGUI.addMem((new VMMemoryGUI(vmm)).getPanel());
-		VMLogger.newSuccessMessage("Programa sekmingai uþkrauta!");
+		VMLogger.newSuccessMessage("Programa sekmingai uï¿½krauta!");
 	}
 	
 	private void allocateMemorySegments() {
