@@ -36,9 +36,7 @@ public class InputDevice {
 			}
 			fileReader.close();
 			contents = stringBuffer.toString();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) {}
 		return contents;
 	}
 	
