@@ -26,7 +26,7 @@ public class VM {
 				VMLogger.newMessage("Command executed: "
 						+ this.getLastCommand());
 			} else {
-				VMLogger.newMessage("The end");
+				stop();
 			}
 			core.getInterruptChecker().checkInterrupts();
 		} catch (Exception e) {
@@ -44,14 +44,22 @@ public class VM {
 				core.getInterruptChecker().checkInterrupts();
 			}
 		} catch (Exception e) {
+			stop();
 			VMLogger.newErrorMessage("ERROR: " + e.getMessage());
 			e.printStackTrace();
 		}
-		VMLogger.newMessage("The end");
 	}
 	
 	public void stop() {
-		VMLogger.newSuccessMessage("VM stopped");
+		for (int i = 0; i < vmm.getSize(); i++) {
+			vmm.setValue(i, 0);
+		}
+		try {
+			VMLogger.newSuccessMessage("VM stopped");
+			core.destroyVM();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}		
 	}
 
 	public String getLastCommand() {

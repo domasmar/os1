@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import os1.CPU.CPU;
@@ -18,7 +19,10 @@ import os1.Interpreter.ProgramExecutor;
 import os1.Memory.RMMemory;
 import os1.Memory.Stack;
 import os1.Memory.VMMemory;
+import os1.PeripheralDevices.HDD;
+import os1.PeripheralDevices.InputDevice;
 import os1.PeripheralDevices.OutputDevice;
+import os1.PeripheralDevices.Serialization;
 
 public class Core {
 
@@ -32,12 +36,13 @@ public class Core {
 	private CpuGUI cpuGUI;
 	private VM vm;
 	private InterruptChecker ic;
+	private HDD hdd;
 
 	public Core() {
 		VMLogger.init();
 		cpu = new CPU();
-		rmm = new RMMemory(cpu);		
-		interpreter = new Interpreter();		
+		rmm = new RMMemory(cpu);
+		interpreter = new Interpreter();
 		ic = new InterruptChecker(this);
 		initGUI();
 	}
@@ -60,36 +65,62 @@ public class Core {
 
 		mainGUI.setVisible(true);
 	}
-	
-	public void loadFromExternalFile(String path) {
-		BufferedReader file = null;
-		try {
-			file = new BufferedReader(new FileReader(path));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		String programCode = "";
-		String line;
-		try {
-			while ((line = file.readLine()) != null) {
-				programCode += line + '\n';
+
+	public void loadHDD() {
+		hdd = Serialization.deserializeMemory();
+		if (hdd == null) {
+			VMLogger.newErrorMessage("Nepavyko užkrauti HDD");
+			VMLogger.newMessage("Kuriame tuščia HDD");
+			Serialization.serializeMemory(new HDD());
+			loadHDD();
+		} else {
+			try {
+				VMLogger.newSuccessMessage("HDD sekmingai užkrautas. Užkrauti failai: "
+						+ hdd.getFilesList().length);
+				mainGUI.loadHddData(hdd.getFilesList());
+			} catch (UnsupportedEncodingException e) {
+				VMLogger.newErrorMessage("HDD užkrauti nepavyko, nes jame raste neatpažintų simbolių");
 			}
-			file.close();
-		} catch (IOException e) {
-			VMLogger.newErrorMessage(e.getMessage());
 		}
-		
-		loadVM(programCode);
 	}
-	
-	public void loadVM(String program) {
+
+	public void loadFromExternalFile(String path) {
+		try {
+			int l = hdd.getFilesList().length;
+			new InputDevice(path, cpu, hdd);
+			VMLogger.newSuccessMessage("\"Flash užkrautas\". Įkelta failų: "
+					+ (hdd.getFilesList().length - l));
+			mainGUI.loadHddData(hdd.getFilesList());
+			Serialization.serializeMemory(hdd);
+		} catch (Exception e) {
+			VMLogger.newSuccessMessage("\"Flash užkrauti nepavyko\".");
+		}
+	}
+
+	public void loadVM(int index) {
+		if (vm != null) {
+			VMLogger.newErrorMessage("Negalima užkrauti kelių programų vienu metu");
+			return;
+		}
+		String fileName;
+		String program = "";
+		try {
+			fileName = hdd.getFilesList()[index];
+			program = hdd.get(fileName).getFileContent();
+		} catch (UnsupportedEncodingException e1) {
+			VMLogger.newErrorMessage("Įvyko klaida");
+		} catch (Exception e1) {
+			VMLogger.newErrorMessage("Įvyko klaida");
+		}
+
 		VMMemory vmm = rmm.createVMMemory(16);
 		Stack stack = new Stack(cpu, vmm);
-                OutputDevice output = new OutputDevice();
-		ProgramExecutor programExecutor = new ProgramExecutor(cpu, vmm, stack, output);		
-		
+		OutputDevice output = new OutputDevice();
+		ProgramExecutor programExecutor = new ProgramExecutor(cpu, vmm, stack,
+				output);
+
 		vm = new VM(vmm, stack, programExecutor, this);
-		
+
 		CommandsConverter cc = null;
 		try {
 			cc = new CommandsConverter(program, cpu, vmm);
@@ -99,15 +130,16 @@ public class Core {
 
 			for (int i = 0; i < interpreter.getProgramSize(); i++) {
 				vmm.setValue(cpu.getCS() + i, commandsByteCode[i]);
-			}			
+			}
 		} catch (Exception e) {
 			VMLogger.newErrorMessage(e.getMessage());
-		} 
+		}
 		updateGUI();
-		mainGUI.addMem((new VMMemoryGUI(vmm)).getPanel());
-		VMLogger.newSuccessMessage("Programa sekmingai u�krauta!");
+		vmmGUI = new VMMemoryGUI(vmm);
+		mainGUI.addMem(vmmGUI.getPanel());
+		VMLogger.newSuccessMessage("Programa sekmingai užkrauta!");
 	}
-	
+
 	private void allocateMemorySegments() {
 		int blocksNeed = interpreter.getProgramSize() / 16;
 		blocksNeed += interpreter.getProgramSize() % 16 > 0 ? 1 : 0;
@@ -116,17 +148,22 @@ public class Core {
 		cpu.setDS((short) 0);
 		cpu.setSS((short) (cpu.getCS() / 2));
 	}
-	
+
 	public VM getVM() {
 		return this.vm;
 	}
-	
+
 	public CPU getCPU() {
 		return this.cpu;
 	}
-	
+
 	public InterruptChecker getInterruptChecker() {
 		return this.ic;
+	}
+
+	public void destroyVM() {
+		vm = null;
+		
 	}
 
 }

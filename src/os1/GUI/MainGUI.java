@@ -34,6 +34,7 @@ public class MainGUI {
 	private JPanel loggerPanel;
 	private final JFileChooser fc = new JFileChooser();
 	private DefaultTableModel tableModel;
+	private JTable table;
 
 	private ActionListener runByBabySteps = new ActionListener() {
 		@Override
@@ -64,14 +65,18 @@ public class MainGUI {
 			core.loadHDD();
 		}
 	};
-	
+
 	private ActionListener loadSelectedFile = new ActionListener() {
-@Override
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-		}		
+			if (table.getSelectedRowCount() == 1) {
+				core.loadVM(table.getSelectedRow());
+			} else {
+				JOptionPane.showMessageDialog(null, "Pasirinkite 1 programà kuria uþkrauti");
+			}
+		}
 	};
-	
+
 	private ActionListener loadVM = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -125,7 +130,7 @@ public class MainGUI {
 
 		JButton loadProgramButton = new JButton("Load \"Flash\"");
 		loadProgramButton.addActionListener(loadVM);
-		
+
 		buttonsPanel.add(oneStopButton);
 		buttonsPanel.add(allStepsButton);
 		buttonsPanel.add(loadHDDButton);
@@ -138,10 +143,10 @@ public class MainGUI {
 		loggerPanel.add(buttonsPanel);
 
 		leftPanel.add(loggerPanel);
-		
+
 		addHDDTable();
 	}
-	
+
 	private void addHDDTable() {
 		JPanel hddPanel = new JPanel();
 		hddPanel.setLayout(new BoxLayout(hddPanel, BoxLayout.Y_AXIS));
@@ -154,28 +159,29 @@ public class MainGUI {
 
 		tableModel = new DefaultTableModel() {
 			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
-		JTable table = new JTable(tableModel);
+		table = new JTable(tableModel);
 		tableModel.addColumn("Failo pavadinimas");
-		
+
 		JScrollPane listScroller = new JScrollPane(table);
 		listScroller.setPreferredSize(new Dimension(300, 70));
-		
+
 		JPanel tablePanel = new JPanel();
 		tablePanel.add(listScroller);
-		
+
 		hddPanel.add(tablePanel);
 		hddPanel.add(buttonPanel);
 		leftPanel.add(hddPanel);
 	}
-	
+
 	public void loadHddData(String[] data) {
 		for (int i = 0; i < data.length; i++) {
-			Vector v = new Vector();
+			Vector<String> v = new Vector<String>();
 			v.add(data[i]);
 			tableModel.addRow(v);
 		}

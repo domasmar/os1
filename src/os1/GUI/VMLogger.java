@@ -55,7 +55,9 @@ public class VMLogger {
 
 	public static void newSuccessMessage(String message) {
 		sendMessage("<html><font face=\"consolas\" color=\"green\">" + message + "</font></html>");
-
 	}
 
+	public static void newVMMessage(String message) {
+		sendMessage("<html><font face=\"consolas\" color=\"orange\">" + message + "</font></html>");
+	}
 }
