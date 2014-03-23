@@ -58,11 +58,15 @@ public class InputDevice {
 					this.fileName = fileName;
 					this.fileContents = getFileContents(fileName);
 					SourceFile sf = new SourceFile(this.fileContents, this.fileName);
+					System.out.println(channelsDevice.channelIsAvailable((byte) 0) == 0);
 					if (channelsDevice.channelIsAvailable((byte) 0) == 0) {
 						channelsDevice.storeData(sf);
 					}
 				}
 			}
+		}
+		for (int i = 0; i < this.hdd.getFilesList().length; i++) {
+			System.out.println(this.hdd.getFilesList()[i]);
 		}
 	}
 

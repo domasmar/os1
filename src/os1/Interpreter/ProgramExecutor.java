@@ -9,6 +9,7 @@ import os1.GUI.VMLogger;
 import static os1.Interpreter.Command.*;
 import os1.Memory.Stack;
 import os1.Memory.VMMemory;
+import os1.PeripheralDevices.OutputDevice;
 
 /**
  *
@@ -19,13 +20,16 @@ public class ProgramExecutor {
     private CPU cpu;
     private VMMemory memory;
     private Stack stack;
+    private OutputDevice output;
     public CmdWithVar lastCmd;
+    
 
-    public ProgramExecutor(CPU cpu, VMMemory virtualMemory, Stack stack) {
+    public ProgramExecutor(CPU cpu, VMMemory virtualMemory, Stack stack, OutputDevice output) {
         this.cpu = cpu;
         this.memory = virtualMemory;
         this.stack = stack;
         this.lastCmd = new CmdWithVar();
+        this.output = output;
     }
 
     public boolean executeNext() throws Exception {
@@ -124,17 +128,17 @@ public class ProgramExecutor {
         }
 
         if (cmdInt == CommandBytecode.OUTR_AX) {
-            cmdOutrAx(valueInt);
+            cmdOutrAx();
             return true;
         }
 
         if (cmdInt == CommandBytecode.OUTR_BX) {
-            cmdOutrBx(valueInt);
+            cmdOutrBx();
             return true;
         }
 
         if (cmdInt == CommandBytecode.OUTM) {
-            cmdOutrBx(valueInt);
+            cmdOutM(valueInt);
             return true;
         }
         return false;
@@ -274,16 +278,26 @@ public class ProgramExecutor {
         lastCmd.variable = variable;
     }
 
-    private void cmdOutrAx(int variable) throws Exception {
-        //TO-DO
+    private void cmdOutrAx() throws Exception {
+        output.receiveData(cpu.getAX());
+        short nextCmdAddr = (short) (cpu.getIP() + 1);
+        cpu.setIP(nextCmdAddr);
+        lastCmd.command = OUTR_AX;
     }
 
-    private void cmdOutrBx(int variable) throws Exception {
-        //TO-DO
+    private void cmdOutrBx() throws Exception {
+        output.receiveData(cpu.getBX());
+        short nextCmdAddr = (short) (cpu.getIP() + 1);
+        cpu.setIP(nextCmdAddr);
+        lastCmd.command = OUTR_BX;
     }
 
     private void cmdOutM(int variable) throws Exception {
-        //TO-DO
+        output.receiveData(memory.getValue(variable));
+        short nextCmdAddr = (short) (cpu.getIP() + 1);
+        cpu.setIP(nextCmdAddr);
+        lastCmd.command = OUTM;
+        lastCmd.variable = variable;
     }
 
     private void cmdAdd() throws Exception {
@@ -327,7 +341,6 @@ public class ProgramExecutor {
     }
 
     private void cmdStop() throws Exception {
-        //TO-DO
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
         lastCmd.command = STOP;

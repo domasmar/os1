@@ -20,7 +20,7 @@ public class Serialization {
             out.close();
             fileOut.close();
         } catch (IOException i) {
-            i.printStackTrace();
+            //i.printStackTrace();
         }
     }
 
