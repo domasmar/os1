@@ -52,7 +52,6 @@ public class InputDevice {
 			if (this.listOfFiles[i].isFile()) {
 				fileName = this.listOfFiles[i].getName();
 				if (fileName.endsWith(".ltu") || (fileName.endsWith(".LTU"))) {
-					System.out.println(fileName);
 					this.fileName = fileName;
 					this.fileContents = getFileContents(this.listOfFiles[i].getAbsolutePath());
 					SourceFile sf = new SourceFile(this.fileContents, this.fileName);
