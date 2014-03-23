@@ -193,19 +193,19 @@ public class CommandsConverter {
 				if (this.sourceCode[i].contains("def")) {
 					definition = this.sourceCode[i].split(" ");
 					if (definition.length != 3) {
-						throw new Exception("Unidentified definition!");
+						throw new Exception("Unidentified definition! (line: " + i + ")");
 					}
 					for (int j = 0; j <= machineCommands.length - 1; j++) {
 						if (definition[0].equals(machineCommands[j])) {
-							throw new Exception("Variable name cannot be equal to any command's name (MOV, STO, etc.)!");
+							throw new Exception("Variable name cannot be equal to any command's name (MOV, STO, etc.)! (line: " + i + ")");
 						}
 					}
 					variables.add(definition[0]);
 					if (!definition[1].equals("def")) {
-						throw new Exception("Unidentified definition!");
+						throw new Exception("Unidentified definition! (line: " + i + ")");
 					}
 					if (!isNumeric(definition[2])) {
-						throw new Exception("Value of the variable must be an integer!");
+						throw new Exception("Value of the variable must be an integer! (line: " + i + ")");
 					}
 				}
 				/* Tikrinamos kitos pirminio kodo eilutės, sudarytos iš daugiau nei vieno žodžio. */
@@ -229,17 +229,17 @@ public class CommandsConverter {
 						operands[1] = arguments.split(",")[1].trim();
 						if (command.equals("mov") || command.equals("sto")) {
 							if (!operands[0].equals("ax") && !operands[0].equals("bx")) {
-								throw new Exception("MOV & STO first argument must be register AX or BX!");
+								throw new Exception("MOV & STO first argument must be register AX or BX! (line: " + i + ")");
 							}
 						}
 						else if (command.equals("loa")) {
 							if (!operands[1].equals("ax") && !operands[1].equals("bx")) {
-								throw new Exception("LOA second argument must be register AX or BX!");
+								throw new Exception("LOA second argument must be register AX or BX! (line: " + i + ")");
 							}
 						}
 						if (command.equals("mov")) {
 							if (!isNumeric(operands[1])) {
-								throw new Exception("MOV second argument must be an integer!");
+								throw new Exception("MOV second argument must be an integer! (line: " + i + ")");
 							}
 						}
 						else if (command.equals("sto")) {
@@ -250,7 +250,7 @@ public class CommandsConverter {
 								}
 							}
 							if (!isCorrect) {
-								throw new Exception("Variable (" + operands[1] + ") is not defined!");
+								throw new Exception("Variable (" + operands[1] + ") is not defined! (line: " + i + ")");
 							}
 						}
 						else if (command.equals("loa")) {
@@ -261,7 +261,7 @@ public class CommandsConverter {
 								}
 							}
 							if (!isCorrect) {
-								throw new Exception("Variable (" + operands[1] + ") is not defined!");
+								throw new Exception("Variable (" + operands[1] + ") is not defined! (line: " + i + ")");
 							}
 						}
 					}
@@ -275,12 +275,12 @@ public class CommandsConverter {
 								}
 							}
 							if (!isCorrect) {
-								throw new Exception("Variable (" + arguments + ") is not defined!");
+								throw new Exception("Variable (" + arguments + ") is not defined! (line: " + i + ")");
 							}
 						}
 						else if (command.equals("outr")) {
 							if (!arguments.equals("ax") && !arguments.equals("bx")) {
-								throw new Exception("OUTR operand must be register AX or BX!");
+								throw new Exception("OUTR operand must be register AX or BX! (line: " + i + ")");
 							}
 						}
 						else if (command.equals("jmp") || command.equals("ja") ||command.equals("jb") || command.equals("je") || command.equals("jne")) {
@@ -291,7 +291,7 @@ public class CommandsConverter {
 								}
 							}
 							if (!isCorrect) {
-								throw new Exception("Label (" + arguments + ") is not defined!");
+								throw new Exception("Label (" + arguments + ") is not defined! (line: " + i + ")");
 							}
 						}
 					}
