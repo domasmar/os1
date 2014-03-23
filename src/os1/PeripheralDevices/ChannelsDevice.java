@@ -38,9 +38,6 @@ public class ChannelsDevice {
 		this.cpu.setCHST0(false);
 		this.hdd.store(sf);
 		this.cpu.setCHST0(true);
-		for (int i = 0; i <= this.hdd.getFilesList().length; i++) {
-			System.out.println(this.hdd.getFilesList()[0]);
-		}
 	}
 
 }
