@@ -22,7 +22,7 @@ public class HDD implements Serializable {
         throw new Exception("Disk is full!");
     }
 
-    public SourceFile load(String name) throws UnsupportedEncodingException, Exception {
+    public SourceFile get(String name) throws UnsupportedEncodingException, Exception {
         for (int i = 0; i < maxSize; i++) {
             if ((memory[i] != null) && (name.equals(memory[i].getFileName()))) {
                 return memory[i];
