@@ -9,7 +9,7 @@ import os1.CPU.CPU;
 
 public class InputDevice {
 	
-	private String path = ".";
+	private String path;
 	
 	private File folder;
 	private File[] listOfFiles;
@@ -22,7 +22,7 @@ public class InputDevice {
 	
 	private ChannelsDevice channelsDevice;
 	
-	public static String getFileContents(String fileName) {
+	public String getFileContents(String fileName) {
 		String contents = null;
 		try {
 			File file = new File(fileName);
@@ -48,13 +48,13 @@ public class InputDevice {
 		this.folder = new File(path);
 		this.channelsDevice = new ChannelsDevice(cpu, hdd);
 		this.listOfFiles = folder.listFiles();
-		
 		for (int i = 0; i <= this.listOfFiles.length - 1; i++) {
 			if (this.listOfFiles[i].isFile()) {
 				fileName = this.listOfFiles[i].getName();
 				if (fileName.endsWith(".ltu") || (fileName.endsWith(".LTU"))) {
+					System.out.println(fileName);
 					this.fileName = fileName;
-					this.fileContents = getFileContents(fileName);
+					this.fileContents = getFileContents(this.listOfFiles[i].getAbsolutePath());
 					SourceFile sf = new SourceFile(this.fileContents, this.fileName);
 					if (channelsDevice.channelIsAvailable((byte) 0) == 0) {
 						channelsDevice.storeData(sf);
