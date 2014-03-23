@@ -1,0 +1,18 @@
+as def ff
+labas def ee
+petras def f0
+astra def aa
+mov ax, ffff
+sudetis
+sto ax, as
+mov bx, eeee
+push labas
+push petras
+add
+jmp sudetis
+atimtis
+sto ax, petras
+sto bx, astra
+loa astra, bx
+sub
+jmp atimtis
