@@ -33,7 +33,7 @@ public class HDD implements Serializable {
 
     public void delete(String name) throws UnsupportedEncodingException, Exception {
         for (int i = 0; i < maxSize; i++) {
-            if ((memory[i] != null) && (name.equals(memory[i].getFileName()))) {
+            if ((memory[i] != null) && (memory[i].getFileName().equals(name))) {
                 memory[i] = null;
                 return;
             }

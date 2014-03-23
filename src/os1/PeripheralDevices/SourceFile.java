@@ -46,6 +46,7 @@ public class SourceFile {
         System.arraycopy(ByteBuffer.allocate(4).putInt(nameInts[2]).array(), 0, bytesAscii, 8, 4);
 
         nameString = new String(bytesAscii, "US-ASCII");
+        nameString = nameString.trim();
         return nameString;
     }
 
