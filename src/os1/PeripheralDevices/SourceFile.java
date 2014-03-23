@@ -1,5 +1,6 @@
 package os1.PeripheralDevices;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -8,7 +9,7 @@ import java.util.Arrays;
  *
  * @author Arturas
  */
-public class SourceFile {
+public class SourceFile implements Serializable {
 
     private int[] nameInts;
     private int[] contentInts;
