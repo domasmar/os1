@@ -35,9 +35,9 @@ public class ChannelsDevice {
 	}
 
 	public void storeData(SourceFile sf) throws Exception {
-		this.cpu.setCHST0(false);
-		this.hdd.store(sf);
 		this.cpu.setCHST0(true);
+		this.hdd.store(sf);
+		this.cpu.setCHST0(false);
 	}
 
 }
