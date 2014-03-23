@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import os1.CPU.CPU;
@@ -18,6 +19,9 @@ import os1.Interpreter.ProgramExecutor;
 import os1.Memory.RMMemory;
 import os1.Memory.Stack;
 import os1.Memory.VMMemory;
+import os1.PeripheralDevices.HDD;
+import os1.PeripheralDevices.InputDevice;
+import os1.PeripheralDevices.Serialization;
 
 public class Core {
 
@@ -31,11 +35,12 @@ public class Core {
 	private CpuGUI cpuGUI;
 	private VM vm;
 	private InterruptChecker ic;
-
+	private HDD hdd;
+	
 	public Core() {
 		VMLogger.init();
 		cpu = new CPU();
-		rmm = new RMMemory(cpu);		
+		rmm = new RMMemory(cpu);	
 		interpreter = new Interpreter();		
 		ic = new InterruptChecker(this);
 		initGUI();
@@ -60,25 +65,28 @@ public class Core {
 		mainGUI.setVisible(true);
 	}
 	
-	public void loadFromExternalFile(String path) {
-		BufferedReader file = null;
-		try {
-			file = new BufferedReader(new FileReader(path));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		String programCode = "";
-		String line;
-		try {
-			while ((line = file.readLine()) != null) {
-				programCode += line + '\n';
-			}
-			file.close();
-		} catch (IOException e) {
-			VMLogger.newErrorMessage(e.getMessage());
+	public void loadHDD() {
+		hdd = Serialization.deserializeMemory();
+		if (hdd == null) {
+			VMLogger.newErrorMessage("Nepavyko uþkrauti HDD");
+			VMLogger.newErrorMessage("Kuriame tuscia HDD");
+			Serialization.serializeMemory(new HDD());
+			loadHDD();
+		} else {
+			VMLogger.newSuccessMessage("HDD sekmingai uþkrautas");
 		}
 		
-		loadVM(programCode);
+	}
+	
+	public void loadFromExternalFile(String path) {
+		try {
+			int length = hdd.getFilesList().length;
+			new InputDevice(path, cpu, hdd);
+			VMLogger.newSuccessMessage("\"Flash\" áranginys uþkrautas. Uþkrautø failø skaièius: " + (hdd.getFilesList().length - length));
+			mainGUI.loadHddData(hdd.getFilesList());
+		} catch (Exception e) {
+			VMLogger.newErrorMessage("Nepavyko uþkrauto \"Flash\" áranginio");
+		}
 	}
 	
 	public void loadVM(String program) {
