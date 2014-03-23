@@ -44,7 +44,9 @@ public class Core {
 	public void updateGUI() {
 		cpuGUI.update();
 		rmmGUI.update();
-		//vmmGUI.update();
+		if (vmmGUI != null) {
+			vmmGUI.update();
+		}
 	}
 
 	private void initGUI() {
@@ -99,7 +101,8 @@ public class Core {
 		} catch (Exception e) {
 			VMLogger.newErrorMessage(e.getMessage());
 		} 
-		
+		updateGUI();
+		mainGUI.addMem((new VMMemoryGUI(vmm)).getPanel());
 		VMLogger.newSuccessMessage("Programa sekmingai uþkrauta!");
 	}
 	

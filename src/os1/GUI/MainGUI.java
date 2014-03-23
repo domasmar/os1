@@ -117,6 +117,7 @@ public class MainGUI {
 
 	public void addMem(JPanel panel) {
 		memoryPanel.add(panel);
+		frame.pack();
 	}
 
 	public void addCPU(JPanel panel) {
