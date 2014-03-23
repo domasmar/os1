@@ -10,24 +10,23 @@ import os1.Memory.VMMemory;
 public class CommandsConverter {
 	
 	private static String[] machineCommands = {
-		"MOV",
-		"LOA",
-		"STO",
-		"PUSH",
-		"POP",
-		"ADD",
-		"SUB",
-		"CMP",
-		"JMP",
-		"JA",
-		"JB",
-		"JE",
-		"JNE",
-		"OUTR_AX",
-		"OUTR_BX",
-		"OUTM",
-		"FORK",
-		"STOP"
+		"mov",
+		"loa",
+		"sto",
+		"push",
+		"pop",
+		"add",
+		"sub",
+		"cmp",
+		"jmp",
+		"ja",
+		"jb",
+		"je",
+		"jne",
+		"outr",
+		"outm",
+		"fork",
+		"stop"
 	};
 	
 	private ArrayList<Variable> variables = new ArrayList<Variable>();
@@ -39,10 +38,11 @@ public class CommandsConverter {
 	private CPU cpu;
 	private VMMemory vmm;
 	
-	public CommandsConverter(String sourceCode, CPU cpu, VMMemory vmm) {
+	public CommandsConverter(String sourceCode, CPU cpu, VMMemory vmm) throws Exception {
 		this.cpu = cpu;
 		this.vmm = vmm;
 		saveSourceCode(sourceCode);
+		validateSourceCode();
 		saveCommands();
 		saveVariables();
 		saveLabels(findJumpVariables());
@@ -63,9 +63,22 @@ public class CommandsConverter {
 		return this.labels;
 	}
 	
-	/* Iğ paduoto pirminio kodo teksto pağalina visas tuğèias eilutes ir tarpus bei á masyvà "sourceCode" árağo pirminio kodo eilutæs. */
+	/* PagalbinÄ— funkcija: patikrina, ar eilutÄ— yra 16-ainio skaiÄiaus pavidalo */
+	private static boolean isNumeric(String str) {
+		  try  
+		  {  
+		    int d = Integer.parseInt(str, 16);  
+		  }  
+		  catch(NumberFormatException nfe)  
+		  {  
+		    return false;  
+		  }  
+		  return true; 
+	}
+	
+	/* IÅ¡ paduoto pirminio kodo teksto paÅ¡alina visas tuÅ¡Äias eilutes ir tarpus bei Ä¯ masyvÄ… "sourceCode" Ä¯raÅ¡o â€Å¡varausâ€œ kodo eilutÄ—s. */
 	private void saveSourceCode(String sourceCode) {
-		String tidySourceCode = sourceCode.replaceAll("(?m)^[ \t]*\r?\n", "").trim();
+		String tidySourceCode = sourceCode.replaceAll("(?m)^[ \t]*\r?\n", "").trim().toLowerCase();
 		this.sourceCode = tidySourceCode.split("\n");
 	}
 	
@@ -74,14 +87,14 @@ public class CommandsConverter {
 	}
 	
 	
-	/* Á sàrağà iğsaugo tik tas pirminio kodo eilutes, kuriose yra komandos. Gràşina komandø masyvà. */
+	/* Ä® sÄ…raÅ¡Ä… iÅ¡saugo tik tas pirminio kodo eilutes, kuriose yra komandos. GrÄ…Å¾ina komandÅ³ masyvÄ…. */
 	private void saveCommands() {
 		ArrayList<String> commands = new ArrayList<String>();
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
 			for (int j = 0; j < machineCommands.length - 1; j++) {
 				if (this.sourceCode[i].contains(machineCommands[j])) {
 					commands.add(this.sourceCode[i]);
-					if (this.sourceCode[i].contains("MOV")) {
+					if (this.sourceCode[i].contains("mov")) {
 						commands.add("");
 					}
 				}
@@ -90,11 +103,11 @@ public class CommandsConverter {
 		this.commands = commands.toArray(new String[commands.size()]);
 	}
 	
-	/* Á sàrağà iğsaugomi kintamieji ir jø reikğmës. */
+	/* Ä® sÄ…raÅ¡Ä… iÅ¡saugomi kintamieji ir jÅ³ reikÅ¡mÄ—s. */
 	private void saveVariables() {
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
-			if (this.sourceCode[i].contains("DEF")) {
-				String[] definition = this.sourceCode[i].split(" DEF ");
+			if (this.sourceCode[i].contains("def")) {
+				String[] definition = this.sourceCode[i].split(" def ");
 				Variable variable = new Variable(definition[0], Integer.parseInt(definition[1], 16));
 				this.variables.add(variable);
 			}
@@ -104,21 +117,21 @@ public class CommandsConverter {
 		}
 	}
 	
-	/* Á sàrağà sudedami visi JUMP, JA, JB, JE komandø rasti kintamieji. */
+	/* Ä® sÄ…raÅ¡Ä… sudedami visi JUMP, JA, JB, JE komandose rasti kintamieji. */
 	private ArrayList<String> findJumpVariables() {
 		ArrayList<String> variables = new ArrayList<String>();
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
-			if (this.sourceCode[i].contains("JMP") ||
-					this.sourceCode[i].contains("JA") ||
-					this.sourceCode[i].contains("JB") ||
-					this.sourceCode[i].contains("JE")) {
+			if (this.sourceCode[i].contains("jmp") ||
+					this.sourceCode[i].contains("ja") ||
+					this.sourceCode[i].contains("jb") ||
+					this.sourceCode[i].contains("je")) {
 				variables.add(this.sourceCode[i].split(" ")[1]);
 			}
 		}
 		return variables;
 	}
 	
-	/* Á „Label“ tipo elementø sàrağà árağom visi label'iai ir jø eilutës. */
+	/* Ä® â€Labelâ€œ tipo elementÅ³ sÄ…raÅ¡Ä… Ä¯raÅ¡omi visi labeliai ir jÅ³ eilutÄ—s. */
 	private void saveLabels(ArrayList<String> labels) {
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
 			for (int j = 0; j <= labels.size() - 1; j++) {
@@ -134,7 +147,7 @@ public class CommandsConverter {
 		}
 	}
 	
-	/* Komanduose esanèius kintamuosius pakeièia adresais duomenø segmente. */
+	/* Komanduose esanÄius kintamuosius pakeiÄia adresais duomenÅ³ segmente. */
 	private void replaceVarNameWithAddress() {
 		for (int i = 0; i <= this.commands.length - 1; i++) {
 			for (int j = 0; j <= this.variables.size() - 1; j++) {
@@ -145,7 +158,7 @@ public class CommandsConverter {
 		}
 	}
 	
-	/* Komanduose esanèius label'ius pakeièia adresais kodo segmente. */
+	/* Komanduose esanÄius labelius pakeiÄia adresais kodo segmente. */
 	private void replaceLabelNameWithAddress() {
 		for (int i = 0; i <= this.commands.length - 1; i++) {
 			for (int j = 0; j <= this.labels.size() - 1; j++) {
@@ -156,11 +169,147 @@ public class CommandsConverter {
 		}
 	}
 	
-	/* Panaikina tuğèias eilutes iğ komandø masyvo */
+	/* Panaikina tuÅ¡Äias eilutes iÅ¡ komandÅ³ masyvo. */
 	private void removeEmptyLines() {
 		ArrayList<String> commandsList = new ArrayList<String>(Arrays.asList(this.commands));
 		commandsList.removeAll(Collections.singleton(""));
 		this.commands = commandsList.toArray(new String[commandsList.size()]);		
+	}
+	
+	/* Tikrina priminio kodo sintaksÄ—. */
+	private void validateSourceCode() throws Exception {
+		ArrayList<String> variables = new ArrayList<String>();
+		ArrayList<String> labels = new ArrayList<String>();
+		String[] operands;
+		String[] definition;
+		String command;
+		String arguments;
+		boolean isCorrect = false;
+		boolean isCommand = false;
+		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
+			/* NagrinÄ—jamos pirminio kodo eilutÄ—s, sudarytos iÅ¡ daugiau nei vieno Å¾odÅ¾io (PUSH AX, MOV AX, FFFF ir t.t.), STOP, ADD, SUB neÄ¯eina. */
+			if (this.sourceCode[i].split(" ").length > 1) {
+				/* Tikrinama kintamÅ³jÅ³ apibrÄ—Å¾imo sritis. */
+				if (this.sourceCode[i].contains("def")) {
+					definition = this.sourceCode[i].split(" ");
+					if (definition.length != 3) {
+						throw new Exception("Unidentified definition!");
+					}
+					for (int j = 0; j <= machineCommands.length - 1; j++) {
+						if (definition[0].equals(machineCommands[j])) {
+							throw new Exception("Variable name cannot be equal to any command's name (MOV, STO, etc.)!");
+						}
+					}
+					variables.add(definition[0]);
+					if (!definition[1].equals("def")) {
+						throw new Exception("Unidentified definition!");
+					}
+					if (!isNumeric(definition[2])) {
+						throw new Exception("Value of the variable must be an integer!");
+					}
+				}
+				/* Tikrinamos kitos pirminio kodo eilutÄ—s, sudarytos iÅ¡ daugiau nei vieno Å¾odÅ¾io. */
+				else {
+					command = this.sourceCode[i].split(" ")[0].trim();
+					arguments = this.sourceCode[i].split(this.sourceCode[i].split(" ")[0])[1].trim();
+					for (int j = 0; j <= machineCommands.length - 1; j++) {
+						isCorrect = false;
+						if (command.equals(machineCommands[j])) {
+							isCorrect = true;
+							break;
+						}
+					}
+					if (!isCorrect) {
+						throw new Exception("Unidentified command! (" + command + ")");
+					}
+					/* Tikrinamos pirminio kodo eilutÄ—s, kuriose yra komandos, turinÄios du operandus (MOV, STO, LOAD). */
+					if (arguments.split(",").length == 2) {
+						operands = new String[2];
+						operands[0] = arguments.split(",")[0].trim();
+						operands[1] = arguments.split(",")[1].trim();
+						if (command.equals("mov") || command.equals("sto")) {
+							if (!operands[0].equals("ax") && !operands[0].equals("bx")) {
+								throw new Exception("MOV & STO first argument must be register AX or BX!");
+							}
+						}
+						else if (command.equals("loa")) {
+							if (!operands[1].equals("ax") && !operands[1].equals("bx")) {
+								throw new Exception("LOA second argument must be register AX or BX!");
+							}
+						}
+						if (command.equals("mov")) {
+							if (!isNumeric(operands[1])) {
+								throw new Exception("MOV second argument must be an integer!");
+							}
+						}
+						else if (command.equals("sto")) {
+							isCorrect = false;
+							for (int j = 0; j <= variables.size() - 1; j++) {
+								if (operands[1].equals(variables.get(j))) {
+									isCorrect = true;
+								}
+							}
+							if (!isCorrect) {
+								throw new Exception("Variable (" + operands[1] + ") is not defined!");
+							}
+						}
+						else if (command.equals("loa")) {
+							isCorrect = false;
+							for (int j = 0; j <= variables.size() - 1; j++) {
+								if (operands[0].equals(variables.get(j))) {
+									isCorrect = true;
+								}
+							}
+							if (!isCorrect) {
+								throw new Exception("Variable (" + operands[1] + ") is not defined!");
+							}
+						}
+					}
+					/* Tikrinamos kodo eilutÄ—s, turinÄios vienÄ… operandÄ… (PUSH, POP ir t.t.). */
+					else {
+						if (command.equals("push") || command.equals("pop") || command.equals("outm")) {
+							isCorrect = false;
+							for (int j = 0; j <= variables.size() - 1; j++) {
+								if (arguments.equals(variables.get(j))) {
+									isCorrect = true;
+								}
+							}
+							if (!isCorrect) {
+								throw new Exception("Variable (" + arguments + ") is not defined!");
+							}
+						}
+						else if (command.equals("outr")) {
+							if (!arguments.equals("ax") && !arguments.equals("bx")) {
+								throw new Exception("OUTR operand must be register AX or BX!");
+							}
+						}
+						else if (command.equals("jmp") || command.equals("ja") ||command.equals("jb") || command.equals("je") || command.equals("jne")) {
+							isCorrect = false;
+							for (int j = 0; j <= labels.size() - 1; j++) {
+								if (arguments.equals(labels.get(j))) {
+									isCorrect = true;
+								}
+							}
+							if (!isCorrect) {
+								throw new Exception("Label (" + arguments + ") is not defined!");
+							}
+						}
+					}
+				}
+			}
+			/* Tikrinamos kodo eilutÄ—s, sudarytos iÅ¡ vieno Å¾odÅ¾io (ADD, SUB, STOP komandos, labeliÅ³ pasiÅ¾ymÄ—jimas. */
+			else {
+				isCommand = false;
+				for (int j = 0; j <= machineCommands.length - 1; j++) {
+					if (this.sourceCode[i].equals(machineCommands[j])) {
+						isCommand = true;
+					}
+				}
+				if (!isCommand) {
+					labels.add(this.sourceCode[i]);
+				}
+			}
+		}
 	}
 
 }

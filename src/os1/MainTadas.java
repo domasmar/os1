@@ -7,14 +7,14 @@ import os1.Memory.VMMemory;
 
 public class MainTadas {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		CPU cpu = new CPU();
 		RMMemory rmm = new RMMemory(cpu);
 		VMMemory vmm = rmm.createVMMemory(16);
 		
 		String sourceCode =
-				"as DEF FF\n"
+				"as DEF ff\n"
 			  + "labas DEF EE\n"
 			  + "petras DEF F0\n"
 			  + "astra DEF AA\n"
@@ -24,17 +24,18 @@ public class MainTadas {
 			  + "sudetis\n"
 			  + "STO ax, as\n"
 			  + "MOV bx, EEEE\n"
-			  + "PUSH AX\n"
-			  + "PUSH BX\n"
+			  + "PUSH labas\n"
+			  + "PUSH petras\n"
 			  + "ADD\n"
-			  + "JUMP sudetis\n"
+			  + "JMP sudetis\n"
 			  + "\n"
 			  + "\n"
 			  + "atimtis\n"
 			  + "STO ax, petras\n"
 			  + "STO bx, astra\n"
+			  + "LOA astra, bx\n"
 			  + "SUB\n"
-			  + "JUMP atimtis";
+			  + "JMP atimtis";
 		
 		CommandsConverter cc = new CommandsConverter(sourceCode, cpu, vmm);
 		
@@ -54,24 +55,20 @@ public class MainTadas {
 		
 		System.out.println();
 		
-		/* Kintamøjø reikðmës */
-		System.out.println("KINTAMIEJI IR JØ REIKÐMËS:");
+		/* KintamÅ³jÅ³ reikÅ¡mÄ—s */
+		System.out.println("KINTAMIEJI IR JÅ² REIKÅ MÄ–S:");
 		for(int i = 0; i <= cc.getVariables().size() - 1; i++) {
-//			vmm.setValue(cpu.getDS() + i, cc.getVariables().get("var" + i));
 			System.out.println(cc.getVariables().get(i).getName() + ": " + cc.getVariables().get(i).getValue());
-//			System.out.println(vmm.getValue(cpu.getDS() + i));
 		}
 		
 		System.out.println();
 		
-		/* Label'iai ir komanda, á kurià ðokama */
-		System.out.println("LABEL'IAI IR KOMANDØ INDEKSAI:");
+		/* Label'iai ir komanda, Ä¯ kuriÄ… Å¡okama */
+		System.out.println("LABEL'IAI IR KOMANDÅ² INDEKSAI:");
 		for (int i = 0; i <= cc.getLabels().size() - 1; i++) {
 			System.out.println(cc.getLabels().get(i).getName() + " => " + cc.getLabels().get(i).getValue());
 		}
-		
-//		System.out.println(rmm.getMemory());
-		
+				
 	}
 
 }

@@ -1,5 +1,11 @@
 package os1;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import os1.CPU.CPU;
 import os1.CommandsConverter.CommandsConverter;
 import os1.GUI.CpuGUI;
@@ -17,103 +23,108 @@ public class Core {
 
 	private CPU cpu;
 	private RMMemory rmm;
-	private VMMemory vmm;
 	private Interpreter interpreter;
-	private Stack stack;
-	private ProgramExecutor programExecutor;
 	private int[] commandsByteCode;
 	private MainGUI mainGUI;
 	private VMMemoryGUI vmmGUI;
 	private RMMemoryGUI rmmGUI;
 	private CpuGUI cpuGUI;
+	private VM vm;
+	private InterruptChecker ic;
 
 	public Core() {
 		VMLogger.init();
 		cpu = new CPU();
-		rmm = new RMMemory(cpu);
-		vmm = rmm.createVMMemory(16);
-		interpreter = new Interpreter();
-		stack = new Stack(cpu, vmm);
-		programExecutor = new ProgramExecutor(cpu, vmm, stack);
+		rmm = new RMMemory(cpu);		
+		interpreter = new Interpreter();		
+		ic = new InterruptChecker(this);
+		initGUI();
 	}
 
-	public void loadProgram(String program) throws Exception {
-		CommandsConverter cc = new CommandsConverter(program, cpu, vmm);
-		String[] sourceCode = cc.getCommands();
-
-		commandsByteCode = interpreter.interpret(sourceCode);
-
-		allocateMemorySegments();
-
-		for (int i = 0; i < interpreter.getProgramSize(); i++) {
-			vmm.setValue(cpu.getCS() + i, commandsByteCode[i]);
+	public void updateGUI() {
+		cpuGUI.update();
+		rmmGUI.update();
+		if (vmmGUI != null) {
+			vmmGUI.update();
 		}
 	}
 
-	private void updateGUI() {
-		cpuGUI.update();
-		rmmGUI.update();
-		vmmGUI.update();
-	}
-
 	private void initGUI() {
-		vmmGUI = new VMMemoryGUI(vmm);
 		rmmGUI = new RMMemoryGUI(rmm);
 		cpuGUI = new CpuGUI(cpu);
 
 		mainGUI = new MainGUI(this);
-		mainGUI.addMem(vmmGUI.getPanel());
 		mainGUI.addMem(rmmGUI.getPanel());
 		mainGUI.addCPU(cpuGUI.getPanel());
 
 		mainGUI.setVisible(true);
-
-	}
-
-	public void startVM(boolean debug) {
-		initGUI();
-
-	}
-
-	public void executeNext() {
-		try {
-			if (programExecutor.executeNext()) {
-				this.updateGUI();
-				VMLogger.newMessage("Command executed: " + this.getLastCommand());
-			} else {
-				VMLogger.newMessage("The end");	
-			}
-		} catch (Exception e) {
-			VMLogger.newErrorMessage("ERROR: " + e.getMessage());
-			e.printStackTrace();
-		}
 	}
 	
-	public void executeAll() {
+	public void loadFromExternalFile(String path) {
+		BufferedReader file = null;
 		try {
-			while (programExecutor.executeNext()) {
-				this.updateGUI();
-				VMLogger.newMessage("Command executed: " + this.getLastCommand());
-			}
-		} catch (Exception e) {
-			VMLogger.newErrorMessage("ERROR: " + e.getMessage());
+			file = new BufferedReader(new FileReader(path));
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		VMLogger.newMessage("The end");
+		String programCode = "";
+		String line;
+		try {
+			while ((line = file.readLine()) != null) {
+				programCode += line + '\n';
+			}
+			file.close();
+		} catch (IOException e) {
+			VMLogger.newErrorMessage(e.getMessage());
+		}
+		
+		loadVM(programCode);
 	}
+	
+	public void loadVM(String program) {
+		VMMemory vmm = rmm.createVMMemory(16);
+		Stack stack = new Stack(cpu, vmm);
+		ProgramExecutor programExecutor = new ProgramExecutor(cpu, vmm, stack);		
+		
+		vm = new VM(vmm, stack, programExecutor, this);
+		
+		CommandsConverter cc = null;
+		try {
+			cc = new CommandsConverter(program, cpu, vmm);
+			String[] sourceCode = cc.getCommands();
+			commandsByteCode = interpreter.interpret(sourceCode);
+			allocateMemorySegments();
 
-	public String getLastCommand() {
-		return programExecutor.getLastCommand();
+			for (int i = 0; i < interpreter.getProgramSize(); i++) {
+				vmm.setValue(cpu.getCS() + i, commandsByteCode[i]);
+			}			
+		} catch (Exception e) {
+			VMLogger.newErrorMessage(e.getMessage());
+		} 
+		updateGUI();
+		mainGUI.addMem((new VMMemoryGUI(vmm)).getPanel());
+		VMLogger.newSuccessMessage("Programa sekmingai uþkrauta!");
 	}
-
+	
 	private void allocateMemorySegments() {
 		int blocksNeed = interpreter.getProgramSize() / 16;
 		blocksNeed += interpreter.getProgramSize() % 16 > 0 ? 1 : 0;
-		System.out.println();
 		cpu.setCS((short) ((16 - blocksNeed) * 16));
 		cpu.setIP((short) 0);
 		cpu.setDS((short) 0);
 		cpu.setSS((short) (cpu.getCS() / 2));
+	}
+	
+	public VM getVM() {
+		return this.vm;
+	}
+	
+	public CPU getCPU() {
+		return this.cpu;
+	}
+	
+	public InterruptChecker getInterruptChecker() {
+		return this.ic;
 	}
 
 }
