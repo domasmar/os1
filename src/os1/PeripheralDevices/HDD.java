@@ -14,11 +14,6 @@ public class HDD implements Serializable {
 
     public void store(SourceFile file) throws Exception {
         for (int i = 0; i < maxSize; i++) {
-            if (file.getFileName().equals(memory[i].getFileName())) {
-                throw new Exception("File with the same name exists!");
-            }
-        }
-        for (int i = 0; i < maxSize; i++) {
             if (memory[i] == null) {
                 memory[i] = file;
                 return;

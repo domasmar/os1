@@ -57,7 +57,6 @@ public class InputDevice {
 					this.fileContents = getFileContents(fileName);
 					SourceFile sf = new SourceFile(this.fileContents, this.fileName);
 					if (channelsDevice.channelIsAvailable((byte) 0) == 0) {
-						System.out.println(this.fileName);
 						channelsDevice.storeData(sf);
 					}
 				}
