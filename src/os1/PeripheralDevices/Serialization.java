@@ -20,7 +20,6 @@ public class Serialization {
             out.close();
             fileOut.close();
         } catch (IOException i) {
-            //i.printStackTrace();
         }
     }
 
@@ -33,10 +32,8 @@ public class Serialization {
             in.close();
             fileIn.close();
         } catch (IOException i) {
-            i.printStackTrace();
             return null;
         } catch (ClassNotFoundException c) {
-            c.printStackTrace();
             return null;
         }
         return memory;
