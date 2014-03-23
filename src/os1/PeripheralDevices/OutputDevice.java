@@ -1,9 +1,11 @@
 package os1.PeripheralDevices;
 
+import os1.GUI.VMLogger;
+
 public class OutputDevice {
 	
-	public String receiveData(int data) {
-		return null;
+	public void receiveData(int data) {
+		VMLogger.newVMMessage(data + "");
 	}
 
 }

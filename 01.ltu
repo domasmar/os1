@@ -6,7 +6,9 @@ mov ax, ffff
 sudetis
 sto ax, as
 mov bx, eeee
+outr ax
 push labas
+outm labas
 push petras
 add
 jmp sudetis
