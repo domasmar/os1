@@ -16,7 +16,8 @@ public class HDD implements Serializable {
         for (int i = 0; i < maxSize; i++) {
             if (memory[i] != null) {
                 if (file.getFileName().equals(memory[i].getFileName())) {
-                    throw new Exception("File with this name exists!");
+                    memory[i] = file;
+                    throw new Exception("File with this name already exists in HDD! It was overwritten.");
                 }
             }
         }
