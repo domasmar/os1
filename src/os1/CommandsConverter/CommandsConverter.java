@@ -92,7 +92,7 @@ public class CommandsConverter {
 		ArrayList<String> commands = new ArrayList<String>();
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
 			for (int j = 0; j < machineCommands.length - 1; j++) {
-				if (this.sourceCode[i].contains(machineCommands[j])) {
+				if (this.sourceCode[i].matches(".*\\b(" + machineCommands[j] + ")\\b.*")) {
 					commands.add(this.sourceCode[i]);
 					if (this.sourceCode[i].contains("mov")) {
 						commands.add("");
@@ -121,10 +121,10 @@ public class CommandsConverter {
 	private ArrayList<String> findJumpVariables() {
 		ArrayList<String> variables = new ArrayList<String>();
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
-			if (this.sourceCode[i].contains("jmp") ||
-					this.sourceCode[i].contains("ja") ||
-					this.sourceCode[i].contains("jb") ||
-					this.sourceCode[i].contains("je")) {
+			if (this.sourceCode[i].matches(".*\\b(jmp)\\b.*") ||
+					this.sourceCode[i].matches(".*\\b(ja)\\b.*") ||
+					this.sourceCode[i].matches(".*\\b(jb)\\b.*") ||
+					this.sourceCode[i].matches(".*\\b(je)\\b.*")) {
 				variables.add(this.sourceCode[i].split(" ")[1]);
 			}
 		}
