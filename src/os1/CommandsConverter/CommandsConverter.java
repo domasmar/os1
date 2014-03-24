@@ -94,7 +94,7 @@ public class CommandsConverter {
 			for (int j = 0; j < machineCommands.length - 1; j++) {
 				if (this.sourceCode[i].matches(".*\\b(" + machineCommands[j] + ")\\b.*")) {
 					commands.add(this.sourceCode[i]);
-					if (this.sourceCode[i].contains("mov")) {
+					if (this.sourceCode[i].matches(".*\\b(mov)\\b.*")) {
 						commands.add("");
 					}
 				}
@@ -106,7 +106,7 @@ public class CommandsConverter {
 	/* Į sąrašą išsaugomi kintamieji ir jų reikšmės. */
 	private void saveVariables() {
 		for (int i = 0; i <= this.sourceCode.length - 1; i++) {
-			if (this.sourceCode[i].contains("def")) {
+			if (this.sourceCode[i].matches(".*\\b(def)\\b.*")) {
 				String[] definition = this.sourceCode[i].split(" def ");
 				Variable variable = new Variable(definition[0], Integer.parseInt(definition[1], 16));
 				this.variables.add(variable);
@@ -162,7 +162,7 @@ public class CommandsConverter {
 	private void replaceLabelNameWithAddress() {
 		for (int i = 0; i <= this.commands.length - 1; i++) {
 			for (int j = 0; j <= this.labels.size() - 1; j++) {
-				if (this.commands[i].contains(this.labels.get(j).getName())) {
+				if (this.commands[i].matches(".*\\b(" + this.labels.get(j).getName() + ")\\b.*")) {
 					this.commands[i] = this.commands[i].replace(this.labels.get(j).getName(), Integer.toString(this.labels.get(j).getValue()));
 				}
 			}
@@ -190,7 +190,7 @@ public class CommandsConverter {
 			/* Nagrinėjamos pirminio kodo eilutės, sudarytos iš daugiau nei vieno žodžio (PUSH AX, MOV AX, FFFF ir t.t.), STOP, ADD, SUB neįeina. */
 			if (this.sourceCode[i].split(" ").length > 1) {
 				/* Tikrinama kintamųjų apibrėžimo sritis. */
-				if (this.sourceCode[i].contains("def")) {
+				if (this.sourceCode[i].matches(".*\\b(def)\\b.*")) {
 					definition = this.sourceCode[i].split(" ");
 					if (definition.length != 3) {
 						throw new Exception("Unidentified definition! (line: " + i + ")");
