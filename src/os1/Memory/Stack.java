@@ -19,7 +19,7 @@ public class Stack {
     public void push(int value) throws Exception {
         if (cpu.getSS() + cpu.getSP() >= cpu.getCS()) {
             cpu.setSTI((byte) 1);
-            throw new Exception("Stack is full!");
+            throw new Exception("Stekas pilnas!");
         }
         cpu.setSP((short) (cpu.getSP() + 1));
         memory.setValue(cpu.getSS() + cpu.getSP(), memory.getValue(value));
@@ -28,7 +28,7 @@ public class Stack {
     public int pop(int addrDS) throws Exception {
         if (cpu.getSP() <= 0) {
             cpu.setSTI((byte) 1);
-            throw new Exception("Stack is empty!");
+            throw new Exception("Stekas tuščias!");
         }
         int value = memory.getValue(cpu.getSS() + cpu.getSP());
         cpu.setSP((short) (cpu.getSP() - 1));     

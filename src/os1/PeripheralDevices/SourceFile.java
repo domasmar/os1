@@ -95,7 +95,7 @@ public class SourceFile implements Serializable {
                 nameInts[i] = ByteBuffer.wrap(bytesOfName, i * 4, 4).getInt();
             }
         } else {
-            throw new Exception("Failo vardas per ilgas!");
+            throw new Exception("Failo pavadinimas per ilgas!");
         }
     }
 }
