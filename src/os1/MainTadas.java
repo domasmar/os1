@@ -4,14 +4,11 @@ import os1.CPU.*;
 import os1.CommandsConverter.*;
 import os1.Memory.RMMemory;
 import os1.Memory.VMMemory;
-import os1.PeripheralDevices.HDD;
-import os1.PeripheralDevices.InputDevice;
 
 public class MainTadas {
 	
 	public static void main(String[] args) throws Exception {
 		
-		HDD hdd = new HDD();
 		CPU cpu = new CPU();
 		RMMemory rmm = new RMMemory(cpu);
 		VMMemory vmm = rmm.createVMMemory(16);
@@ -72,8 +69,6 @@ public class MainTadas {
 			System.out.println(cc.getLabels().get(i).getName() + " => " + cc.getLabels().get(i).getValue());
 		}
 		
-		InputDevice id = new InputDevice(".", cpu, hdd);
-				
 	}
 
 }

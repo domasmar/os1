@@ -4,24 +4,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
-import os1.CPU.CPU;
+import java.util.ArrayList;
 
 public class InputDevice {
 	
 	private String path;
 	
-	private File folder;
-	private File[] listOfFiles;
-	
-	private String fileName;
-	private String fileContents;
-	
-	private CPU cpu;
-	private HDD hdd;
-	
-	private ChannelsDevice channelsDevice;
-	
+	public InputDevice(String path) {
+		this.path = path;
+	}
+		
 	public String getFileContents(String fileName) {
 		String contents = null;
 		try {
@@ -40,27 +32,16 @@ public class InputDevice {
 		return contents;
 	}
 	
-	public InputDevice(String path, CPU cpu, HDD hdd) throws Exception {
-		String fileName;
-		this.cpu = cpu;
-		this.hdd = hdd;
-		this.path = path;
-		this.folder = new File(path);
-		this.channelsDevice = new ChannelsDevice(cpu, hdd);
-		this.listOfFiles = folder.listFiles();
-		for (int i = 0; i <= this.listOfFiles.length - 1; i++) {
-			if (this.listOfFiles[i].isFile()) {
-				fileName = this.listOfFiles[i].getName();
-				if (fileName.endsWith(".ltu") || (fileName.endsWith(".LTU"))) {
-					this.fileName = fileName;
-					this.fileContents = getFileContents(this.listOfFiles[i].getAbsolutePath());
-					SourceFile sf = new SourceFile(this.fileContents, this.fileName);
-					if (channelsDevice.channelIsAvailable((byte) 0) == 0) {
-						channelsDevice.storeData(sf);
-					}
-				}
+	public ArrayList<SourceFile> getData() throws Exception {
+		File folder = new File(this.path);
+		File[] listOfFiles = folder.listFiles();
+		ArrayList<SourceFile> sfs = new ArrayList<SourceFile>();
+		for (File file: listOfFiles) {
+			if (file.isFile() && (file.getName().endsWith(".ltu") || file.getName().endsWith(".LTU"))) {
+				sfs.add(new SourceFile(getFileContents(file.getAbsolutePath()), file.getName()));
 			}
 		}
+		return sfs;
 	}
 
 }

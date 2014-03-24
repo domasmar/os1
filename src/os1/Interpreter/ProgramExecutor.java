@@ -1,15 +1,11 @@
 package os1.Interpreter;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import os1.CPU.CPU;
-import os1.GUI.VMLogger;
 import static os1.Interpreter.Command.*;
 import os1.Memory.Stack;
 import os1.Memory.VMMemory;
-import os1.PeripheralDevices.OutputDevice;
+import os1.PeripheralDevices.ChannelsDevice;
 
 /**
  *
@@ -20,16 +16,16 @@ public class ProgramExecutor {
     private CPU cpu;
     private VMMemory memory;
     private Stack stack;
-    private OutputDevice output;
+    private ChannelsDevice cd;
     public CmdWithVar lastCmd;
     
 
-    public ProgramExecutor(CPU cpu, VMMemory virtualMemory, Stack stack, OutputDevice output) {
+    public ProgramExecutor(CPU cpu, VMMemory virtualMemory, Stack stack, ChannelsDevice cd) {
         this.cpu = cpu;
         this.memory = virtualMemory;
         this.stack = stack;
         this.lastCmd = new CmdWithVar();
-        this.output = output;
+        this.cd = cd;
     }
 
     public boolean executeNext() throws Exception {
@@ -279,21 +275,24 @@ public class ProgramExecutor {
     }
 
     private void cmdOutrAx() throws Exception {
-        output.receiveData(cpu.getAX());
+    	cd.print(cpu.getAX());
+//        output.receiveData(cpu.getAX());
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
         lastCmd.command = OUTR_AX;
     }
 
     private void cmdOutrBx() throws Exception {
-        output.receiveData(cpu.getBX());
+    	cd.print(cpu.getAX());
+//        output.receiveData(cpu.getBX());
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
         lastCmd.command = OUTR_BX;
     }
 
     private void cmdOutM(int variable) throws Exception {
-        output.receiveData(memory.getValue(variable));
+    	cd.print(memory.getValue(variable));
+//        output.receiveData(memory.getValue(variable));
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
         lastCmd.command = OUTM;

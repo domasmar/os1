@@ -1,43 +1,57 @@
 package os1.PeripheralDevices;
 
+import java.util.ArrayList;
+
 import os1.CPU.CPU;
 
 public class ChannelsDevice {
 	
 	private CPU cpu;
-	private HDD hdd;
 	
-	public ChannelsDevice(CPU cpu, HDD hdd) {
+	public ChannelsDevice(CPU cpu) {
 		this.cpu = cpu;
-		this.hdd = hdd;
+	}	
+		
+	public boolean isChannelAvailable(byte number) {
+		if (number == 0) 
+			if (this.cpu.getCHST0())
+				return true;
+			else
+				return false;
+		else if (number == 1)
+			if (this.cpu.getCHST1())
+				return true;
+			else
+				return false;
+		else if (number == 2)
+			if (this.cpu.getCHST2())
+				return true;
+			else
+				return false;
+		return false;
 	}
 	
-	public byte channelIsAvailable(byte channelNumber) {
-		if (channelNumber == 0) {
-			if (!this.cpu.getCHST0())
-				return 0;
-			else
-				return 1;
-		}
-		if (channelNumber == 1) {
-			if (!this.cpu.getCHST1())
-				return 0;
-			else
-				return 1;
-		}		
-		if (channelNumber == 2) {
-			if (!this.cpu.getCHST2())
-				return 0;
-			else
-				return 1;
-		}
-		return 2;
+	public void print(int data) {
+		if (!isChannelAvailable((byte) 1)) {
+			OutputDevice.print(data);
+		 }
 	}
-
-	public void storeData(SourceFile sf) throws Exception {
-		this.cpu.setCHST0(true);
-		this.hdd.store(sf);
-		this.cpu.setCHST0(false);
+	
+	public void stickInputDevice(String path, HDD hdd) throws Exception {
+		ArrayList<SourceFile> sfs = new ArrayList<SourceFile>();
+		InputDevice id = new InputDevice(path);
+		if (!isChannelAvailable((byte) 0)) {
+			this.cpu.setCHST0(false);
+			sfs = id.getData();
+			this.cpu.setCHST0(true);
+		}
+		if (!isChannelAvailable((byte) 2)) {
+			this.cpu.setCHST2(false);
+			for (int i = 0; i < sfs.size(); i++) {
+				hdd.store(sfs.get(i));
+			}
+			this.cpu.setCHST2(true);
+		}
 	}
 
 }

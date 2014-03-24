@@ -1,8 +1,0 @@
-vienas DEF 1
-nulis DEF 0
-
-PUSH nulis
-pradzia
-PUSH vienas
-ADD
-JMP pradzia

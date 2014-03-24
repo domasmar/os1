@@ -1,11 +1,6 @@
 package os1;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 
 import os1.CPU.CPU;
 import os1.CommandsConverter.CommandsConverter;
@@ -19,9 +14,8 @@ import os1.Interpreter.ProgramExecutor;
 import os1.Memory.RMMemory;
 import os1.Memory.Stack;
 import os1.Memory.VMMemory;
+import os1.PeripheralDevices.ChannelsDevice;
 import os1.PeripheralDevices.HDD;
-import os1.PeripheralDevices.InputDevice;
-import os1.PeripheralDevices.OutputDevice;
 import os1.PeripheralDevices.Serialization;
 
 public class Core {
@@ -36,6 +30,7 @@ public class Core {
 	private CpuGUI cpuGUI;
 	private VM vm;
 	private InterruptChecker ic;
+	private ChannelsDevice cd;
 	private HDD hdd;
 
 	public Core() {
@@ -44,6 +39,7 @@ public class Core {
 		rmm = new RMMemory(cpu);
 		interpreter = new Interpreter();
 		ic = new InterruptChecker(this);
+		cd = new ChannelsDevice(cpu);
 		initGUI();
 	}
 
@@ -87,7 +83,8 @@ public class Core {
 	public void loadFromExternalFile(String path) {
 		try {
 			int l = hdd.getFilesList().length;
-			new InputDevice(path, cpu, hdd);
+			System.out.println(path);
+			cd.stickInputDevice(path, hdd);
 			VMLogger.newSuccessMessage("\"Flash užkrautas\". Įkelta failų: "
 					+ (hdd.getFilesList().length - l));
 			mainGUI.loadHddData(hdd.getFilesList());
@@ -115,9 +112,8 @@ public class Core {
 
 		VMMemory vmm = rmm.createVMMemory(16);
 		Stack stack = new Stack(cpu, vmm);
-		OutputDevice output = new OutputDevice();
 		ProgramExecutor programExecutor = new ProgramExecutor(cpu, vmm, stack,
-				output);
+				cd);
 
 		vm = new VM(vmm, stack, programExecutor, this);
 

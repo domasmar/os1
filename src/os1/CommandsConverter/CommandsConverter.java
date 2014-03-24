@@ -268,17 +268,13 @@ public class CommandsConverter {
 					/* Tikrinamos kodo eilutės, turinčios vieną operandą (PUSH, POP ir t.t.). */
 					else {
 						if (command.equals("push") || command.equals("pop") || command.equals("outm")) {
-							isCorrect = false;
-							for (int j = 0; j <= variables.size() - 1; j++) {
-								if (arguments.equals(variables.get(j))) {
-									isCorrect = true;
-								}
-							}
+							if (isNumeric(arguments))
+								isCorrect = true;
 							if (!isCorrect) {
-								throw new Exception("Variable (" + arguments + ") is not defined! (line: " + i + ")");
+								throw new Exception("Offset (" + arguments + ") should be numeric! (line: " + i + ")");
 							}
 						}
-						else if (command.equals("outr")) {
+						if (command.equals("outr")) {
 							if (!arguments.equals("ax") && !arguments.equals("bx")) {
 								throw new Exception("OUTR operand must be register AX or BX! (line: " + i + ")");
 							}
