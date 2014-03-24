@@ -89,7 +89,7 @@ public class Core {
 			VMLogger.newSuccessMessage("\"Flash\" užkrautas. Įkelta failų: "
 					+ (hdd.getFilesList().length - l));
 		} catch (Exception e) {
-			VMLogger.newSuccessMessage("\"Flash\" užkrauti nepavyko. " + e.getMessage());
+			VMLogger.newSuccessMessage("Problema užkraunant \"flash\". " + e.getMessage());
 		}
 	}
 

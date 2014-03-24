@@ -25,34 +25,34 @@ public class InterruptChecker {
 		}
 		
 		if (cpu.getSI() == 1) {
-			VMLogger.newErrorMessage("SI = 1. Skaitom duomenis ið ávedimo árenginio");
+			VMLogger.newErrorMessage("SI = 1. Skaitom duomenis iÅ¡ Ä¯vedimo Ä¯renginio");
 			return;
 		}
 		
 		if (cpu.getSI() == 2) {
-			VMLogger.newErrorMessage("SI = 2. Áraðom duomenis á iðvedimo árenginá");
+			VMLogger.newErrorMessage("SI = 2. Ä¯raÅ¡om duomenis Ä¯ iÅ¡vedimo Ä¯rengino");
 			return;
 		}
 		
 		if (cpu.getSI() == 3) {
-			VMLogger.newErrorMessage("SI = 3. Stabdom programà");
+			VMLogger.newErrorMessage("SI = 3. Stabdom programÄ…");
 			core.getVM().stop();
 		}
 		
 		if (cpu.getIOI() == 7) {
-			VMLogger.newMessage("IOI = 7. 0, 1 , 2 kanalø petraukimai");
+			VMLogger.newMessage("IOI = 7. 0, 1 , 2 kanalÅ³ petraukimai");
 		}
 		if (cpu.getIOI() == 6) {
-			VMLogger.newMessage("IOI = 6. 1, 2 kanalø petraukimai");
+			VMLogger.newMessage("IOI = 6. 1, 2 kanalÅ³ petraukimai");
 		}
 		if (cpu.getIOI() == 5) {
-			VMLogger.newMessage("IOI = 5. 0, 2 kanalø petraukimai");
+			VMLogger.newMessage("IOI = 5. 0, 2 kanalÅ³ petraukimai");
 		}
 		if (cpu.getIOI() == 4) {
 			VMLogger.newMessage("IOI = 4. 2 kanalo petraukimas");
 		}
 		if (cpu.getIOI() == 3) {
-			VMLogger.newMessage("IOI = 3. 0, 1 kanalø petraukimai");
+			VMLogger.newMessage("IOI = 3. 0, 1 kanalÅ³ petraukimai");
 		}
 		if (cpu.getIOI() == 2) {
 			VMLogger.newMessage("IOI = 3. 1 kanalo petraukimas");

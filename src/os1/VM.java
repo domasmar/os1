@@ -23,7 +23,7 @@ public class VM {
 		try {
 			if (programExecutor.executeNext()) {
 				core.updateGUI();
-				VMLogger.newMessage("Command executed: "
+				VMLogger.newMessage("Įvykdyta komanda: "
 						+ this.getLastCommand());
 			} else {
 				stop();
@@ -31,7 +31,7 @@ public class VM {
 			core.getInterruptChecker().checkInterrupts();
 		} catch (Exception e) {
 			stop();
-			VMLogger.newErrorMessage("ERROR: " + e.getMessage());
+			VMLogger.newErrorMessage("Klaida: " + e.getMessage());
 		}
 	}
 
@@ -39,20 +39,20 @@ public class VM {
 		try {
 			while (programExecutor.executeNext()) {
 				core.updateGUI();
-				VMLogger.newMessage("Command executed: "
+				VMLogger.newMessage("Įvykdyta komanda: "
 						+ this.getLastCommand());
 				core.getInterruptChecker().checkInterrupts();
 			}
 		} catch (Exception e) {
 			stop();
-			VMLogger.newErrorMessage("ERROR: " + e.getMessage());
+			VMLogger.newErrorMessage("Klaida: " + e.getMessage());
 		}
 	}
 	
 	public void stop() {
 		vmm.destroy();
 		core.destroyVM();
-		VMLogger.newSuccessMessage("VM stopped");		
+		VMLogger.newSuccessMessage("VM sustabdyta");		
 	}
 
 	public String getLastCommand() {
