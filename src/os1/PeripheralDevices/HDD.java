@@ -17,7 +17,7 @@ public class HDD implements Serializable {
             if (memory[i] != null) {
                 if (file.getFileName().equals(memory[i].getFileName())) {
                     memory[i] = file;
-                    throw new Exception("Failas su tokiu pačiu pavadinimu jau egzistuoja. Jis buvo perrašytas.");
+                    throw new Exception("Failas su tokiu pat pavadinimu!");
                 }
             }
         }
