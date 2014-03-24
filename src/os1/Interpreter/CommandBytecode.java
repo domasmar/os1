@@ -24,7 +24,7 @@ public class CommandBytecode {
     protected static final byte JNE = (byte) 0b0100_0011;
     protected static final byte OUTR_AX = (byte) 0b1110_0000;
     protected static final byte OUTR_BX = (byte) 0b1111_0000;
-    protected static final byte OUTM = (byte) 0b1000_0111;
+    protected static final byte OUTM = (byte) 0b1111_0111;
     protected static final byte STOP = (byte) 0b0000_0001;
 
 }
