@@ -16,17 +16,14 @@ public class VMLogger {
 
 	public static JTextPane getTextArea() {
 		if (textPane == null) {
-			textPane = new JTextPane();
-			textPane.setBackground(Color.BLACK);
-			textPane.setContentType("text/html");
-			textPane.setEditable(false);
+			init();
 		}
 		return textPane;
 	}
 	
 	public static void init() {
 		if (textPane == null) {
-			textPane = new JTextPane();
+			textPane = new JTextPane();  
 			textPane.setBackground(Color.BLACK);
 			textPane.setContentType("text/html");
 			textPane.setEditable(false);

@@ -76,6 +76,18 @@ public class MainGUI {
 			}
 		}
 	};
+	
+	private ActionListener deleteSelectedFile = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (table.getSelectedRowCount() == 1) {
+				core.deleteFileFromHDD(table.getSelectedRow());
+				core.loadHDD();
+			} else {
+				JOptionPane.showMessageDialog(null, "Pasirinkite 1 programà kuria iðtrinti");
+			}
+		}
+	};
 
 	private ActionListener loadVM = new ActionListener() {
 		@Override
@@ -97,6 +109,7 @@ public class MainGUI {
 	public MainGUI(Core core) {
 		this.core = core;
 		frame = new JFrame("OS1");
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		loggerPanel = new JPanel();
@@ -138,6 +151,7 @@ public class MainGUI {
 
 		JTextPane textArea = VMLogger.getTextArea();
 		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setPreferredSize(new Dimension(200, 200));
 
 		loggerPanel.add(scrollPane, BorderLayout.NORTH);
 		loggerPanel.add(buttonsPanel);
@@ -157,6 +171,11 @@ public class MainGUI {
 		loadButton.addActionListener(loadSelectedFile);
 		buttonPanel.add(loadButton);
 
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(deleteSelectedFile);
+		buttonPanel.add(deleteButton);
+
+		
 		tableModel = new DefaultTableModel() {
 			private static final long serialVersionUID = 1L;
 
@@ -169,7 +188,7 @@ public class MainGUI {
 		tableModel.addColumn("Failo pavadinimas");
 
 		JScrollPane listScroller = new JScrollPane(table);
-		listScroller.setPreferredSize(new Dimension(300, 70));
+		listScroller.setPreferredSize(new Dimension(300, 100));
 
 		JPanel tablePanel = new JPanel();
 		tablePanel.add(listScroller);
@@ -180,6 +199,9 @@ public class MainGUI {
 	}
 
 	public void loadHddData(String[] data) {
+		for (int i = 0; i < tableModel.getRowCount(); i++) {
+			tableModel.removeRow(i);	
+		}
 		for (int i = 0; i < data.length; i++) {
 			Vector<String> v = new Vector<String>();
 			v.add(data[i]);
@@ -199,6 +221,12 @@ public class MainGUI {
 	public void setVisible(boolean a) {
 		frame.pack();
 		frame.setVisible(a);
+	}
+	
+	public void removePanel(JPanel panel) {
+		memoryPanel.remove(panel);
+		frame.pack();
+		frame.setVisible(true);
 	}
 
 }

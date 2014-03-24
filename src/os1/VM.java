@@ -46,7 +46,6 @@ public class VM {
 		} catch (Exception e) {
 			stop();
 			VMLogger.newErrorMessage("ERROR: " + e.getMessage());
-			e.printStackTrace();
 		}
 	}
 	
@@ -54,12 +53,8 @@ public class VM {
 		for (int i = 0; i < vmm.getSize(); i++) {
 			vmm.setValue(i, 0);
 		}
-		try {
-			VMLogger.newSuccessMessage("VM stopped");
-			core.destroyVM();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}		
+		VMLogger.newSuccessMessage("VM stopped");
+		core.destroyVM();	
 	}
 
 	public String getLastCommand() {

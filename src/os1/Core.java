@@ -83,14 +83,13 @@ public class Core {
 	public void loadFromExternalFile(String path) {
 		try {
 			int l = hdd.getFilesList().length;
-			System.out.println(path);
 			cd.stickInputDevice(path, hdd);
-			VMLogger.newSuccessMessage("\"Flash užkrautas\". Įkelta failų: "
-					+ (hdd.getFilesList().length - l));
 			mainGUI.loadHddData(hdd.getFilesList());
 			Serialization.serializeMemory(hdd);
+			VMLogger.newSuccessMessage("\"Flash\" užkrautas. Įkelta failų: "
+					+ (hdd.getFilesList().length - l));
 		} catch (Exception e) {
-			VMLogger.newSuccessMessage("\"Flash užkrauti nepavyko\".");
+			VMLogger.newSuccessMessage("\"Flash\" užkrauti nepavyko. " + e.getMessage());
 		}
 	}
 
@@ -105,9 +104,9 @@ public class Core {
 			fileName = hdd.getFilesList()[index];
 			program = hdd.get(fileName).getFileContent();
 		} catch (UnsupportedEncodingException e1) {
-			VMLogger.newErrorMessage("Įvyko klaida");
+			VMLogger.newErrorMessage("Įvyko klaida " + e1.getMessage());
 		} catch (Exception e1) {
-			VMLogger.newErrorMessage("Įvyko klaida");
+			VMLogger.newErrorMessage("Įvyko klaida. " + e1.getMessage());
 		}
 
 		VMMemory vmm = rmm.createVMMemory(16);
@@ -158,7 +157,20 @@ public class Core {
 	}
 
 	public void destroyVM() {
-		vm = null;
+		mainGUI.removePanel(vmmGUI.getPanel());;
+		vm = null;		
+	}
+
+	public void deleteFileFromHDD(int selectedRow) {
+		try {
+			String name = this.hdd.getFilesList()[selectedRow];
+			hdd.delete(name);
+			Serialization.serializeMemory(hdd);
+		} catch (UnsupportedEncodingException e) {
+			VMLogger.newErrorMessage("Įvyko klaida trinant failą. " + e.getMessage());
+		} catch (Exception e) {
+			VMLogger.newErrorMessage("Įvyko klaida trinant failą. " + e.getMessage());
+		}
 		
 	}
 
