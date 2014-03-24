@@ -17,7 +17,7 @@ public class HDD implements Serializable {
             if (memory[i] != null) {
                 if (file.getFileName().equals(memory[i].getFileName())) {
                     memory[i] = file;
-                    throw new Exception("File with this name already exists in HDD! It was overwritten.");
+                    throw new Exception("Failas su tokiu pačiu pavadinimu jau egzistuoja. Jis buvo perrašytas.");
                 }
             }
         }
@@ -28,7 +28,7 @@ public class HDD implements Serializable {
                 return;
             }
         }
-        throw new Exception("Disk is full!");
+        throw new Exception("Diskas pilnas!");
     }
 
     public SourceFile get(String name) throws UnsupportedEncodingException, Exception {
@@ -37,7 +37,7 @@ public class HDD implements Serializable {
                 return memory[i];
             }
         }
-        throw new Exception("File not found!");
+        throw new Exception("Failas nerastas!");
     }
 
     public void delete(String name) throws UnsupportedEncodingException, Exception {
@@ -47,7 +47,7 @@ public class HDD implements Serializable {
                 return;
             }
         }
-        throw new Exception("File not found!");
+        throw new Exception("Failas nerastas!");
     }
 
     public String[] getFilesList() throws UnsupportedEncodingException {
