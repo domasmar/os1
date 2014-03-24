@@ -158,7 +158,9 @@ public class Core {
 
 	public void destroyVM() {
 		mainGUI.removePanel(vmmGUI.getPanel());;
-		vm = null;		
+		vm = null;
+		vmmGUI = null;
+		this.updateGUI();
 	}
 
 	public void deleteFileFromHDD(int selectedRow) {

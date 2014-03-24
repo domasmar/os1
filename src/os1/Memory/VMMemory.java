@@ -48,4 +48,17 @@ public class VMMemory {
 		this.size = size;
 	}
 
+	public void destroy() {
+		for (int i = 0; i < getSize(); i++) {
+			this.setValue(i, 0);
+		}		
+		int ptrA2 = cpu.getPTR() / 16 % 16;
+		int ptrA3 = cpu.getPTR() % 16;
+		int blockSize = cpu.getPTR() / (16 * 16);
+		
+		for (int i = ptrA2 * 16 + ptrA3; i < ptrA2 * 16 + ptrA3 + blockSize; i++) {
+			memory.setValue(i, 0);
+		}
+	}
+
 }

@@ -30,8 +30,8 @@ public class VM {
 			}
 			core.getInterruptChecker().checkInterrupts();
 		} catch (Exception e) {
+			stop();
 			VMLogger.newErrorMessage("ERROR: " + e.getMessage());
-			e.printStackTrace();
 		}
 	}
 
@@ -50,11 +50,9 @@ public class VM {
 	}
 	
 	public void stop() {
-		for (int i = 0; i < vmm.getSize(); i++) {
-			vmm.setValue(i, 0);
-		}
-		VMLogger.newSuccessMessage("VM stopped");
-		core.destroyVM();	
+		vmm.destroy();
+		core.destroyVM();
+		VMLogger.newSuccessMessage("VM stopped");		
 	}
 
 	public String getLastCommand() {
