@@ -42,7 +42,7 @@ public class MainGUI {
 			if (core.getVM() != null) {
 				core.getVM().executeNext();
 			} else {
-				JOptionPane.showMessageDialog(null, "VM neuþkrauta á atmintá!");
+				JOptionPane.showMessageDialog(null, "VM neuÅ¾krauta Ä¯ atmintÄ¯!");
 			}
 
 		}
@@ -54,7 +54,7 @@ public class MainGUI {
 			if (core.getVM() != null) {
 				core.getVM().executeAll();
 			} else {
-				JOptionPane.showMessageDialog(null, "VM neuþkrauta á atmintá!");
+				JOptionPane.showMessageDialog(null, "VM neuÅ¾krauta Ä¯ atmintÄ¯!");
 			}
 		}
 	};
@@ -72,7 +72,7 @@ public class MainGUI {
 			if (table.getSelectedRowCount() == 1) {
 				core.loadVM(table.getSelectedRow());
 			} else {
-				JOptionPane.showMessageDialog(null, "Pasirinkite programà, kurià pageidaujate uþkrauti");
+				JOptionPane.showMessageDialog(null, "Pasirinkite programÄ…, kuriÄ… pageidaujate uÅ¾krauti");
 			}
 		}
 	};
@@ -84,7 +84,7 @@ public class MainGUI {
 				core.deleteFileFromHDD(table.getSelectedRow());
 				core.loadHDD();
 			} else {
-				JOptionPane.showMessageDialog(null, "Pasirinkite programà, kurià pageidaujate iðtrinti");
+				JOptionPane.showMessageDialog(null, "Pasirinkite programÄ…, kuriÄ… pageidaujate iÅ¡trinti");
 			}
 		}
 	};
@@ -132,16 +132,16 @@ public class MainGUI {
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout());
 
-		JButton oneStopButton = new JButton("Þingsninis reþimas");
+		JButton oneStopButton = new JButton("Å½ingsninis reÅ¾imas");
 		oneStopButton.addActionListener(runByBabySteps);
 
 		JButton allStepsButton = new JButton("Paleisti");
 		allStepsButton.addActionListener(runAll);
 
-		JButton loadHDDButton = new JButton("Uþkrauti iðorinæ atmintá");
+		JButton loadHDDButton = new JButton("UÅ¾krauti iÅ¡orinÄ™ atmintÄ¯");
 		loadHDDButton.addActionListener(loadHDD);
 
-		JButton loadProgramButton = new JButton("Uþkrauti \"Flash\" atmintinæ");
+		JButton loadProgramButton = new JButton("UÅ¾krauti \"Flash\" atmintinÄ™");
 		loadProgramButton.addActionListener(loadVM);
 
 		buttonsPanel.add(oneStopButton);
@@ -167,11 +167,11 @@ public class MainGUI {
 
 		JPanel buttonPanel = new JPanel();
 
-		JButton loadButton = new JButton("Uþkrauti");
+		JButton loadButton = new JButton("UÅ¾krauti");
 		loadButton.addActionListener(loadSelectedFile);
 		buttonPanel.add(loadButton);
 
-		JButton deleteButton = new JButton("Iðtrinti");
+		JButton deleteButton = new JButton("IÅ¡trinti");
 		deleteButton.addActionListener(deleteSelectedFile);
 		buttonPanel.add(deleteButton);
 

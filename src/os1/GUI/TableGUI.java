@@ -66,7 +66,7 @@ public abstract class TableGUI {
 		buttonPanel.setPreferredSize(new Dimension(80, 40));
 		buttonPanel.setLayout(new GridLayout(1, 1));
 
-		JButton saveButton = new JButton("Iðsaugoti");
+		JButton saveButton = new JButton("IÅ¡saugoti");
 		saveButton.addActionListener(saveList);
 		buttonPanel.add(saveButton);
 
