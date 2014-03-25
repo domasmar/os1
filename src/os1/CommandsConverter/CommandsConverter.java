@@ -124,7 +124,8 @@ public class CommandsConverter {
 			if (this.sourceCode[i].matches(".*\\b(jmp)\\b.*") ||
 					this.sourceCode[i].matches(".*\\b(ja)\\b.*") ||
 					this.sourceCode[i].matches(".*\\b(jb)\\b.*") ||
-					this.sourceCode[i].matches(".*\\b(je)\\b.*")) {
+					this.sourceCode[i].matches(".*\\b(je)\\b.*") ||
+					this.sourceCode[i].matches(".*\\b(jne)\\b.*")) {
 				variables.add(this.sourceCode[i].split(" ")[1]);
 			}
 		}
@@ -176,7 +177,7 @@ public class CommandsConverter {
 		this.commands = commandsList.toArray(new String[commandsList.size()]);		
 	}
 	
-	/* Tikrina priminio kodo sintaksė. */
+	/* Tikrina pirminio kodo sintaksė. */
 	private void validateSourceCode() throws Exception {
 		ArrayList<String> variables = new ArrayList<String>();
 		ArrayList<String> labels = new ArrayList<String>();
