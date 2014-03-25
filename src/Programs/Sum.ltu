@@ -1,0 +1,15 @@
+vienetas def 2
+dvejetas def 4
+rezultatas def 10
+
+LOA vienetas, ax
+LOA dvejetas, bx
+
+OUTR ax
+OUTR bx
+
+PUSH vienetas
+PUSH dvejetas
+ADD
+POP rezultatas
+OUTM rezultatas

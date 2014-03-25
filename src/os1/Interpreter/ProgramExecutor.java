@@ -177,7 +177,7 @@ public class ProgramExecutor {
 
     private void cmdStoAx(int variable) throws Exception {
         if (variable >= cpu.getSS()) {
-            throw new Exception("Adresas išlipa iš DS segmento!");
+            throw new Exception("Adresas iÅ�lipa iÅ� DS segmento!");
         }
         memory.setValue(variable, cpu.getAX());
 
@@ -189,7 +189,7 @@ public class ProgramExecutor {
 
     private void cmdStoBx(int variable) throws Exception {
         if (variable >= cpu.getSS()) {
-            throw new Exception("Adresas išlipa iš DS segmento!");
+            throw new Exception("Adresas iÅ�lipa iÅ� DS segmento!");
         }
         memory.setValue(variable, cpu.getBX());
         short nextCmdAddr = (short) (cpu.getIP() + 1);
@@ -216,7 +216,7 @@ public class ProgramExecutor {
 
     private void cmdJa(int variable) throws Exception {
         if (((cpu.getCS() + variable) >= 255) || (variable < 0)) {
-            throw new Exception("Jump komanda išlipa iš CS segmento!");
+            throw new Exception("Jump komanda iÅ�lipa iÅ� CS segmento!");
         }
 
         if (cpu.getC() == 1) {
@@ -232,7 +232,7 @@ public class ProgramExecutor {
 
     private void cmdJmp(int variable) throws Exception {
         if (((cpu.getCS() + variable) >= 255) || (variable < 0)) {
-            throw new Exception("Jump komanda išlipa iš CS segmento!");
+            throw new Exception("Jump komanda iÅ�lipa iÅ� CS segmento!");
         }
         cpu.setIP((short) variable);
 
@@ -242,7 +242,7 @@ public class ProgramExecutor {
 
     private void cmdJb(int variable) throws Exception {
         if (((cpu.getCS() + variable) >= 255) || (variable < 0)) {
-            throw new Exception("Jump komanda išlipa iš CS segmento!");
+            throw new Exception("Jump komanda iÅ�lipa iÅ� CS segmento!");
         }
 
         if (cpu.getC() == 2) {
@@ -257,7 +257,7 @@ public class ProgramExecutor {
 
     private void cmdJe(int variable) throws Exception {
         if (((cpu.getCS() + variable) >= 255) || (variable < 0)) {
-            throw new Exception("Jump komanda išlipa iš CS segmento!");
+            throw new Exception("Jump komanda iÅ�lipa iÅ� CS segmento!");
         }
 
         if (cpu.getC() == 0) {
@@ -271,7 +271,7 @@ public class ProgramExecutor {
 
     private void cmdJne(int variable) throws Exception {
         if (((cpu.getCS() + variable) >= 255) || (variable < 0)) {
-            throw new Exception("Jump komanda išlipa iš CS segmento!");
+            throw new Exception("Jump komanda iÅ�lipa iÅ� CS segmento!");
         }
 
         if (cpu.getC() == 1 || cpu.getC() == 2) {
@@ -293,7 +293,7 @@ public class ProgramExecutor {
     }
 
     private void cmdOutrBx() throws Exception {
-        cd.print(cpu.getAX());
+        cd.print(cpu.getBX());
 //        output.receiveData(cpu.getBX());
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
