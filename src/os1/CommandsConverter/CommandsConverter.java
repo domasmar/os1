@@ -194,19 +194,19 @@ public class CommandsConverter {
 				if (this.sourceCode[i].matches(".*\\b(def)\\b.*")) {
 					definition = this.sourceCode[i].split(" ");
 					if (definition.length != 3) {
-						throw new Exception("Unidentified definition! (line: " + i + ")");
+						throw new Exception("Neatpažintas kintamojo apibrėžimas! (eilutės numeris: " + i + ")");
 					}
 					for (int j = 0; j <= machineCommands.length - 1; j++) {
 						if (definition[0].equals(machineCommands[j])) {
-							throw new Exception("Variable name cannot be equal to any command's name (MOV, STO, etc.)! (line: " + i + ")");
+							throw new Exception("Kintamasis negali sutapti su komandos (MOV, STO ir t.t.) pavadinimu! (eilutės numeris: " + i + ")");
 						}
 					}
 					variables.add(definition[0]);
 					if (!definition[1].equals("def")) {
-						throw new Exception("Unidentified definition! (line: " + i + ")");
+						throw new Exception("Neatpažintas kintamojo apibrėžimas! (eilutės numeris: " + i + ")");
 					}
 					if (!isNumeric(definition[2])) {
-						throw new Exception("Value of the variable must be an integer! (line: " + i + ")");
+						throw new Exception("Kintamojo reikšmė turi būti sveikas skaičius! (eilutės numeris: " + i + ")");
 					}
 				}
 				/* Tikrinamos kitos pirminio kodo eilutės, sudarytos iš daugiau nei vieno žodžio. */
@@ -221,7 +221,7 @@ public class CommandsConverter {
 						}
 					}
 					if (!isCorrect) {
-						throw new Exception("Unidentified command! (" + command + ")");
+						throw new Exception("Neatpažinta komanda (" + command + ")! (eilutės numeris: " + i + ")");
 					}
 					/* Tikrinamos pirminio kodo eilutės, kuriose yra komandos, turinčios du operandus (MOV, STO, LOAD). */
 					if (arguments.split(",").length == 2) {
@@ -230,17 +230,17 @@ public class CommandsConverter {
 						operands[1] = arguments.split(",")[1].trim();
 						if (command.equals("mov") || command.equals("sto")) {
 							if (!operands[0].equals("ax") && !operands[0].equals("bx")) {
-								throw new Exception("MOV & STO first argument must be register AX or BX! (line: " + i + ")");
+								throw new Exception("MOV ir STO komandų pirmasis operandas turi būti registras AX arba BX! (eilutės numeris: " + i + ")");
 							}
 						}
 						else if (command.equals("loa")) {
 							if (!operands[1].equals("ax") && !operands[1].equals("bx")) {
-								throw new Exception("LOA second argument must be register AX or BX! (line: " + i + ")");
+								throw new Exception("LOA komandos antrasis argumentas turi būti registras AX arba BX! (eilutės numeris: " + i + ")");
 							}
 						}
 						if (command.equals("mov")) {
 							if (!isNumeric(operands[1])) {
-								throw new Exception("MOV second argument must be an integer! (line: " + i + ")");
+								throw new Exception("MOV komandos antrasis argumentas turi būti skaičius! (eilutės numeris: " + i + ")");
 							}
 						}
 						else if (command.equals("sto")) {
@@ -251,7 +251,7 @@ public class CommandsConverter {
 								}
 							}
 							if (!isCorrect) {
-								throw new Exception("Variable (" + operands[1] + ") is not defined! (line: " + i + ")");
+								throw new Exception("Kintamasis (" + operands[1] + ") neapibrėžtas! (eilutės numeris: " + i + ")");
 							}
 						}
 						else if (command.equals("loa")) {
@@ -262,7 +262,7 @@ public class CommandsConverter {
 								}
 							}
 							if (!isCorrect) {
-								throw new Exception("Variable (" + operands[1] + ") is not defined! (line: " + i + ")");
+								throw new Exception("Kintamasis (" + operands[1] + ") neapibrėžtas! (eilutės numeris: " + i + ")");
 							}
 						}
 					}
@@ -272,12 +272,12 @@ public class CommandsConverter {
 							if (isNumeric(arguments))
 								isCorrect = true;
 							if (!isCorrect) {
-								throw new Exception("Offset (" + arguments + ") should be numeric! (line: " + i + ")");
+								throw new Exception("Poslinkis (" + arguments + ") turi būti apibrėžtas sveikuoju skaičiumi! (eilutės numeris: " + i + ")");
 							}
 						}
 						if (command.equals("outr")) {
 							if (!arguments.equals("ax") && !arguments.equals("bx")) {
-								throw new Exception("OUTR operand must be register AX or BX! (line: " + i + ")");
+								throw new Exception("OUTR komandos operandas turi būti AX arba BX! (eilutės numeris: " + i + ")");
 							}
 						}
 						else if (command.equals("jmp") || command.equals("ja") ||command.equals("jb") || command.equals("je") || command.equals("jne")) {
@@ -288,7 +288,7 @@ public class CommandsConverter {
 								}
 							}
 							if (!isCorrect) {
-								throw new Exception("Label (" + arguments + ") is not defined! (line: " + i + ")");
+								throw new Exception("Žymė (" + arguments + ") neapibrėžta! (eilutės numeris: " + i + ")");
 							}
 						}
 					}
