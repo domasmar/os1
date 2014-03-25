@@ -1,6 +1,5 @@
 package os1.Interpreter;
 
-
 import os1.CPU.CPU;
 import static os1.Interpreter.Command.*;
 import os1.Memory.Stack;
@@ -18,7 +17,6 @@ public class ProgramExecutor {
     private Stack stack;
     private ChannelsDevice cd;
     public CmdWithVar lastCmd;
-    
 
     public ProgramExecutor(CPU cpu, VMMemory virtualMemory, Stack stack, ChannelsDevice cd) {
         this.cpu = cpu;
@@ -223,7 +221,11 @@ public class ProgramExecutor {
 
         if (cpu.getC() == 1) {
             cpu.setIP((short) variable);
+        } else {
+            short nextCmdAddr = (short) (cpu.getIP() + 1);
+            cpu.setIP(nextCmdAddr);
         }
+
         lastCmd.command = JA;
         lastCmd.variable = variable;
     }
@@ -245,6 +247,9 @@ public class ProgramExecutor {
 
         if (cpu.getC() == 2) {
             cpu.setIP((short) variable);
+        } else {
+            short nextCmdAddr = (short) (cpu.getIP() + 1);
+            cpu.setIP(nextCmdAddr);
         }
         lastCmd.command = JB;
         lastCmd.variable = variable;
@@ -257,8 +262,10 @@ public class ProgramExecutor {
 
         if (cpu.getC() == 0) {
             cpu.setIP((short) variable);
+        } else {
+            short nextCmdAddr = (short) (cpu.getIP() + 1);
+            cpu.setIP(nextCmdAddr);
         }
-        lastCmd.command = JE;
         lastCmd.variable = variable;
     }
 
@@ -269,13 +276,16 @@ public class ProgramExecutor {
 
         if (cpu.getC() == 1 || cpu.getC() == 2) {
             cpu.setIP((short) variable);
+        } else {
+            short nextCmdAddr = (short) (cpu.getIP() + 1);
+            cpu.setIP(nextCmdAddr);
         }
         lastCmd.command = JNE;
         lastCmd.variable = variable;
     }
 
     private void cmdOutrAx() throws Exception {
-    	cd.print(cpu.getAX());
+        cd.print(cpu.getAX());
 //        output.receiveData(cpu.getAX());
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
@@ -283,7 +293,7 @@ public class ProgramExecutor {
     }
 
     private void cmdOutrBx() throws Exception {
-    	cd.print(cpu.getAX());
+        cd.print(cpu.getAX());
 //        output.receiveData(cpu.getBX());
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
@@ -291,7 +301,7 @@ public class ProgramExecutor {
     }
 
     private void cmdOutM(int variable) throws Exception {
-    	cd.print(memory.getValue(variable));
+        cd.print(memory.getValue(variable));
 //        output.receiveData(memory.getValue(variable));
         short nextCmdAddr = (short) (cpu.getIP() + 1);
         cpu.setIP(nextCmdAddr);
@@ -322,15 +332,15 @@ public class ProgramExecutor {
     }
 
     private void cmdCmp() throws Exception {
-        if ((memory.getValue(cpu.getSS() + cpu.getSP())) == (memory.getValue(cpu.getSS() + cpu.getSP()) - 1)) {
+        if ((memory.getValue(cpu.getSS() + cpu.getSP())) == (memory.getValue(cpu.getSS() + cpu.getSP() - 1))) {
             cpu.setC((byte) 0);
         }
 
-        if ((memory.getValue(cpu.getSS() + cpu.getSP())) > (memory.getValue(cpu.getSS() + cpu.getSP()) - 1)) {
+        if ((memory.getValue(cpu.getSS() + cpu.getSP())) > (memory.getValue(cpu.getSS() + cpu.getSP() - 1))) {
             cpu.setC((byte) 1);
         }
 
-        if ((memory.getValue(cpu.getSS() + cpu.getSP())) < (memory.getValue(cpu.getSS() + cpu.getSP()) - 1)) {
+        if ((memory.getValue(cpu.getSS() + cpu.getSP())) < (memory.getValue(cpu.getSS() + cpu.getSP() - 1))) {
             cpu.setC((byte) 2);
         }
 
