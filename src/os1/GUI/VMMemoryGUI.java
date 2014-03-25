@@ -7,9 +7,9 @@ public class VMMemoryGUI extends TableGUI {
 	private VMMemory vmm;
 	
 	public VMMemoryGUI(VMMemory vmm) {
-		super("VM Memory", 200);
+		super("VM atmintis", 200);
 		this.vmm = vmm;
-		this.setColumnNames(new String[] {"Value", "Adress"});
+		this.setColumnNames(new String[] {"Adresas", "Reikðmë"});
 		super.initList();
 	}
 

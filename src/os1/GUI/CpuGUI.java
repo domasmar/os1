@@ -107,7 +107,7 @@ public class CpuGUI extends TableGUI {
 	
 	public CpuGUI(CPU cpu) {
 		super("CPU", 130);
-		this.setColumnNames(new String[] {"Name", "Value"});
+		this.setColumnNames(new String[] {"Pavadinimas", "Reikðmë"});
 		this.cpu = cpu;
 		super.initList();
 	}

@@ -65,17 +65,17 @@ public class Core {
 	public void loadHDD() {
 		hdd = Serialization.deserializeMemory();
 		if (hdd == null) {
-			VMLogger.newErrorMessage("Nepavyko užkrauti HDD");
-			VMLogger.newMessage("Kuriame tuščia HDD");
+			VMLogger.newErrorMessage("Nepavyko užkrauti išorinės atminties!");
+			VMLogger.newMessage("Kuriama tuščią išorinę atmintis");
 			Serialization.serializeMemory(new HDD());
 			loadHDD();
 		} else {
 			try {
-				VMLogger.newSuccessMessage("HDD sekmingai užkrautas. Užkrauti failai: "
+				VMLogger.newSuccessMessage("Išorinė atmintis sėkmingai užkrauta. Užkrauti failai: "
 						+ hdd.getFilesList().length);
 				mainGUI.loadHddData(hdd.getFilesList());
 			} catch (UnsupportedEncodingException e) {
-				VMLogger.newErrorMessage("HDD užkrauti nepavyko, nes jame raste neatpažintų simbolių");
+				VMLogger.newErrorMessage("Išorinės atminties užkrauti nepavyko, nes joje raste neatpažintų simbolių!");
 			}
 		}
 	}
@@ -89,13 +89,13 @@ public class Core {
 			VMLogger.newSuccessMessage("\"Flash\" užkrautas. Įkelta failų: "
 					+ (hdd.getFilesList().length - l));
 		} catch (Exception e) {
-			VMLogger.newSuccessMessage("Problema užkraunant \"flash\". " + e.getMessage());
+			VMLogger.newSuccessMessage("Problema užkraunant \"Flash\" atmintinę: " + e.getMessage());
 		}
 	}
 
 	public void loadVM(int index) {
 		if (vm != null) {
-			VMLogger.newErrorMessage("Negalima užkrauti kelių programų vienu metu");
+			VMLogger.newErrorMessage("Negalima užkrauti kelių programų vienu metu!");
 			return;
 		}
 		String fileName;
@@ -132,7 +132,7 @@ public class Core {
 		updateGUI();
 		vmmGUI = new VMMemoryGUI(vmm);
 		mainGUI.addMem(vmmGUI.getPanel());
-		VMLogger.newSuccessMessage("Programa sekmingai užkrauta!");
+		VMLogger.newSuccessMessage("Programa sėkmingai užkrauta!");
 	}
 
 	private void allocateMemorySegments() {
@@ -169,9 +169,9 @@ public class Core {
 			hdd.delete(name);
 			Serialization.serializeMemory(hdd);
 		} catch (UnsupportedEncodingException e) {
-			VMLogger.newErrorMessage("Įvyko klaida trinant failą. " + e.getMessage());
+			VMLogger.newErrorMessage("Įvyko klaida trinant failą: " + e.getMessage());
 		} catch (Exception e) {
-			VMLogger.newErrorMessage("Įvyko klaida trinant failą. " + e.getMessage());
+			VMLogger.newErrorMessage("Įvyko klaida trinant failą: " + e.getMessage());
 		}
 		
 	}

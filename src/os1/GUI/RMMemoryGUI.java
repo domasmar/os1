@@ -7,9 +7,9 @@ public class RMMemoryGUI extends TableGUI {
 	private RMMemory rmm;
 
 	public RMMemoryGUI(RMMemory rmm) {
-		super("RM Memory", 200);
+		super("RM atmintis", 200);
 		this.rmm = rmm;
-		this.setColumnNames(new String[] {"Value", "Adress"});
+		this.setColumnNames(new String[] {"Adresas", "Reikðmë"});
 		super.initList();
 	}
 

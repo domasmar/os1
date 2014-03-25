@@ -42,7 +42,7 @@ public class MainGUI {
 			if (core.getVM() != null) {
 				core.getVM().executeNext();
 			} else {
-				JOptionPane.showMessageDialog(null, "VM neuþkrauta á atmintá");
+				JOptionPane.showMessageDialog(null, "VM neuþkrauta á atmintá!");
 			}
 
 		}
@@ -54,7 +54,7 @@ public class MainGUI {
 			if (core.getVM() != null) {
 				core.getVM().executeAll();
 			} else {
-				JOptionPane.showMessageDialog(null, "VM neuþkrauta á atmintá");
+				JOptionPane.showMessageDialog(null, "VM neuþkrauta á atmintá!");
 			}
 		}
 	};
@@ -72,7 +72,7 @@ public class MainGUI {
 			if (table.getSelectedRowCount() == 1) {
 				core.loadVM(table.getSelectedRow());
 			} else {
-				JOptionPane.showMessageDialog(null, "Pasirinkite 1 programà kuria uþkrauti");
+				JOptionPane.showMessageDialog(null, "Pasirinkite programà, kurià pageidaujate uþkrauti");
 			}
 		}
 	};
@@ -84,7 +84,7 @@ public class MainGUI {
 				core.deleteFileFromHDD(table.getSelectedRow());
 				core.loadHDD();
 			} else {
-				JOptionPane.showMessageDialog(null, "Pasirinkite 1 programà kuria iðtrinti");
+				JOptionPane.showMessageDialog(null, "Pasirinkite programà, kurià pageidaujate iðtrinti");
 			}
 		}
 	};
@@ -101,7 +101,7 @@ public class MainGUI {
 				file.getAbsolutePath();
 				core.loadFromExternalFile(file.getAbsolutePath());
 			} else {
-				VMLogger.newErrorMessage("Nepasirinktas failas");
+				VMLogger.newErrorMessage("Nepasirinktas failas!");
 			}
 		}
 	};
@@ -132,16 +132,16 @@ public class MainGUI {
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout());
 
-		JButton oneStopButton = new JButton("Run by step");
+		JButton oneStopButton = new JButton("Þingsninis reþimas");
 		oneStopButton.addActionListener(runByBabySteps);
 
-		JButton allStepsButton = new JButton("Run");
+		JButton allStepsButton = new JButton("Paleisti");
 		allStepsButton.addActionListener(runAll);
 
-		JButton loadHDDButton = new JButton("Load HDD");
+		JButton loadHDDButton = new JButton("Uþkrauti iðorinæ atmintá");
 		loadHDDButton.addActionListener(loadHDD);
 
-		JButton loadProgramButton = new JButton("Load \"Flash\"");
+		JButton loadProgramButton = new JButton("Uþkrauti \"Flash\" atmintinæ");
 		loadProgramButton.addActionListener(loadVM);
 
 		buttonsPanel.add(oneStopButton);
@@ -167,11 +167,11 @@ public class MainGUI {
 
 		JPanel buttonPanel = new JPanel();
 
-		JButton loadButton = new JButton("Load");
+		JButton loadButton = new JButton("Uþkrauti");
 		loadButton.addActionListener(loadSelectedFile);
 		buttonPanel.add(loadButton);
 
-		JButton deleteButton = new JButton("Delete");
+		JButton deleteButton = new JButton("Iðtrinti");
 		deleteButton.addActionListener(deleteSelectedFile);
 		buttonPanel.add(deleteButton);
 
